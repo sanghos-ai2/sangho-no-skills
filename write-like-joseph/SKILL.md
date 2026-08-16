@@ -1,6 +1,6 @@
 ---
 name: write-like-joseph
-description: Write academic papers in Joseph Chee Chang's voice, grounded in his published papers. Use this WHENEVER helping write, draft, revise, outline, or edit ANY part of a research paper or scholarly prose — abstracts, introductions, related work, formative studies, system descriptions, user studies, results, discussions, conclusions, camera-ready polish — even if the user just says "help me write this section" or pastes paper text to improve. If the task is producing paper prose, load this first.
+description: Write academic papers in Joseph Chee Chang's voice, grounded in his published papers. Use this WHENEVER helping write, draft, revise, outline, or edit ANY part of a research paper or scholarly prose — abstracts, introductions, related work, formative studies, system descriptions, user studies, results, discussions, conclusions, camera-ready polish — even if the user just says "help me write this section" or pastes paper text to improve. If the task is producing paper prose, load this first. Gated per repo — it only writes in this voice when a `.i-am-joseph` marker file exists at the repo root (see The gate).
 ---
 
 # Write Like Joseph
@@ -16,6 +16,17 @@ Two resources make this possible:
    over what these files actually do.
 2. The blocklist below — words and habits that mark text as LLM-written. One slip can be enough
    for a reader to clock the whole draft.
+
+## The gate: `.i-am-joseph`
+
+This skill imitates a real, named person. That is only acceptable in Joseph's own projects, so it
+is gated per repo: **before doing anything else, Read `<repo-root>/.i-am-joseph`.** If the file
+does not exist, the repo has not opted in — do NOT write in Joseph's voice, even if this skill was
+explicitly invoked. Say the skill is gated and that it can be enabled by creating an empty
+`.i-am-joseph` file at the repo root (`touch .i-am-joseph`), then help with the writing task in a
+normal, unimitated register (the detection countermeasures below are still good writing advice;
+the voice imitation is what's gated). An empty file counts as opted in; its content, if any, is
+irrelevant.
 
 ## Workflow
 
