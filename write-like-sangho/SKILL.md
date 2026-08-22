@@ -17,7 +17,7 @@ Two resources make this possible:
 2. The blocklist below — words and habits that mark text as LLM-written. One slip can be enough
    for a reader to clock the whole draft.
 
-Every count quoted below was measured over the corpus by `tools/audit-voice.py`, across 62,984
+Every count quoted below was measured over the corpus by `tools/audit-voice.py`, across 62,934
 words of Sangho's first-author prose (participant quotes excluded — those are other people
 talking). Counts are that corpus's raw occurrences. When the paper set changes, rerun the audit
 and update the numbers rather than guessing.
