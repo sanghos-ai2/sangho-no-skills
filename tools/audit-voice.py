@@ -58,28 +58,23 @@ class Block:
     quote_fraction: float # share of words inside quotation marks (participant speech)
 
 
-# ---------------------------------------------------------------------------
-# TODO(sangho): decide what counts as your voice.
+# What counts as Sangho's voice.
 #
-# Every number this script produces is measured over the blocks this returns True
-# for, so this predicate defines what the skill's rules are evidence *of*.
+# Everything in the corpus is prose Sangho wrote, with one exception: the participant
+# quotes in results and formative-study sections are other people talking. Those are
+# the only words here that are definitively not his, so they are the only thing this
+# excludes. Method and system sections stay in — they are formulaic, but the formula
+# is his, and dropping them would measure how he argues rather than how he writes.
 #
-# The trade-offs, using the corpus as it actually is:
-#   - `study-method` is 8,279 words (11%). It's your densest, most formulaic prose
-#     ("We recruited 12 participants..."). Keeping it makes the counts describe how
-#     you write papers; dropping it makes them describe how you argue.
-#   - `rq-results` is 15,113 words (21%) and is where participant quotes live. A
-#     block's `quote_fraction` tells you how much of it is someone else's words.
-#     Excluding quote-heavy blocks keeps the counts yours, but loses how you frame
-#     a quote, which is itself a voice marker.
-#   - `abstract` is 1,049 words of maximally compressed prose. Small enough not to
-#     move the totals much, distinctive enough that you may want it in.
-#
-# Return True to count the block. The default below counts everything, which is a
-# defensible choice but not an examined one.
-# ---------------------------------------------------------------------------
+# 15 blocks (8,986 words) sit above the threshold, in rq-results and formative-study.
+# The cut is per block rather than per word so that a paragraph built around a quote
+# goes entirely, framing included, instead of leaving a stub of connective tissue that
+# would over-weight the handful of verbs used to introduce quotations.
+QUOTE_LIMIT = 0.25
+
+
 def should_count_block(block: Block) -> bool:
-    return True
+    return block.quote_fraction <= QUOTE_LIMIT
 
 
 def load_blocks() -> list[Block]:

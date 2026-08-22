@@ -125,8 +125,16 @@ def modal_body_size(doc) -> float:
     return vol.most_common(1)[0][0]
 
 
+# Some PDFs encode ligatures as single glyphs; left in place they break tokenisation
+# ("confidence" arrives as "con" + a ligature + "dence") and corrupt the word counts.
+LIGATURES = str.maketrans({
+    "\ufb00": "ff", "\ufb01": "fi", "\ufb02": "fl", "\ufb03": "ffi", "\ufb04": "ffl",
+    "\ufb05": "st", "\ufb06": "st", "\u00a0": " ",
+})
+
+
 def line_text(line) -> str:
-    return "".join(s["text"] for s in line["spans"]).strip()
+    return "".join(s["text"] for s in line["spans"]).translate(LIGATURES).strip()
 
 
 def is_bold(line) -> bool:
