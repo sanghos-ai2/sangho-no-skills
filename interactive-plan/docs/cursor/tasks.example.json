@@ -1,0 +1,31 @@
+// Example Cursor / VS Code task. Opens the file in the active editor in the
+// interactive-plan viewer. Reuses the single shared daemon if it's already up;
+// never spawns a duplicate server.
+//
+// Install as a *user* task (works in every project):
+//   Command Palette -> "Tasks: Open User Tasks" -> paste, merging into the
+//   existing "tasks" array if you already have one.
+// Or as a project task, at .vscode/tasks.json in the repo.
+//
+// Adjust the absolute path to server.mjs for your machine; `~` is not expanded
+// in args. ${file} is the absolute path of the active editor file.
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Open in interactive-plan viewer",
+      "type": "process",
+      "command": "node",
+      "args": [
+        "/Users/YOU/.claude/skills/interactive-plan/app/server.mjs",
+        "${file}"
+      ],
+      "presentation": {
+        "reveal": "silent",
+        "panel": "shared",
+        "close": true
+      },
+      "problemMatcher": []
+    }
+  ]
+}

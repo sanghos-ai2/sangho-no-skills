@@ -30,7 +30,7 @@ const readConfig = () => {
   try {
     return JSON.parse(fs.readFileSync(CONFIG_PATH, 'utf8'));
   } catch {
-    return { editorCommand: 'zed {path}:{line}:{col}' };
+    return { editorCommand: 'cursor --goto {path}:{line}:{col}' };
   }
 };
 const readPidfile = () => {
@@ -199,7 +199,7 @@ function runServer() {
     }
     if (!target) return res.status(404).json({ error: 'file not found under plan repo/dir' });
     // Tokenize the template FIRST, then substitute, so a path with spaces stays one arg.
-    const tokens = (readConfig().editorCommand || 'zed {path}:{line}:{col}').split(' ');
+    const tokens = (readConfig().editorCommand || 'cursor --goto {path}:{line}:{col}').split(' ');
     const args = tokens.map((t) => t.replace('{path}', target).replace('{line}', line).replace('{col}', col));
     const bin = args.shift();
     try {
