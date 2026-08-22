@@ -9,3 +9,7 @@ dist/
 # write-like-sangho: personal writing exemplars, not for distribution
 write-like-sangho/examples/
 write-like-sangho-workspace/
+
+# python bytecode
+__pycache__/
+*.pyc
