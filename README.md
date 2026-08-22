@@ -149,6 +149,42 @@ directory (so it won't clobber a skill you've edited in place). To install a sub
 - `codex-audit` — the [OpenAI Codex CLI](https://github.com/openai/codex) (`brew install codex`, then `codex login`) and a git repo.
 - `write-like-sangho` — no tooling to run the skill, but the gitignored `examples/` corpus must be populated locally before it can imitate anyone. Build it with `uv run --with pymupdf tools/build-corpus.py`.
 
+## Install as a plugin (recommended for more than one machine)
+
+The repo doubles as a Claude Code plugin marketplace, which is the least-effort way to get these
+skills onto another machine and keep them updated. "Marketplace" is Claude Code's term for a git
+repo with a manifest — there is no public registry and no publishing step, so who can install this
+is exactly who can read the repo.
+
+```bash
+claude plugin marketplace add sanghos-ai2/sangho-no-skills
+claude plugin install sangho-no-skills@sangho-no-skills
+```
+
+Later, `claude plugin marketplace update sangho-no-skills` pulls new versions.
+
+**Pick one mechanism, not both.** The plugin and `install.sh` register the same skills by
+different routes; running both loads each skill twice. If you switch to the plugin, drop the
+symlinks first:
+
+```bash
+for s in interactive-plan codex-audit write-like-sangho fetching-bibtex; do
+  [ -L ~/.claude/skills/$s ] && rm ~/.claude/skills/$s
+done
+```
+
+**`write-like-sangho` needs its corpus on each machine.** `examples/` is gitignored, so the plugin
+carries the instructions but not the voice — the skill will say so rather than fall back to
+generic prose. Rebuild it wherever you want the voice:
+
+```bash
+uv run --with pymupdf python tools/build-corpus.py
+uv run --with pymupdf python tools/build-citation-index.py
+```
+
+That needs the paper PDFs present at the path in `tools/build-corpus.py`. The other three skills
+have no such dependency and work immediately.
+
 ## Wire the skills into a repo
 
 These skills hook into a couple of `CLAUDE.md` conventions (where plans live, how you verify, when
