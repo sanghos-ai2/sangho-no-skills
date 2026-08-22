@@ -1,0 +1,6 @@
+{
+  "name": "sangho-no-skills",
+  "version": "1.0.0",
+  "description": "Personal Claude Code skills: interactive plan review, external Codex audits, paper prose in Sangho's voice, and publisher-quality BibTeX resolution.",
+  "author": { "name": "Sangho Suh" }
+}
