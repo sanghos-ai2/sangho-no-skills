@@ -147,9 +147,11 @@ verify independently. The rules:
    - **The active paper project, all of its files.** A paper usually spans multiple files
      (section files, a `.bib`, notes, an outline). Before writing, sweep ALL of the project's
      files and collect every citation that appears anywhere in them — Sangho put them there.
-   - **The published bibliography:** `examples/prior-citations.md` indexes the references from
-     the papers in this corpus (title, which papers cited it; multiply-cited core literature
-     first). Anything Sangho has cited before counts as existing too.
+   - **The published bibliography:** `examples/prior-citations.md` indexes the 379 unique
+     references across the eight papers in this corpus (title, year, which papers cited it),
+     with the 36 cited by more than one paper listed first as the core literature. Anything
+     Sangho has cited before counts as existing too. Rebuild it with
+     `uv run --with pymupdf python tools/build-citation-index.py`.
    Reuse existing citations freely wherever they genuinely support the text. When an existing
    citation enters the draft for the first time (e.g., from the published bibliography), note it
    in the report's bib-keeping line so the `.bib` gets its entry — that's bookkeeping, not vetting.
