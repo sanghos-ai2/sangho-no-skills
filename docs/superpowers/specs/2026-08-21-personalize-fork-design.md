@@ -74,8 +74,11 @@ PDF set to `examples/<section>/<corpus_id>.md`. Stages: extract per page (PyMuPD
 handle the two-column ACM layout in correct reading order); strip non-voice text (running
 headers and footers, figure and table captions, CCS Concepts, Keywords, ACM Reference Format,
 Acknowledgments, References, Appendix); de-hyphenate line-broken words and reflow paragraphs;
-segment on headings; map headings to section folders; resolve Semantic Scholar corpus ids for
-filenames.
+segment on headings; map headings to section folders.
+
+Files are named by a short paper key (`sensecape.md`) rather than the upstream convention of a
+Semantic Scholar corpus id. The naming exists so the agent can follow one paper across section
+folders, and a readable key serves that better than a numeric id.
 
 De-hyphenation is not cosmetic. Raw extraction splits `turning` into `turn-\ning`, and counting
 over unrepaired text corrupts every frequency in the audit.
@@ -100,9 +103,13 @@ frequency-derived rule replaced with audited numbers.
 
 ### `examples/prior-citations.md`
 
-Reference lists from the eight papers, resolved through Semantic Scholar, in Joseph's format:
-corpus id, title, which papers cited it, multiply-cited work first. Gitignored with the rest of
-`examples/`.
+Reference lists parsed from the eight papers' own reference sections by
+`tools/build-citation-index.py`: title, year, which papers cited it, multiply-cited work first.
+Gitignored with the rest of `examples/`.
+
+Parsed from the PDFs rather than fetched from Semantic Scholar, so the script runs offline and is
+not subject to the API rate limits that made a live lookup unreliable. Both the ACM and IEEE
+reference formats are handled. Yields 379 unique references, 36 of them cited more than once.
 
 ## What ships
 
