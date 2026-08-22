@@ -79,7 +79,7 @@ The TASK CONTEXT paragraph is what prevents the auditor from flagging intentiona
 codex exec \
   -s read-only \
   -C "<repo-root>" \
-  -m gpt-5.5 \
+  -m gpt-5.6-sol \
   -c model_reasoning_effort="xhigh" \
   -c model_verbosity="high" \
   review \
@@ -87,7 +87,7 @@ codex exec \
 ```
 
 - **Codex runs strictly read-only — it never changes the repo.** `-s read-only` sandboxes Codex so it can inspect but not modify anything, and it **must appear before the `review` subcommand** (the `review` subcommand does not accept `-s`). `-C "<repo-root>"` pins Codex to the repository root from the snapshot above so it audits the right tree. Codex's sole output is the timestamped report file outside the work tree; every change to files in the repo (fixes in Step 4, the plan record in Step 6) is performed by you, the Claude Code agent — never by Codex.
-- **Always use the latest/strongest codex model at maximum reasoning.** `gpt-5.5` is the strongest agentic coding model as of this writing; if `codex` exposes a newer one, prefer it (`gpt-5.5-pro` trades latency/cost for even higher quality). `model_reasoning_effort="xhigh"` is the max thinking level and `model_verbosity="high"` makes it spend more tokens being thorough — keep both. If the user named a model in `$ARGUMENTS` (written as `model:<id>`), that overrides `-m`.
+- **Always use the latest/strongest codex model at maximum reasoning.** `gpt-5.6-sol` is the pinned default (codex-cli 0.149 also exposes `gpt-5.6-luna`, `gpt-5.6-terra`, `gpt-5.5`, `gpt-5.4`, `gpt-5.4-mini`); if `codex` exposes a newer generation, prefer it. Check what is actually available with `python3 -c "import json,pathlib;print(json.loads(pathlib.Path.home().joinpath('.codex/models_cache.json').read_text()))"` rather than guessing at a model id. **Pass `-m` explicitly** — do not fall back to the user's `~/.codex/config.toml` default, which is tuned for interactive work (theirs sets `model_reasoning_effort = "low"`, the opposite of what an audit wants). `model_reasoning_effort="xhigh"` is the max thinking level and `model_verbosity="high"` makes it spend more tokens being thorough — keep both; they override the config file. If the user named a model in `$ARGUMENTS` (written as `model:<id>`), that overrides `-m`.
 - Run it with a 15-minute timeout (timeout: 900000). Tell the user the audit is running and may take a few minutes.
 - Do NOT use the scope flags (`--uncommitted`, `--base`, `--commit`) — they are mutually exclusive with custom instructions in codex ≥ 0.128, and the custom brief matters more. Never use `--dangerously-bypass-approvals-and-sandbox`.
 - On failure: auth errors → tell the user to run `codex login`; usage-limit errors → report and stop; timeout → re-run once with `run_in_background` and wait. Surface codex's actual stderr instead of guessing.
