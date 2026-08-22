@@ -12,6 +12,7 @@ SKILLS=(
   interactive-plan
   codex-audit
   write-like-sangho
+  fetching-bibtex
 )
 
 mkdir -p "${DEST_DIR}"
@@ -51,3 +52,4 @@ echo "Per-skill requirements:"
 echo "  interactive-plan : bun (https://bun.sh); first launch installs deps + builds the viewer."
 echo "  codex-audit      : OpenAI Codex CLI (brew install codex; codex login) + a git repo."
 echo "  write-like-sangho: populate the gitignored examples/ corpus locally (not distributed)."
+echo "  fetching-bibtex  : curl + python3 (both preinstalled on macOS); no API keys."

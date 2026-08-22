@@ -3,7 +3,7 @@
 > Personal [Claude Code](https://claude.com/claude-code) skills, each built to kill a specific bit
 > of friction in how I actually work with coding agents.
 
-Three skills today, in a layout that lets me drop in more. Each top-level directory is one
+Four skills today, in a layout that lets me drop in more. Each top-level directory is one
 self-contained skill; install once and Claude Code auto-loads them in any repo.
 
 Forked from [`josephcc/joseph-no-skills`](https://github.com/josephcc/joseph-no-skills), whose
@@ -15,6 +15,7 @@ has been rebuilt around my own papers.
 | [**`interactive-plan`**](#-interactive-plan--read--comment-on-plans-like-a-google-doc) | Turn long planning docs into an interactive web page — answer questions, pick options, and comment Google-Docs-style; feedback round-trips into the same `.md`. |
 | [**`codex-audit`**](#-codex-audit--a-second-pair-of-eyes-on-your-diff-triaged-with-judgment) | Have the OpenAI Codex CLI audit your diff, then triage its report with independent judgment — verify each finding, reject false positives, fix what's real. |
 | [**`write-like-sangho`**](#-write-like-sangho--paper-prose-in-my-voice-not-an-llms) | Draft and revise academic-paper sections in my writing voice, grounded in section-by-section examples from my published papers (the examples themselves are local-only, not in the repo). |
+| [**`fetching-bibtex`**](#-fetching-bibtex--real-bibtex-for-your-placeholders-never-invented) | Resolve citation placeholders to publisher-quality BibTeX via DBLP, Crossref, OpenAlex and arXiv — every entry stamped OK/REVIEW so a wrong-but-plausible citation can't slip in. |
 
 ---
 
@@ -101,6 +102,34 @@ reads how I actually open an intro or report a study before writing a word of mi
   `write-like-you`.
 
 ---
+
+---
+
+## 📚 `fetching-bibtex` — real BibTeX for your placeholders, never invented
+
+**What it's for.** A draft full of `\needcite{}` / `[CITE]` marks needs a real `references.bib`,
+and the tempting shortcut — letting the model write the entries from memory — produces
+citations with the right title and invented pages, wrong venue, hallucinated DOI. Reviewers
+catch those. This skill fetches every entry from a **publisher-deposited record** instead, and
+makes each one auditable.
+
+It queries **DBLP** (CS/HCI proceedings), **Crossref** (journals), **OpenAlex** (books, grey lit)
+and **arXiv**, then stamps every result `OK` / `REVIEW` / `MISS` — `OK` only when the returned
+record agrees with your query on *both* author surname and year. The `.bib` keeps the query and the
+chosen record as comments, so any match can be checked later.
+
+**Highlights**
+- **Never auto-swaps** a placeholder for an unverified `\cite{}` — a visible `\needcite` beats a
+  plausible-looking wrong citation.
+- Catches the trap that fooled every source tried: a **book review masquerading as the book**
+  (same title, wrong author, year+1). Querying Weick 1995 or Suchman 1987 returns the *review*
+  from Crossref and DBLP alike; the ranking demotes those and prefers an exact year match.
+- Uses DBLP's `?param=1`, not the default `?param=0`, which truncates a booktitle to `{{UIST}}`
+  and drops the DOI that `ACM-Reference-Format` needs.
+- Retries on DBLP's sporadic 5xx, so a transient 500 isn't misread as "not indexed".
+- Documents why **Semantic Scholar's BibTeX is unfit for camera-ready** (generated from its own
+  PDF extraction: `@Article` for a NeurIPS paper, initials for first names, no DOI).
+
 
 ## Install
 
