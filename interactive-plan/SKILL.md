@@ -125,16 +125,17 @@ node ~/.claude/skills/interactive-plan/app/server.mjs <abs-path-to-plan.md> [--n
 - Pass `--no-open` to skip auto-opening the default browser (use this when you'll drive a controlled
   browser via MCP, then navigate to the printed `http://localhost:<port>/?plan=…` URL).
 - The viewer **live-reloads** when you rewrite the plan and **warns on conflicts** if both you and
-  the user edited it. Code refs (`file.ts:123`) open in the user's editor (default Zed; configurable
+  the user edited it. Code refs (`file.ts:123`) open in the user's editor (default Cursor; configurable
   in `~/.claude/skills/interactive-plan/config.json`).
 
-### Open from Zed (keybinding + command palette)
-The user can open the focused `.md` in the viewer from Zed without an extension: a Zed
-**task** runs `server.mjs $ZED_FILE` (idempotent — reuses the shared daemon, never spawns a
-duplicate), bound to a key and surfaced in the command palette. Zed has no webview/custom-UI
-extension API, so the viewer can't render *inside* an editor tab and there's no right-click
-menu item — keybinding + palette is the supported surface. Setup + copy-paste example configs:
-[`docs/zed-integration.md`](docs/zed-integration.md).
+### Open from the editor (keybinding + command palette)
+The user can open the focused `.md` in the viewer from their editor without an extension: an
+editor **task** runs `server.mjs <file>` (idempotent — reuses the shared daemon, never spawns a
+duplicate), bound to a key and surfaced in the command palette. Neither editor can render the
+viewer *inside* an editor tab or add a right-click menu item, so keybinding + palette is the
+supported surface. Setup + copy-paste example configs:
+[`docs/cursor-integration.md`](docs/cursor-integration.md) (Cursor/VS Code, the default) or
+[`docs/zed-integration.md`](docs/zed-integration.md) (Zed).
 
 ## Export a PDF to share
 

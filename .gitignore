@@ -6,6 +6,6 @@ dist/
 *.log
 .DS_Store
 
-# write-like-joseph: personal writing exemplars, not for distribution
-write-like-joseph/examples/
-write-like-joseph-workspace/
+# write-like-sangho: personal writing exemplars, not for distribution
+write-like-sangho/examples/
+write-like-sangho-workspace/

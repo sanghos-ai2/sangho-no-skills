@@ -1,0 +1,12 @@
+// Example Cursor / VS Code keybinding — Command Palette -> "Preferences: Open
+// Keyboard Shortcuts (JSON)", then merge this into the existing array. Binds
+// cmd-shift-m to the task defined in tasks.example.json; "args" must match the
+// task's "label".
+[
+  {
+    "key": "cmd+shift+m",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Open in interactive-plan viewer",
+    "when": "editorLangId == markdown"
+  }
+]

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install joseph-no-skills into ~/.claude/skills/ via symlinks.
+# Install sangho-no-skills into ~/.claude/skills/ via symlinks.
 # Re-run safe: existing symlinks are replaced; existing real directories are
 # refused (so we don't clobber a skill you've edited in place).
 
@@ -11,7 +11,7 @@ DEST_DIR="${HOME}/.claude/skills"
 SKILLS=(
   interactive-plan
   codex-audit
-  write-like-joseph
+  write-like-sangho
 )
 
 mkdir -p "${DEST_DIR}"
@@ -50,4 +50,4 @@ echo
 echo "Per-skill requirements:"
 echo "  interactive-plan : bun (https://bun.sh); first launch installs deps + builds the viewer."
 echo "  codex-audit      : OpenAI Codex CLI (brew install codex; codex login) + a git repo."
-echo "  write-like-joseph: populate the gitignored examples/ corpus locally (not distributed)."
+echo "  write-like-sangho: populate the gitignored examples/ corpus locally (not distributed)."
