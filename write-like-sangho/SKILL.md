@@ -16,6 +16,11 @@ Two resources make this possible:
    over what these files actually do.
 2. The blocklist below — words and habits that mark text as LLM-written. One slip can be enough
    for a reader to clock the whole draft.
+3. `references/figures.md` — what Sangho's figures actually do, derived from the figures in
+   Sensecape, Luminate, and StoryEnsemble. Read it **before planning a figure set, writing a
+   caption, or capturing a screenshot**. Prose and figures are one artifact: captions in this
+   corpus narrate every badge in order, and the prose references individual badges constantly,
+   so a figure planned without the writing convention will not match the writing.
 
 Every count quoted below was measured over the corpus by `tools/audit-voice.py`, across 62,934
 words of Sangho's first-author prose (participant quotes excluded — those are other people
@@ -175,6 +180,26 @@ verify independently. The rules:
   literally showed, with evidence and reasoning for Sangho to validate.
 - *Verified*: a note of which citation-claims you checked against the actual papers, so they know
   what's already been confirmed versus taken on faith.
+
+## Figures
+
+Figures are not a separate deliverable from the writing. `references/figures.md` has the full
+derivation; the four things worth knowing before you touch a figure:
+
+- **These papers carry 12–20 figures.** Sensecape 14, Luminate 12, StoryEnsemble 20. A systems
+  paper with two or three is a different kind of paper, not a shorter one.
+- **Letters label anatomy, numbers label sequence.** Luminate Fig 3 tags eleven regions of one
+  static interface A–K; Sensecape Fig 3 walks one canvas through six actions 1–6 with dashed
+  arrows between them. Badges are black filled circles placed *on* the artifact.
+- **Captions narrate every badge in order** and run to several sentences. A caption reading
+  "The system interface" does not exist in this corpus.
+- **The teaser is an argument diagram, not a screenshot** — StoryEnsemble Fig 1 draws the
+  mechanism and embeds one screenshot inside it as proof.
+- **Each figure answers a named challenge, and content types vary across the set.** A challenge
+  with no figure is a claim taken on trust; a figure set showing one artifact type six times
+  understates a system that handles several.
+
+Prose form for references is `Fig. 3D` — figure number and badge concatenated.
 
 ## The corpus
 
