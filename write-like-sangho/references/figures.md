@@ -162,6 +162,48 @@ one type repeated. A figure whose badges are never referenced, a claim with no
 figure, and a figure set that shows one content type six times are all mismatches
 to fix before submission.
 
+## Capturing from a live system
+
+The script that drives a capture is specific to one system's DOM and belongs in that
+system's repo. The *method* is not, and it cost a full session to learn. Five rules,
+each from a failure that produced a plausible-looking wrong figure:
+
+**Suppress onboarding before the app boots.** A fresh browser profile is a
+first-run profile, so tutorial pickers and welcome modals open over the whole
+workspace. Set whatever flag dismisses them in an init script that runs *before*
+page load; setting it afterwards is too late and the modal is already in the shot.
+
+**Open collapsed panels, and verify by geometry.** Panels that are collapsed are
+usually still in the DOM at zero width, so `querySelector` finding an element proves
+nothing about whether it is visible. Check the bounding box before trusting a
+screenshot.
+
+**Assert the state you think you set.** Clicking a disabled control is frequently a
+silent no-op that leaves the previous state active — so the capture succeeds, looks
+reasonable, and shows the wrong thing. Read back the control's pressed/active
+attribute after every click and fail if it did not change.
+
+**An ambiguous selector is worse than a missing one.** A selector matching nothing
+fails loudly. One matching the *wrong* element returns plausible data and sends you
+debugging phantoms: a substring that matched both "Findings — X" and the set actually
+wanted cost three wrong diagnoses in a row. Fail on multiple matches, not just zero.
+
+**Poll for availability rather than checking once.** Controls can be transiently
+disabled while background work runs — a dimension pass, a layout computation. A
+single check after a fixed wait cannot tell a mid-computation blip from a structural
+limit. Poll to a generous ceiling, then fail with the reason the UI gives.
+
+And one framing rule: crop to the element you mean. A wrapper named for the workspace
+often contains the whole chrome, so cropping to it silently includes panels the figure
+should not carry. Park the pointer somewhere neutral before shooting, or the hover card
+of whatever you last clicked sits in the middle of the figure.
+
+**Expect to reach for a mockup anyway.** Screenshots are bound to the system's own
+zoom and aspect ratio, and semantic-zoom interfaces trade legibility against how much
+fits: fitting a set can drop nodes below the threshold where they render as readable
+cards. When the claim needs more in frame than the system will show legibly, rebuild
+the figure in a drawing tool and treat the screenshot as reference.
+
 ## When the walkthrough spans several UI states
 
 A workflow figure normally shows *one* scene walked through by numbers, which
