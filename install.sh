@@ -13,6 +13,8 @@ SKILLS=(
   codex-audit
   write-like-sangho
   fetching-bibtex
+  watch-recording
+  thematic-analysis
 )
 
 mkdir -p "${DEST_DIR}"
@@ -53,3 +55,7 @@ echo "  interactive-plan : bun (https://bun.sh); first launch installs deps + bu
 echo "  codex-audit      : OpenAI Codex CLI (brew install codex; codex login) + a git repo."
 echo "  write-like-sangho: populate the gitignored examples/ corpus locally (not distributed)."
 echo "  fetching-bibtex  : curl + python3 (both preinstalled on macOS); no API keys."
+echo "  watch-recording  : ffmpeg + ffprobe (brew install ffmpeg). Local transcription fallback"
+echo "                     also needs whisper-cpp, uv, and a HuggingFace login for pyannote."
+echo "  thematic-analysis: uv + bun. Optional: drop Braun & Clarke into thematic-analysis/source/"
+echo "                     and run scripts/extract_source.sh; otherwise it uses the bundled digest."
