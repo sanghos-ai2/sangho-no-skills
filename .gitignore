@@ -13,3 +13,8 @@ write-like-sangho-workspace/
 # python bytecode
 __pycache__/
 *.pyc
+
+# thematic-analysis: Braun & Clarke (2006) PDF + extracted text are copyrighted; not distributed.
+# Carried over from upstream .gitignore:18-19 -- missed when the skill was vendored on 2026-09-02,
+# which left a dropped PDF stageable and pushable.
+thematic-analysis/source/
