@@ -205,3 +205,34 @@ def test_ingest_merges_consecutive_same_size_spans(tmp_path):
     assert manifest["slides"][0]["spans"] == [
         {"size": 20.0, "text": "First line Second line"}
     ]
+
+
+def test_a_size_that_recurs_after_another_size_is_not_merged_back(tmp_path):
+    # The discriminator between "merge consecutive runs" (correct) and
+    # "group every run by size" (wrong, and reading-order-destroying): a size
+    # that RETURNS after an intervening different size must stay a separate,
+    # later entry rather than being folded back into its earlier occurrence.
+    deck = by_slug("luminate")
+    inbox = tmp_path / "inbox"
+    inbox.mkdir()
+    _fake_pdf_with_first_page_runs(
+        inbox / deck.pdf_name,
+        pages=deck.pages,
+        width=1024,
+        height=768,
+        runs=[
+            ((72, 144), "First at forty four", 44),
+            ((72, 300), "Middle at twelve", 12),
+            ((72, 450), "Third at forty four again", 44),
+        ],
+    )
+
+    manifest = bsc.ingest_deck(
+        deck, dpi=36, inbox=inbox, corpus_root=tmp_path / "corpus"
+    )
+
+    assert manifest["slides"][0]["spans"] == [
+        {"size": 44.0, "text": "First at forty four"},
+        {"size": 12.0, "text": "Middle at twelve"},
+        {"size": 44.0, "text": "Third at forty four again"},
+    ]
