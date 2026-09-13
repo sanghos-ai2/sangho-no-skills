@@ -208,12 +208,18 @@ def test_palette_half_white_half_red_splits_and_ranks_red_first(tmp_path):
     _solid_deck("luminate", [(255, 255, 255), (255, 0, 0)], tmp_path)
     result = audit.palette(audit.load_manifests(tmp_path), tmp_path)
 
+    # chromatic_share is a fraction of ALL pixels; the pair with the assertion
+    # below is what pins the two denominators apart — a uniform (wrong)
+    # denominator would pass one of these but not both.
     assert result["neutral_share"] == pytest.approx(0.5, abs=0.01)
     assert result["chromatic_share"] == pytest.approx(0.5, abs=0.01)
     assert result["accents"]
     top_hex, top_share = result["accents"][0]
     assert top_hex == "#f00000"  # 255 binned to 16 levels/channel -> 240 = 0xf0
-    assert top_share == pytest.approx(0.5, abs=0.01)
+    # accents is a fraction of CHROMATIC pixels only: red is the only
+    # chromatic colour present, so it is ~100% of the chromatic share, not
+    # ~50% of all pixels.
+    assert top_share == pytest.approx(1.0, abs=0.01)
 
 
 def test_mid_grey_counts_as_neutral_via_saturation_arm(tmp_path):
@@ -234,6 +240,23 @@ def test_dark_saturated_pixel_counts_as_neutral_via_darkness_arm(tmp_path):
 
     assert result["neutral_share"] == 1.0
     assert result["accents"] == []
+
+
+def test_palette_reports_zero_shares_when_no_images_exist_on_disk(tmp_path):
+    # `_manifest` writes manifest.json (with a `slides/` dir) but no PNGs —
+    # the manifest is real, but nothing was actually rendered. This must
+    # produce the real-dict zero shape distinguishable from a legitimate
+    # all-neutral reading, and render_report must degrade to the same
+    # "no data" message it uses for the legacy []-sentinel — never claim
+    # "100% neutral" for a corpus we could not measure at all.
+    _manifest("luminate", ["a b"], tmp_path)
+    manifests = audit.load_manifests(tmp_path)
+
+    result = audit.palette(manifests, tmp_path)
+    assert result == {"neutral_share": 0.0, "chromatic_share": 0.0, "accents": []}
+
+    report = audit.render_report(manifests, result)
+    assert "_No rendered slides available._" in report
 
 
 def test_report_palette_section_states_cutoffs_and_deck_count(tmp_path):

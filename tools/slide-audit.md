@@ -99,13 +99,17 @@ not named or interpreted.
 
 ### Accent colours
 
-| Colour | Share of all pixels |
+The table below divides that **1.6%**
+chromatic share up further, by colour — each row is a share of
+chromatic pixels only, not of the whole slide.
+
+| Colour | Share of chromatic pixels |
 |---|---|
-| `#303040` | 0.6% |
-| `#202030` | 0.1% |
-| `#d0d0a0` | 0.1% |
-| `#e0e0a0` | 0.1% |
-| `#e0e0b0` | 0.0% |
-| `#f0e0b0` | 0.0% |
-| `#404050` | 0.0% |
-| `#e0d0a0` | 0.0% |
+| `#303040` | 39.2% |
+| `#202030` | 7.6% |
+| `#d0d0a0` | 4.5% |
+| `#e0e0a0` | 3.2% |
+| `#e0e0b0` | 3.1% |
+| `#f0e0b0` | 3.0% |
+| `#404050` | 2.4% |
+| `#e0d0a0` | 2.1% |
