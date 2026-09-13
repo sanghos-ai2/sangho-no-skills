@@ -18,10 +18,11 @@ a full-bleed figure slide is a real measurement.
 
 **This is an upper bound, not slide copy.** These counts come from
 `page.get_text()`, which sums three unrelated things onto one slide:
-the actual slide copy, speaker narration Sangho sometimes renders onto
-the slide itself, and text baked inside embedded figures. See
-"Words by font size" below for the breakdown a threshold would need —
-this script does not pick one.
+the actual slide copy, text identical to the deck's presenter notes
+(present in the PDF text layer — see "Notes in the text layer" under
+Presenter notes for the measured agreement), and text baked inside
+embedded figures. See "Words by font size" below for the breakdown a
+threshold would need — this script does not pick one.
 
 ## Words by font size
 
@@ -82,6 +83,10 @@ carry presenter notes.
 
 - median **23.0** words
 - maximum 47 words
+
+### Notes in the text layer
+
+Measured over 1 deck: 35 of 35 notes-bearing slides have text identical to their note at 12.8pt.
 
 ## Geometry
 
