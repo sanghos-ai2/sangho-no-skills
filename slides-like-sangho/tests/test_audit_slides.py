@@ -286,3 +286,114 @@ def test_notes_section_reports_counts_when_some_slides_have_notes(tmp_path):
     assert "## Presenter notes" in report
     assert "1 of 3" in report
     assert "1 deck" in report
+
+
+# --- Controller ruling (fix round 1): notes-in-text-layer agreement --------
+
+
+def test_agreement_counts_a_match_at_the_size_whose_span_text_equals_the_note():
+    manifests = [
+        {
+            "slides": [
+                {
+                    "index": 1,
+                    "notes": "hello world",
+                    "spans": [
+                        {"size": 12.8, "text": "hello world"},
+                        {"size": 21.0, "text": "Title"},
+                    ],
+                }
+            ]
+        }
+    ]
+    result = audit.notes_span_agreement(manifests)
+    assert result["slides_with_notes"] == 1
+    assert result["slides_matching"] == 1
+    assert result["modal_size"] == 12.8
+
+
+def test_agreement_counts_no_match_when_note_differs_from_every_size():
+    manifests = [
+        {
+            "slides": [
+                {
+                    "index": 1,
+                    "notes": "something totally unrelated to the slide",
+                    "spans": [
+                        {"size": 12.8, "text": "hello world"},
+                        {"size": 21.0, "text": "Title"},
+                    ],
+                }
+            ]
+        }
+    ]
+    result = audit.notes_span_agreement(manifests)
+    assert result["slides_with_notes"] == 1
+    assert result["slides_matching"] == 0
+    assert result["modal_size"] is None
+
+
+def test_agreement_handles_a_notes_bearing_slide_with_no_spans():
+    # A slide can carry a real presenter note while contributing no spans at
+    # all (a synthetic manifest, or a deck ingested before spans existed).
+    # This must not raise, and must not count as a match.
+    manifests = [{"slides": [{"index": 1, "notes": "hello world"}]}]
+    result = audit.notes_span_agreement(manifests)
+    assert result["slides_with_notes"] == 1
+    assert result["slides_matching"] == 0
+    assert result["modal_size"] is None
+
+
+def test_agreement_matches_despite_whitespace_differences():
+    # Real presenter notes carry blank-line breaks a span run does not; a
+    # naive `==` on raw strings would fail this even though the words are
+    # identical. Two separate same-size span runs (the real shape a timed
+    # narration produces) must also be joined before comparing.
+    manifests = [
+        {
+            "slides": [
+                {
+                    "index": 1,
+                    "notes": "(15 s)\n\nHello world, this is the note.",
+                    "spans": [
+                        {"size": 12.8, "text": "(15 s)"},
+                        {"size": 12.8, "text": "Hello world, this is the note."},
+                    ],
+                }
+            ]
+        }
+    ]
+    result = audit.notes_span_agreement(manifests)
+    assert result["slides_with_notes"] == 1
+    assert result["slides_matching"] == 1
+    assert result["modal_size"] == 12.8
+
+
+def test_notes_in_text_layer_section_degrades_when_no_slide_carries_notes(tmp_path):
+    _manifest("luminate", ["a b", "c d e"], tmp_path)
+    report = audit.render_report(audit.load_manifests(tmp_path), [])
+    assert "### Notes in the text layer" in report
+    assert "_No presenter notes to compare against the text layer._" in report
+
+
+def test_notes_in_text_layer_section_reports_the_measured_agreement(tmp_path):
+    _manifest_with_spans(
+        "luminate",
+        [
+            [
+                {"size": 12.8, "text": "hello world"},
+                {"size": 21.0, "text": "Title"},
+            ]
+        ],
+        tmp_path,
+    )
+    manifest_path = tmp_path / "luminate" / "manifest.json"
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    data["slides"][0]["notes"] = "hello world"
+    manifest_path.write_text(json.dumps(data), encoding="utf-8")
+
+    report = audit.render_report(audit.load_manifests(tmp_path), [])
+
+    assert "### Notes in the text layer" in report
+    assert "1 of 1 notes-bearing slides" in report
+    assert "12.8pt" in report

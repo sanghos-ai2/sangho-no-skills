@@ -106,6 +106,70 @@ def _notes_word_counts(manifests: list[dict]) -> list[int]:
     return counts
 
 
+def _normalize_ws(text: str) -> str:
+    return " ".join(text.split())
+
+
+def notes_span_agreement(manifests: list[dict]) -> dict:
+    """Measure whether a slide's presenter note also appears in its own PDF
+    text layer, and if so, at which font size.
+
+    A one-deck controller measurement found the deck's 12.8pt span band to be
+    exactly the presenter note text on every notes-bearing Luminate slide.
+    That is a fact about ONE deck's text layer, not a mechanism (visible on
+    the slide? exported by Keynote? pasted into a text box?), and not a size
+    that necessarily holds on wave 2 — so it is computed here, from whatever
+    manifests are handed in, rather than hard-coded. If a future deck breaks
+    the pattern, the numbers this returns move on their own.
+
+    For each slide carrying a non-null `notes`, spans are grouped by their
+    (already-rounded) `size` and each size's span text is compared, after
+    whitespace normalization, against the normalized note: a match is
+    counted when the two are equal OR one contains the other (the real
+    notes carry blank-line breaks a span run does not, so containment,
+    not `==`, is the rule). A slide contributes at most one match, at the
+    first size found to agree with its note.
+
+    Returns `{"slides_with_notes": int, "slides_matching": int,
+    "modal_size": float | None}` — `modal_size` is the size that produced
+    the most matches across the corpus, or `None` when nothing matched (or
+    no slide had notes to compare in the first place).
+    """
+    slides_with_notes = 0
+    slides_matching = 0
+    match_size_tally: collections.Counter = collections.Counter()
+
+    for manifest in manifests:
+        for slide in manifest.get("slides", []):
+            notes = slide.get("notes")
+            if notes is None:
+                continue
+            slides_with_notes += 1
+            norm_note = _normalize_ws(notes)
+            if not norm_note:
+                continue
+
+            spans_by_size: dict[float, list[str]] = collections.defaultdict(list)
+            for span in slide.get("spans", []):
+                spans_by_size[span["size"]].append(span["text"])
+
+            for size, texts in spans_by_size.items():
+                norm_span = _normalize_ws(" ".join(texts))
+                if not norm_span:
+                    continue
+                if norm_span in norm_note or norm_note in norm_span:
+                    slides_matching += 1
+                    match_size_tally[size] += 1
+                    break
+
+    modal_size = match_size_tally.most_common(1)[0][0] if match_size_tally else None
+    return {
+        "slides_with_notes": slides_with_notes,
+        "slides_matching": slides_matching,
+        "modal_size": modal_size,
+    }
+
+
 NEUTRAL_SAT_CUTOFF = 0.15
 NEUTRAL_MAX_CHANNEL_CUTOFF = 40
 ACCENT_BIN_LEVELS = 16
@@ -252,10 +316,11 @@ def render_report(
         "",
         "**This is an upper bound, not slide copy.** These counts come from",
         "`page.get_text()`, which sums three unrelated things onto one slide:",
-        "the actual slide copy, speaker narration Sangho sometimes renders onto",
-        "the slide itself, and text baked inside embedded figures. See",
-        "\"Words by font size\" below for the breakdown a threshold would need —",
-        "this script does not pick one.",
+        "the actual slide copy, text identical to the deck's presenter notes",
+        "(present in the PDF text layer — see \"Notes in the text layer\" under",
+        "Presenter notes for the measured agreement), and text baked inside",
+        "embedded figures. See \"Words by font size\" below for the breakdown a",
+        "threshold would need — this script does not pick one.",
     ]
 
     hist = size_histogram(manifests)
@@ -292,6 +357,26 @@ def render_report(
         ]
     else:
         lines.append("_No presenter notes extracted._")
+
+    agreement = notes_span_agreement(manifests)
+    lines += [
+        "",
+        "### Notes in the text layer",
+        "",
+    ]
+    if agreement["slides_with_notes"] == 0:
+        lines.append("_No presenter notes to compare against the text layer._")
+    elif agreement["modal_size"] is None:
+        lines.append(
+            f"_None of the {agreement['slides_with_notes']} notes-bearing "
+            "slides' text matches any font size._"
+        )
+    else:
+        lines.append(
+            f"Measured over {label}: {agreement['slides_matching']} of "
+            f"{agreement['slides_with_notes']} notes-bearing slides have "
+            f"text identical to their note at {agreement['modal_size']:.1f}pt."
+        )
 
     lines += [
         "",
