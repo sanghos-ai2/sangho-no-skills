@@ -78,17 +78,35 @@ Two path hazards in this corpus, both of which fail silently rather than loudly:
 Run once; re-runnable when the canon changes. Writes only into `~/.cache/slides-like-sangho/corpus/`,
 outside any git working tree (see Corpus containment).
 
-1. **Export** — AppleScript drives Keynote per deck: slides to PDF, presenter notes to per-slide
-   plain text, build order where the format exposes it.
+1. **Ingest** — PDFs exported by Sangho from Keynote (Slides layout, Best quality, builds off) are
+   copied into the corpus. **There is no AppleScript export step**; see Why extraction is not
+   scripted.
 2. **Rasterize** — `pdftoppm` produces per-slide PNGs at presentation resolution plus a downsampled
    reading set.
-3. **Theme internals** — read fonts, master-slide names, and color swatches out of the `.key`
-   bundle where they are reachable without parsing IWA protobuf.
+3. **Structure** — parse `Index/*.iwa` out of the `.key` zip for exact per-slide text, presenter
+   notes, and the master-slide vocabulary. The files are modern snappy-framed IWA (verified:
+   `Document.iwa` begins `00 50 29 00`; `Metadata/BuildVersionHistory.plist` reports Keynote T13.1),
+   so `keynote-parser` applies. Media assets are readable directly from `Data/`.
 4. **Narrative** — `watch-recording` over the Luminate practice recording, yielding a transcript
    aligned to slide boundaries.
 
-Cost is real: ~2.4 GB of Keynote, and Keynote export on the 901 MB job talk is measured in minutes.
-The pipeline is therefore resumable per deck and skips completed stages.
+Structure and pixels answer different questions, and the split is deliberate: parsed IWA text gives
+**exact** counts where image analysis would only estimate, while the PDF gives composition, which no
+parse can recover. Neither substitutes for the other.
+
+### Why extraction is not scripted
+
+Apple Keynote is not installed on the target machine, and the obvious probe says otherwise.
+`osascript -e 'id of app "Keynote"'` answers `com.apple.Keynote`, but
+`path to application "Keynote"` resolves to `/Applications/Keynote Creator Studio.app/`, whose
+Info.plist declares `CFBundleIdentifier = com.apple.Keynote` and `CFBundleName = Keynote` under
+`TeamIdentifier = JCRTNEU7GK` — not Apple's. A third-party app holds the name and bundle ID that
+`tell application "Keynote"` resolves to.
+
+An AppleScript export would therefore have succeeded against the wrong application, silently, and
+produced a corpus with no error to attribute it to. Export stays a manual step performed by Sangho
+in real Keynote. This is recorded rather than merely fixed, so it is not "simplified" back into an
+AppleScript step by a later reader who re-runs the same misleading probe.
 
 ### Measurement (`tools/audit-slides.py`)
 
@@ -137,6 +155,10 @@ still added to `.gitignore` as a second layer, in case a future refactor moves t
 
 ### Committed artifacts carry no slide content
 
+Archetype geometry is **measured, never assumed.** All four canon decks export at 1024 × 768 pt —
+4:3, not the 16:9 a modern deck is assumed to be. Archetypes take slide dimensions from the audited
+canon, and any hard-coded aspect ratio is a defect.
+
 `archetypes/*.dc.html` **is** committed, which makes it the likeliest leak: an archetype traced from
 a real slide can quietly embed that slide's text or a cropped screenshot.
 
@@ -171,6 +193,11 @@ All three render from the same storyboard and token set, so they cannot drift ap
 - **Keynote** (AppleScript) — produces a scaffold to finish by hand. AppleScript's control of
   Keynote layout is coarse; the skill says so rather than over-promising, because a scaffold
   presented as a finished deck wastes more time than no deck.
+  **Untestable on the current machine**, and worse than untestable: per Why extraction is not
+  scripted, `tell application "Keynote"` here resolves to a third-party app. This path is gated on
+  Apple Keynote resolving to an Apple-signed bundle, checked at runtime by comparing
+  `codesign` TeamIdentifier rather than by bundle ID, and refuses to run otherwise. It ships
+  unverified and labelled unverified.
 
 ## The never-list
 
@@ -195,11 +222,13 @@ as decks are made and rejected.
 The corpus pass precedes skill authoring. Nothing truthful can be written about Sangho's visual
 language before the slides have been looked at, so:
 
-**Luminate first, then the rest.** Extraction is ~2.4 GB of Keynote and minutes of export per deck,
-and a design language derived from the wrong reading is confidently and unfalsifiably wrong. So the
-canon is extracted in two waves, with a verdict in between.
+**Luminate first, then the rest.** Sangho delivered PDFs for all four decks on 2026-09-13
+(`~/Desktop/slides-like-sangho/`: Luminate 55 pp, Sensecape 32 pp, KAIST 126 pp, job talk 152 pp —
+365 slides total), so the original cost argument for phasing is gone. The epistemic one is not: a
+design language derived from a wrong first reading is confidently and unfalsifiably wrong, and
+reading 365 slides before anyone checks the method spends the review gate's value. Waves stay.
 
-1. **Extract Luminate alone** (151 MB, the de facto template) and run the audit against it.
+1. **Derive from Luminate alone** (55 slides, the de facto template) and run the audit against it.
 2. **Derive a first-pass design language** from that one deck — `references/` plus the draft
    never-list — and **present it to Sangho for correction**. This gate decides whether the approach
    reads as him at all. A wrong reading is cheap to discover here and expensive to discover after
