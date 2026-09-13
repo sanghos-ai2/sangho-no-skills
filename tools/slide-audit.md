@@ -1,20 +1,23 @@
 # Slide audit
 
-Measured over **1 deck**, 55 slides.
+Measured over **4 decks**, 365 slides.
 
 | Deck | Slides | Geometry (pt) | Aspect |
 |---|---|---|---|
-| Luminate @ CHI'24 | 55 | 1024 x 768 | 1.3333 |
+| Job talk 2024 | 152 | 1920 x 1080 | 1.7778 |
+| KAIST invited talk | 126 | 1920 x 1080 | 1.7778 |
+| Luminate @ CHI'24 | 55 | 1920 x 1080 | 1.7778 |
+| Sensecape @ UIST'23 | 32 | 1920 x 1080 | 1.7778 |
 
 ## Words per slide
 
-Measured over 1 deck. Slides with no text count as zero, not as missing —
+Measured over 4 decks. Slides with no text count as zero, not as missing —
 a full-bleed figure slide is a real measurement.
 
-- median **27.0**
-- interquartile range 17.0 - 44.0
-- maximum 321
-- share under four words: **5%**
+- median **12.0**
+- interquartile range 5.0 - 25.0
+- maximum 297
+- share under four words: **18%**
 
 **This is an upper bound, not slide copy.** These counts come from
 `page.get_text()`, which sums three unrelated things onto one slide:
@@ -26,7 +29,7 @@ threshold would need — this script does not pick one.
 
 ## Words by font size
 
-Measured over 1 deck: total words at each font size, across every
+Measured over 4 decks: total words at each font size, across every
 slide. Slide copy, speaker narration, and figure-embedded text land at
 different sizes on a given deck, but the convention is per-deck, not
 universal — so this table is left unclassified rather than guessing a
@@ -34,68 +37,121 @@ threshold from a single deck.
 
 | Size (pt) | Words |
 |---|---|
-| 12.8 | 828 |
-| 5.5 | 432 |
-| 13.1 | 139 |
-| 7.9 | 91 |
-| 15.7 | 68 |
-| 6.3 | 55 |
-| 12.9 | 42 |
-| 15.2 | 42 |
-| 19.7 | 40 |
-| 12.1 | 39 |
-| 6.6 | 33 |
-| 8.3 | 28 |
-| 17.3 | 27 |
-| 11.5 | 25 |
-| 23.4 | 23 |
-| 15.5 | 22 |
-| 22.6 | 21 |
-| 21.0 | 18 |
-| 14.4 | 17 |
-| 15.0 | 16 |
-| 11.8 | 15 |
-| 29.4 | 15 |
-| 17.1 | 15 |
-| 9.7 | 12 |
-| 14.2 | 12 |
-| 19.1 | 12 |
-| 12.5 | 10 |
-| 21.5 | 6 |
-| 23.6 | 6 |
-| 27.0 | 6 |
-| 18.6 | 6 |
-| 7.1 | 5 |
-| 18.4 | 5 |
-| 9.4 | 5 |
-| 10.8 | 4 |
-| 16.3 | 4 |
-| 20.5 | 3 |
-| 20.1 | 2 |
-| 5.8 | 2 |
-| 11.4 | 1 |
-| 36.0 | 1 |
+| 21.0 | 3534 |
+| 24.0 | 1259 |
+| 50.0 | 360 |
+| 30.0 | 255 |
+| 84.0 | 242 |
+| 53.0 | 224 |
+| 31.7 | 180 |
+| 60.0 | 167 |
+| 36.0 | 159 |
+| 32.0 | 159 |
+| 85.0 | 126 |
+| 22.0 | 118 |
+| 42.0 | 116 |
+| 90.0 | 113 |
+| 15.0 | 112 |
+| 74.0 | 111 |
+| 66.0 | 111 |
+| 80.0 | 108 |
+| 70.0 | 103 |
+| 89.0 | 103 |
+| 86.0 | 96 |
+| 49.0 | 93 |
+| 48.0 | 92 |
+| 43.0 | 92 |
+| 51.0 | 85 |
+| 78.7 | 82 |
+| 96.0 | 82 |
+| 33.0 | 78 |
+| 19.0 | 78 |
+| 62.0 | 70 |
+| 45.0 | 67 |
+| 44.0 | 63 |
+| 47.5 | 62 |
+| 41.0 | 60 |
+| 75.0 | 57 |
+| 38.0 | 55 |
+| 98.0 | 54 |
+| 78.0 | 51 |
+| 112.0 | 47 |
+| 46.0 | 47 |
+| 57.0 | 45 |
+| 119.0 | 44 |
+| 63.0 | 42 |
+| 58.0 | 42 |
+| 92.0 | 41 |
+| 79.3 | 40 |
+| 40.0 | 37 |
+| 59.0 | 37 |
+| 102.0 | 34 |
+| 25.0 | 33 |
+| 111.0 | 30 |
+| 120.0 | 29 |
+| 73.8 | 28 |
+| 67.6 | 28 |
+| 81.0 | 26 |
+| 73.0 | 24 |
+| 59.6 | 23 |
+| 74.9 | 22 |
+| 39.0 | 22 |
+| 29.0 | 22 |
+| 108.0 | 22 |
+| 27.0 | 21 |
+| 54.0 | 18 |
+| 37.0 | 18 |
+| 55.0 | 17 |
+| 83.0 | 16 |
+| 59.8 | 15 |
+| 65.0 | 15 |
+| 100.0 | 13 |
+| 110.0 | 12 |
+| 72.8 | 12 |
+| 47.0 | 11 |
+| 46.6 | 10 |
+| 98.6 | 10 |
+| 159.0 | 10 |
+| 82.0 | 10 |
+| 78.3 | 8 |
+| 76.0 | 8 |
+| 68.0 | 6 |
+| 94.0 | 6 |
+| 128.0 | 6 |
+| 103.0 | 6 |
+| 71.0 | 6 |
+| 244.1 | 4 |
+| 35.0 | 4 |
+| 56.0 | 4 |
+| 38.3 | 4 |
+| 23.0 | 2 |
+| 116.0 | 2 |
+| 113.0 | 2 |
+| 76.4 | 2 |
+| 124.0 | 1 |
+| 43.5 | 1 |
+| 137.0 | 1 |
 
 ## Presenter notes
 
-Measured over 1 deck: 35 of 55 slides
+Measured over 4 decks: 180 of 365 slides
 carry presenter notes.
 
-- median **23.0** words
-- maximum 47 words
+- median **22.5** words
+- maximum 155 words
 
 ### Notes in the text layer
 
-Measured over 1 deck: 35 of 35 notes-bearing slides have text identical to their note at 12.8pt.
+Measured over 4 decks: 13 of 180 notes-bearing slides have text identical to their note at 30.0pt.
 
 ## Geometry
 
-Measured over 1 deck: 1024 x 768 pt. Archetypes take their dimensions from this table; a hard-coded
+Measured over 4 decks: 1920 x 1080 pt. Archetypes take their dimensions from this table; a hard-coded
 aspect ratio is a defect.
 
 ## Palette
 
-Measured over 1 deck, by share of all sampled pixels. A pixel is
+Measured over 4 decks, by share of all sampled pixels. A pixel is
 **neutral** when saturation < 0.15 or its brightest
 channel < 40; otherwise **chromatic**.
 Chromatic colours are binned to 16 levels per
@@ -103,22 +159,22 @@ channel before tallying, so close accent hues group into one row
 instead of fragmenting into near-duplicates. Colours are reported,
 not named or interpreted.
 
-- neutral: **98.4%**
-- chromatic: **1.6%**
+- neutral: **91.3%**
+- chromatic: **8.7%**
 
 ### Accent colours
 
-The table below divides that **1.6%**
+The table below divides that **8.7%**
 chromatic share up further, by colour — each row is a share of
 chromatic pixels only, not of the whole slide.
 
 | Colour | Share of chromatic pixels |
 |---|---|
-| `#303040` | 39.2% |
-| `#202030` | 7.6% |
-| `#d0d0a0` | 4.5% |
-| `#e0e0a0` | 3.2% |
-| `#e0e0b0` | 3.1% |
-| `#f0e0b0` | 3.0% |
-| `#404050` | 2.4% |
-| `#e0d0a0` | 2.1% |
+| `#303040` | 14.5% |
+| `#404050` | 14.4% |
+| `#505060` | 1.8% |
+| `#304050` | 1.5% |
+| `#f0f090` | 1.3% |
+| `#d0d0a0` | 1.2% |
+| `#c0e0f0` | 1.2% |
+| `#203040` | 1.1% |
