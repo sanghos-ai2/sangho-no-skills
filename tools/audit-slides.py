@@ -110,9 +110,33 @@ def _normalize_ws(text: str) -> str:
     return " ".join(text.split())
 
 
+# Fix round 1 (Task 6 review), Critical: a bare containment check
+# (`a in b or b in a`) matches a short heading against a long free-form note
+# with no regard for how much of either string actually overlaps -- median
+# note length is 22.5 words, so a 2-3 word title has ample room to appear
+# inside one by chance. Below this many words, containment does not count;
+# exact equality always counts regardless of length, since a short note can
+# legitimately be reproduced verbatim in full.
+NOTES_CONTAINMENT_MIN_WORDS = 8
+
+
+def _verbatim_match(norm_span: str, norm_note: str) -> bool:
+    """Whether a slide's own text-layer span, at one font size, agrees with
+    its presenter note -- exact equality always counts (a short note can be
+    reproduced in full), containment counts only when the CONTAINED string
+    clears `NOTES_CONTAINMENT_MIN_WORDS` (see that constant's docstring)."""
+    if norm_span == norm_note:
+        return True
+    if norm_span and norm_span in norm_note:
+        return len(norm_span.split()) >= NOTES_CONTAINMENT_MIN_WORDS
+    if norm_note and norm_note in norm_span:
+        return len(norm_note.split()) >= NOTES_CONTAINMENT_MIN_WORDS
+    return False
+
+
 def notes_span_agreement(manifests: list[dict]) -> dict:
     """Measure whether a slide's presenter note also appears in its own PDF
-    text layer, and if so, at which font size.
+    text layer, and if so, at which font size(s).
 
     A one-deck controller measurement found the deck's 12.8pt span band to be
     exactly the presenter note text on every notes-bearing Luminate slide.
@@ -124,16 +148,18 @@ def notes_span_agreement(manifests: list[dict]) -> dict:
 
     For each slide carrying a non-null `notes`, spans are grouped by their
     (already-rounded) `size` and each size's span text is compared, after
-    whitespace normalization, against the normalized note: a match is
-    counted when the two are equal OR one contains the other (the real
-    notes carry blank-line breaks a span run does not, so containment,
-    not `==`, is the rule). A slide contributes at most one match, at the
-    first size found to agree with its note.
+    whitespace normalization, against the normalized note via
+    `_verbatim_match` (see `NOTES_CONTAINMENT_MIN_WORDS`). A slide contributes
+    at most one match, at the first size found to agree with its note.
 
     Returns `{"slides_with_notes": int, "slides_matching": int,
-    "modal_size": float | None}` — `modal_size` is the size that produced
-    the most matches across the corpus, or `None` when nothing matched (or
-    no slide had notes to compare in the first place).
+    "size_breakdown": list[(float, int)]}` -- `size_breakdown` is every size
+    that produced at least one match, sorted by match count descending (ties
+    broken by size ascending, for a reproducible order), never collapsed to
+    a single plurality size: a single dominant size and a scattering of
+    single-slide matches across many sizes are different findings, and a
+    "modal size" sentence cannot tell a reader which one it is looking at.
+    Empty when nothing matched (or no slide had notes to compare at all).
     """
     slides_with_notes = 0
     slides_matching = 0
@@ -157,17 +183,77 @@ def notes_span_agreement(manifests: list[dict]) -> dict:
                 norm_span = _normalize_ws(" ".join(texts))
                 if not norm_span:
                     continue
-                if norm_span in norm_note or norm_note in norm_span:
+                if _verbatim_match(norm_span, norm_note):
                     slides_matching += 1
                     match_size_tally[size] += 1
                     break
 
-    modal_size = match_size_tally.most_common(1)[0][0] if match_size_tally else None
+    size_breakdown = sorted(
+        match_size_tally.items(), key=lambda kv: (-kv[1], kv[0])
+    )
     return {
         "slides_with_notes": slides_with_notes,
         "slides_matching": slides_matching,
-        "modal_size": modal_size,
+        "size_breakdown": size_breakdown,
     }
+
+
+# Fix round 1 (Task 6 review), Important: the "Words per slide" caveat used
+# to state, as a standing fact, that presenter-note text is one of three
+# things page.get_text() sums onto a slide. That was true of the stale
+# notes-layout export (100% of notes-bearing slides duplicated their note at
+# print size) and is not true of the clean export (a small, likely-spurious
+# share even before the Critical fix above is applied). The threshold below
+# decides, from the MEASURED agreement, whether the notes category still
+# belongs in that sentence -- so the sentence can't outlive the data twice.
+NOTES_CAVEAT_MATERIAL_SHARE = 0.10  # of notes-bearing slides
+
+
+def word_count_caveat_lines(agreement: dict) -> list[str]:
+    """The explanatory paragraph under 'Words per slide', built from
+    `notes_span_agreement`'s measured result rather than stated as a standing
+    fact. When presenter-note text materially appears in the text layer
+    (`slides_matching / slides_with_notes >= NOTES_CAVEAT_MATERIAL_SHARE`),
+    the notes category stays in the list, with its measured figure. When it
+    is negligible -- or there is no notes data to measure at all -- the
+    category is dropped from the list entirely and the paragraph says so
+    plainly, rather than instructing the reader to cross-reference a figure
+    that would contradict it.
+    """
+    with_notes = agreement["slides_with_notes"]
+    matching = agreement["slides_matching"]
+    material = with_notes > 0 and matching / with_notes >= NOTES_CAVEAT_MATERIAL_SHARE
+
+    if material:
+        return [
+            "**This is an upper bound, not slide copy.** These counts come from",
+            "`page.get_text()`, which sums three unrelated things onto one slide:",
+            "the actual slide copy, text identical to the deck's presenter notes",
+            f"(matched on {matching} of {with_notes} notes-bearing slides — see",
+            "\"Notes in the text layer\" under Presenter notes for the per-size",
+            "breakdown), and text baked inside embedded figures. See \"Words by",
+            "font size\" below for the breakdown a threshold would need — this",
+            "script does not pick one.",
+        ]
+
+    if with_notes > 0:
+        detail = (
+            f"measured at {matching} of {with_notes} notes-bearing slides, "
+            f"below the {NOTES_CAVEAT_MATERIAL_SHARE:.0%} materiality bar this "
+            "script uses"
+        )
+    else:
+        detail = "no presenter notes have been extracted for this corpus yet"
+
+    return [
+        "**This is an upper bound, not slide copy.** These counts come from",
+        "`page.get_text()`, which sums two things onto one slide: the actual",
+        "slide copy, and text baked inside embedded figures. Presenter-note",
+        "text does not appear in the slide text layer in this corpus",
+        f"({detail} — see \"Notes in the text layer\" under Presenter notes).",
+        "See \"Words by font size\" below for the breakdown a threshold would",
+        "need — this script does not pick one.",
+    ]
 
 
 NEUTRAL_SAT_CUTOFF = 0.15
@@ -287,6 +373,7 @@ def render_report(
     decks = stats["decks"]
     label = f"{decks} deck" + ("" if decks == 1 else "s")
     geometries = sorted({tuple(m["geometry_pt"]) for m in manifests})
+    agreement = notes_span_agreement(manifests)
 
     lines = [
         "# Slide audit",
@@ -314,14 +401,7 @@ def render_report(
         f"- maximum {stats['max']}",
         f"- share under four words: **{stats['share_under_four']:.0%}**",
         "",
-        "**This is an upper bound, not slide copy.** These counts come from",
-        "`page.get_text()`, which sums three unrelated things onto one slide:",
-        "the actual slide copy, text identical to the deck's presenter notes",
-        "(present in the PDF text layer — see \"Notes in the text layer\" under",
-        "Presenter notes for the measured agreement), and text baked inside",
-        "embedded figures. See \"Words by font size\" below for the breakdown a",
-        "threshold would need — this script does not pick one.",
-    ]
+    ] + word_count_caveat_lines(agreement)
 
     hist = size_histogram(manifests)
     lines += [
@@ -358,7 +438,6 @@ def render_report(
     else:
         lines.append("_No presenter notes extracted._")
 
-    agreement = notes_span_agreement(manifests)
     lines += [
         "",
         "### Notes in the text layer",
@@ -366,7 +445,7 @@ def render_report(
     ]
     if agreement["slides_with_notes"] == 0:
         lines.append("_No presenter notes to compare against the text layer._")
-    elif agreement["modal_size"] is None:
+    elif not agreement["size_breakdown"]:
         lines.append(
             f"_None of the {agreement['slides_with_notes']} notes-bearing "
             "slides' text matches any font size._"
@@ -375,8 +454,15 @@ def render_report(
         lines.append(
             f"Measured over {label}: {agreement['slides_matching']} of "
             f"{agreement['slides_with_notes']} notes-bearing slides have "
-            f"text identical to their note at {agreement['modal_size']:.1f}pt."
+            "text matching their note in the text layer, by size (a "
+            f"containment match counts only when the contained text is "
+            f"{NOTES_CONTAINMENT_MIN_WORDS}+ words; exact matches always count):"
         )
+        lines.append("")
+        lines += [
+            f"- **{size:.1f}pt**: {count}"
+            for size, count in agreement["size_breakdown"]
+        ]
 
     lines += [
         "",
