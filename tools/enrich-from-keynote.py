@@ -7,11 +7,24 @@ read straight out of the IWA payload inside each canon `.key` file.
 
 This is the one enrichment pass that needs the `.key` itself rather than the
 exported PDF: presenter notes and Keynote master-slide names never reach the
-PDF at all. It is also the one pass allowed to fail per-deck without failing
-the corpus. `extract()` is wrapped in `try/except Exception` and degrades to
-`({}, [])` on any error — an unreadable/unsupported `.key` leaves the
-manifest exactly as Tasks 1-3 left it (`masters: []`, no `notes` key on any
-slide) rather than raising and blocking every other deck's enrichment.
+PDF at all. `extract()` is the one step allowed to fail per-deck without
+failing the corpus: `enrich_manifest` wraps *only* the call to `extract()` in
+`try/except Exception` and degrades to `({}, [])` on any error — an
+unreadable/unsupported `.key` leaves the manifest exactly as Tasks 1-3 left it
+(`masters: []`, no `notes` key on any slide) rather than raising and blocking
+every other deck's enrichment.
+
+Resolving the canon `.key` itself (`resolve_key`) is deliberately NOT covered
+by that same catch. `resolve_key`'s byte-size check exists specifically to
+catch a wrong or corrupted canon file — two distinct decks in this corpus
+share the filename "uist2023 - sensecape (10-30-2023).key" — and a mismatch
+there is a corpus-integrity failure, not an unreadable/unsupported format.
+Swallowing it as "IWA unavailable" would hide that failure behind a
+benign-looking degradation. Its `CanonError` propagates out of
+`enrich_manifest`; `main()` still catches it per-deck (alongside a missing
+manifest's `FileNotFoundError`) so one bad deck doesn't stop the others, but
+the message reaching the console names the real problem instead of a false
+"masters: [], no notes" degradation.
 
 Verified shape (keynote-parser 1.14.5.0, against the real Luminate .key,
 Keynote format T13.1):
@@ -50,6 +63,7 @@ import traceback
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 
+from tools.keynote_iwa import find_show_archive, merge_objects_by_id  # noqa: E402
 from tools.slide_canon import (  # noqa: E402
     CANON,
     CORPUS_ROOT,
@@ -75,13 +89,6 @@ def merge_extraction(
         if slide["index"] in notes_by_index:
             slide["notes"] = notes_by_index[slide["index"]]
     return manifest
-
-
-def _merge_objects_by_id(data: dict, into: dict[str, list[dict]]) -> None:
-    for chunk in data.get("chunks", []):
-        for archive in chunk.get("archives", []):
-            hid = archive["header"]["identifier"]
-            into.setdefault(hid, []).extend(archive.get("objects") or [])
 
 
 def _find(objs_by_id: dict[str, list[dict]], oid: str, pbtype: str) -> dict | None:
@@ -131,26 +138,19 @@ def extract(key_path: pathlib.Path) -> tuple[dict[int, str | None], list[str]]:
         data = IWAFile.from_buffer(handle.read(), filename).to_dict()
 
         if base == "Document":
-            _merge_objects_by_id(data, doc_map)
+            merge_objects_by_id(data, doc_map)
         elif base == "Slide" or base.startswith("Slide-"):
-            _merge_objects_by_id(data, slide_map)
+            merge_objects_by_id(data, slide_map)
         elif base.startswith("TemplateSlide-"):
             tid = int(base.split("-", 1)[1])
             objs_by_id: dict[str, list[dict]] = {}
-            _merge_objects_by_id(data, objs_by_id)
+            merge_objects_by_id(data, objs_by_id)
             for objs in objs_by_id.values():
                 for obj in objs:
                     if obj.get("_pbtype") == "KN.SlideArchive" and obj.get("name"):
                         master_names[tid] = obj["name"]
 
-    show = None
-    for objs in doc_map.values():
-        for obj in objs:
-            if obj.get("_pbtype") == "KN.ShowArchive":
-                show = obj
-                break
-        if show is not None:
-            break
+    show = find_show_archive(doc_map)
     if show is None:
         raise ValueError("no KN.ShowArchive found in Index/Document.iwa")
 
@@ -186,8 +186,12 @@ def enrich_manifest(
     manifest_path = (corpus_root or CORPUS_ROOT) / deck.slug / "manifest.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
 
+    # resolve_key's CanonError (missing .key, or a byte-size mismatch against
+    # the canon registry) is a corpus-integrity failure and must propagate --
+    # it is deliberately NOT inside the try/except below. See the module
+    # docstring.
+    key_path = resolve_key(deck, key_root)
     try:
-        key_path = resolve_key(deck, key_root)
         notes_by_index, masters = extract(key_path)
     except Exception:
         print(f"{deck.slug}: IWA extraction unavailable:", file=sys.stderr)
