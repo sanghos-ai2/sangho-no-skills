@@ -2,6 +2,10 @@ import importlib.util
 import json
 import pathlib
 
+import pytest
+
+from tools.slide_canon import CanonError, by_slug
+
 _SPEC = importlib.util.spec_from_file_location(
     "enrich_from_keynote",
     pathlib.Path(__file__).resolve().parents[2] / "tools" / "enrich-from-keynote.py",
@@ -59,3 +63,49 @@ def test_merge_ignores_note_indices_outside_the_deck(tmp_path):
     )
     assert len(merged["slides"]) == 2
     assert merged["slides"][0]["notes"] == "a"
+
+
+# --- Task 6 / Part B: a CanonError from resolve_key must not be swallowed --
+
+
+def test_canon_error_from_resolve_key_propagates_out_of_enrich_manifest(
+    tmp_path, monkeypatch
+):
+    # Two distinct decks in the corpus share a filename; resolve_key's
+    # byte-size check is what catches that. Reporting it as "IWA extraction
+    # unavailable" would hide a corpus-integrity failure behind what reads
+    # as a benign degradation.
+    _manifest(tmp_path)
+    deck = by_slug("luminate")
+
+    def _wrong_deck(deck_, root):
+        raise CanonError(
+            f"{deck_.slug}: expected {deck_.key_bytes} bytes, found 271000000. "
+            f"Refusing: filenames are not unique in this corpus."
+        )
+
+    monkeypatch.setattr(enrich, "resolve_key", _wrong_deck)
+
+    with pytest.raises(CanonError, match="Refusing"):
+        enrich.enrich_manifest(deck, corpus_root=tmp_path)
+
+
+def test_extract_failure_still_degrades_to_empty_after_narrowing(tmp_path, monkeypatch):
+    # A parse failure *inside* extract() (an unsupported/future .key format)
+    # is the case this pass is still allowed to swallow -- resolve_key having
+    # already succeeded, the deck's canon identity was never in question.
+    _manifest(tmp_path)
+    deck = by_slug("luminate")
+
+    monkeypatch.setattr(
+        enrich, "resolve_key", lambda deck_, root: tmp_path / "fake.key"
+    )
+
+    def _unsupported_format(key_path):
+        raise ValueError("unsupported Keynote format")
+
+    monkeypatch.setattr(enrich, "extract", _unsupported_format)
+
+    merged = enrich.enrich_manifest(deck, corpus_root=tmp_path)
+    assert merged["masters"] == []
+    assert all("notes" not in s for s in merged["slides"])
