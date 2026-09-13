@@ -31,6 +31,34 @@ def _manifest(slug, texts, root):
     return m
 
 
+def _solid_deck(slug, colors, root):
+    """A deck of one slide per RGB colour in `colors`, each a full 64x48 PNG
+    (the exact size `palette()` resizes to, so the resize is a no-op and every
+    sampled pixel is exactly the requested colour — no antialiasing to worry
+    about when asserting an exact split)."""
+    from PIL import Image
+
+    d = root / slug
+    slides_dir = d / "slides"
+    slides_dir.mkdir(parents=True)
+    slides = []
+    for i, rgb in enumerate(colors, start=1):
+        name = f"{i:02d}.png"
+        Image.new("RGB", (64, 48), rgb).save(slides_dir / name)
+        slides.append({"index": i, "image": f"slides/{name}", "text": ""})
+    m = {
+        "slug": slug,
+        "title": slug.title(),
+        "pages": len(colors),
+        "geometry_pt": [1024.0, 768.0],
+        "aspect": 1.3333,
+        "dpi": 36,
+        "slides": slides,
+    }
+    (d / "manifest.json").write_text(json.dumps(m), encoding="utf-8")
+    return m
+
+
 def _manifest_with_spans(slug, spans_per_slide, root):
     """Like `_manifest`, but each slide carries a `spans` list instead of a
     bare `text` string — the shape `size_histogram` reads."""
@@ -162,6 +190,62 @@ def test_notes_section_reports_none_extracted_when_no_slide_has_notes(tmp_path):
     _manifest("luminate", ["a b", "c d e"], tmp_path)
     report = audit.render_report(audit.load_manifests(tmp_path), [])
     assert "_No presenter notes extracted._" in report
+
+
+# --- Controller ruling (fix round 1): neutral/chromatic palette split ------
+
+
+def test_palette_all_white_deck_is_fully_neutral(tmp_path):
+    _solid_deck("luminate", [(255, 255, 255)], tmp_path)
+    result = audit.palette(audit.load_manifests(tmp_path), tmp_path)
+
+    assert result["neutral_share"] == 1.0
+    assert result["chromatic_share"] == 0.0
+    assert result["accents"] == []
+
+
+def test_palette_half_white_half_red_splits_and_ranks_red_first(tmp_path):
+    _solid_deck("luminate", [(255, 255, 255), (255, 0, 0)], tmp_path)
+    result = audit.palette(audit.load_manifests(tmp_path), tmp_path)
+
+    assert result["neutral_share"] == pytest.approx(0.5, abs=0.01)
+    assert result["chromatic_share"] == pytest.approx(0.5, abs=0.01)
+    assert result["accents"]
+    top_hex, top_share = result["accents"][0]
+    assert top_hex == "#f00000"  # 255 binned to 16 levels/channel -> 240 = 0xf0
+    assert top_share == pytest.approx(0.5, abs=0.01)
+
+
+def test_mid_grey_counts_as_neutral_via_saturation_arm(tmp_path):
+    # sat = 0 (mx == mn == 128), and mx=128 is well above the darkness cutoff —
+    # this pins the `sat < 0.15` arm specifically.
+    _solid_deck("luminate", [(128, 128, 128)], tmp_path)
+    result = audit.palette(audit.load_manifests(tmp_path), tmp_path)
+
+    assert result["neutral_share"] == 1.0
+    assert result["accents"] == []
+
+
+def test_dark_saturated_pixel_counts_as_neutral_via_darkness_arm(tmp_path):
+    # sat = (30-0)/30 = 1.0 (maximally saturated) but mx=30 < 40 — this would
+    # be wrongly classified chromatic if only the saturation arm existed.
+    _solid_deck("luminate", [(30, 0, 0)], tmp_path)
+    result = audit.palette(audit.load_manifests(tmp_path), tmp_path)
+
+    assert result["neutral_share"] == 1.0
+    assert result["accents"] == []
+
+
+def test_report_palette_section_states_cutoffs_and_deck_count(tmp_path):
+    _solid_deck("luminate", [(255, 0, 0)], tmp_path)
+    manifests = audit.load_manifests(tmp_path)
+    report = audit.render_report(manifests, audit.palette(manifests, tmp_path))
+
+    assert "## Palette" in report
+    assert "0.15" in report
+    assert "40" in report
+    assert "1 deck" in report
+    assert "4 decks" not in report
 
 
 def test_notes_section_reports_counts_when_some_slides_have_notes(tmp_path):

@@ -86,15 +86,26 @@ aspect ratio is a defect.
 
 ## Palette
 
-Most-used colours over 1 deck, by share of rendered pixels.
+Measured over 1 deck, by share of all sampled pixels. A pixel is
+**neutral** when saturation < 0.15 or its brightest
+channel < 40; otherwise **chromatic**.
+Chromatic colours are binned to 16 levels per
+channel before tallying, so close accent hues group into one row
+instead of fragmenting into near-duplicates. Colours are reported,
+not named or interpreted.
 
-| Colour | Share |
+- neutral: **98.4%**
+- chromatic: **1.6%**
+
+### Accent colours
+
+| Colour | Share of all pixels |
 |---|---|
-| `#ffffff` | 79.9% |
-| `#feffff` | 4.1% |
-| `#000000` | 1.1% |
-| `#fdfdfd` | 1.0% |
-| `#fefefe` | 0.8% |
-| `#fcfdfd` | 0.8% |
-| `#fcfcfc` | 0.7% |
-| `#fdfefe` | 0.6% |
+| `#303040` | 0.6% |
+| `#202030` | 0.1% |
+| `#d0d0a0` | 0.1% |
+| `#e0e0a0` | 0.1% |
+| `#e0e0b0` | 0.0% |
+| `#f0e0b0` | 0.0% |
+| `#404050` | 0.0% |
+| `#e0d0a0` | 0.0% |
