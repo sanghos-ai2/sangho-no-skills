@@ -77,7 +77,11 @@ threshold from a single deck.
 
 ## Presenter notes
 
-_No presenter notes extracted._
+Measured over 1 deck: 35 of 55 slides
+carry presenter notes.
+
+- median **23.0** words
+- maximum 47 words
 
 ## Geometry
 
