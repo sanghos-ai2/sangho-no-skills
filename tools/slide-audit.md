@@ -20,12 +20,12 @@ a full-bleed figure slide is a real measurement.
 - share under four words: **18%**
 
 **This is an upper bound, not slide copy.** These counts come from
-`page.get_text()`, which sums three unrelated things onto one slide:
-the actual slide copy, text identical to the deck's presenter notes
-(present in the PDF text layer — see "Notes in the text layer" under
-Presenter notes for the measured agreement), and text baked inside
-embedded figures. See "Words by font size" below for the breakdown a
-threshold would need — this script does not pick one.
+`page.get_text()`, which sums two things onto one slide: the actual
+slide copy, and text baked inside embedded figures. Presenter-note
+text does not appear in the slide text layer in this corpus
+(measured at 0 of 180 notes-bearing slides, below the 10% materiality bar this script uses — see "Notes in the text layer" under Presenter notes).
+See "Words by font size" below for the breakdown a threshold would
+need — this script does not pick one.
 
 ## Words by font size
 
@@ -142,7 +142,7 @@ carry presenter notes.
 
 ### Notes in the text layer
 
-Measured over 4 decks: 13 of 180 notes-bearing slides have text identical to their note at 30.0pt.
+_None of the 180 notes-bearing slides' text matches any font size._
 
 ## Geometry
 

@@ -309,7 +309,7 @@ def test_agreement_counts_a_match_at_the_size_whose_span_text_equals_the_note():
     result = audit.notes_span_agreement(manifests)
     assert result["slides_with_notes"] == 1
     assert result["slides_matching"] == 1
-    assert result["modal_size"] == 12.8
+    assert result["size_breakdown"] == [(12.8, 1)]
 
 
 def test_agreement_counts_no_match_when_note_differs_from_every_size():
@@ -330,7 +330,7 @@ def test_agreement_counts_no_match_when_note_differs_from_every_size():
     result = audit.notes_span_agreement(manifests)
     assert result["slides_with_notes"] == 1
     assert result["slides_matching"] == 0
-    assert result["modal_size"] is None
+    assert result["size_breakdown"] == []
 
 
 def test_agreement_handles_a_notes_bearing_slide_with_no_spans():
@@ -341,14 +341,17 @@ def test_agreement_handles_a_notes_bearing_slide_with_no_spans():
     result = audit.notes_span_agreement(manifests)
     assert result["slides_with_notes"] == 1
     assert result["slides_matching"] == 0
-    assert result["modal_size"] is None
+    assert result["size_breakdown"] == []
 
 
 def test_agreement_matches_despite_whitespace_differences():
     # Real presenter notes carry blank-line breaks a span run does not; a
     # naive `==` on raw strings would fail this even though the words are
     # identical. Two separate same-size span runs (the real shape a timed
-    # narration produces) must also be joined before comparing.
+    # narration produces) must also be joined before comparing. This is also
+    # an EXACT match once joined and normalized -- 8 words, right at the
+    # containment threshold -- so it doubles as a check that exact equality
+    # is not accidentally routed through the containment branch.
     manifests = [
         {
             "slides": [
@@ -366,7 +369,74 @@ def test_agreement_matches_despite_whitespace_differences():
     result = audit.notes_span_agreement(manifests)
     assert result["slides_with_notes"] == 1
     assert result["slides_matching"] == 1
-    assert result["modal_size"] == 12.8
+    assert result["size_breakdown"] == [(12.8, 1)]
+
+
+# --- Controller ruling (Task 6 fix round 1), Critical: containment guard ---
+
+
+def test_containment_below_the_word_threshold_does_not_match():
+    # A short heading is trivially a substring of a long free-form note by
+    # chance -- this is the exact false-positive shape the review flagged.
+    # "Questions?" is one word, far below NOTES_CONTAINMENT_MIN_WORDS (8).
+    note = (
+        "So that's basically the system, thanks for listening, any "
+        "Questions? feel free to ask me anything about the study design."
+    )
+    assert len(note.split()) >= 8
+    assert not audit._verbatim_match("Questions?", note)
+
+
+def test_containment_at_or_above_the_word_threshold_matches():
+    span = "Hello world this is a note with eight"
+    assert len(span.split()) == audit.NOTES_CONTAINMENT_MIN_WORDS
+    note = f"(15 s) {span} and then some more trailing narration after it"
+    assert audit._verbatim_match(span, note)
+
+
+def test_containment_one_word_below_the_threshold_does_not_match():
+    # The boundary itself: one word short of the minimum must not match,
+    # even though it otherwise would under a naive `in` check.
+    span = "Hello world this is a note seven"
+    assert len(span.split()) == audit.NOTES_CONTAINMENT_MIN_WORDS - 1
+    note = f"(15 s) {span} and then some more trailing narration after it"
+    assert not audit._verbatim_match(span, note)
+
+
+def test_exact_equality_matches_regardless_of_length():
+    # A naive implementation of the length guard could easily gate BOTH
+    # branches (exact and containment) on the same minimum, breaking a
+    # short note reproduced verbatim in full. Equality must always count.
+    assert audit._verbatim_match("ok", "ok")
+    assert audit._verbatim_match("hi there", "hi there")
+
+
+def test_size_breakdown_lists_multiple_sizes_in_descending_count_order():
+    manifests = [
+        {
+            "slides": [
+                {
+                    "index": 1,
+                    "notes": "alpha bravo charlie",
+                    "spans": [{"size": 12.8, "text": "alpha bravo charlie"}],
+                },
+                {
+                    "index": 2,
+                    "notes": "delta echo foxtrot",
+                    "spans": [{"size": 30.0, "text": "delta echo foxtrot"}],
+                },
+                {
+                    "index": 3,
+                    "notes": "golf hotel india",
+                    "spans": [{"size": 30.0, "text": "golf hotel india"}],
+                },
+            ]
+        }
+    ]
+    result = audit.notes_span_agreement(manifests)
+    assert result["slides_matching"] == 3
+    # 30.0pt has two matches, 12.8pt has one -- descending by count.
+    assert result["size_breakdown"] == [(30.0, 2), (12.8, 1)]
 
 
 def test_notes_in_text_layer_section_degrades_when_no_slide_carries_notes(tmp_path):
@@ -397,3 +467,35 @@ def test_notes_in_text_layer_section_reports_the_measured_agreement(tmp_path):
     assert "### Notes in the text layer" in report
     assert "1 of 1 notes-bearing slides" in report
     assert "12.8pt" in report
+
+
+# --- Controller ruling (Task 6 fix round 1), Important: data-driven caveat -
+
+
+def test_word_count_caveat_keeps_notes_category_when_agreement_is_material():
+    agreement = {"slides_with_notes": 10, "slides_matching": 5, "size_breakdown": []}
+    lines = audit.word_count_caveat_lines(agreement)
+    text = " ".join(lines)
+    assert "text identical to the deck's presenter notes" in text
+    assert "5 of 10 notes-bearing slides" in text
+    assert "sums three unrelated things" in text
+
+
+def test_word_count_caveat_drops_notes_category_when_agreement_is_negligible():
+    # 1 of 20 is 5%, clearly under NOTES_CAVEAT_MATERIAL_SHARE (10%).
+    agreement = {"slides_with_notes": 20, "slides_matching": 1, "size_breakdown": []}
+    lines = audit.word_count_caveat_lines(agreement)
+    text = " ".join(lines)
+    assert "does not appear in the slide text layer" in text
+    assert "text identical to the deck's presenter notes" not in text
+    assert "sums two things" in text
+    assert "1 of 20 notes-bearing slides" in text
+
+
+def test_word_count_caveat_handles_no_notes_data_at_all():
+    agreement = {"slides_with_notes": 0, "slides_matching": 0, "size_breakdown": []}
+    lines = audit.word_count_caveat_lines(agreement)
+    text = " ".join(lines)
+    assert "does not appear in the slide text layer" in text
+    assert "text identical to the deck's presenter notes" not in text
+    assert "no presenter notes have been extracted" in text
