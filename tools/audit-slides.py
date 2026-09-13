@@ -106,16 +106,47 @@ def _notes_word_counts(manifests: list[dict]) -> list[int]:
     return counts
 
 
+NEUTRAL_SAT_CUTOFF = 0.15
+NEUTRAL_MAX_CHANNEL_CUTOFF = 40
+ACCENT_BIN_LEVELS = 16
+
+
 def palette(
     manifests: list[dict],
     corpus_root: pathlib.Path | None = None,
     top: int = 8,
-) -> list[tuple[str, float]]:
-    """Most-used colours across rendered slides, as (hex, share) pairs."""
+) -> dict:
+    """Split rendered-slide pixels into neutral vs chromatic, and rank the
+    chromatic "accent" colours.
+
+    Tallying exact RGB values (the original design) reported six imperceptibly
+    different whites in the top 8 rows on a real deck — "the slides are white,
+    and also slightly different whites" — which cannot inform a design
+    language's colour choices. This instead classifies every sampled pixel as
+    neutral or chromatic and only bins + tallies the chromatic ones, so the
+    accent table reports colour that is actually there rather than
+    antialiasing noise around white.
+
+    Classification, per pixel (mx = max(r,g,b), mn = min(r,g,b)):
+    - sat = 0 if mx == 0 else (mx - mn) / mx
+    - neutral when sat < NEUTRAL_SAT_CUTOFF or mx < NEUTRAL_MAX_CHANNEL_CUTOFF;
+      otherwise chromatic
+    Chromatic pixels are binned to ACCENT_BIN_LEVELS (16) levels per channel
+    before tallying, so close accent hues group into one row instead of
+    fragmenting into near-duplicates.
+
+    Returns `{"neutral_share": float, "chromatic_share": float,
+    "accents": list[(hex, share_of_all_pixels)]}` — shares are fractions of
+    all sampled pixels (neutral + chromatic sum to 1.0, when any pixels were
+    sampled at all). No accent colour is named or interpreted here; that is
+    left to whoever looks at the actual slides.
+    """
     from PIL import Image
 
     root = corpus_root or CORPUS_ROOT
-    tally: collections.Counter = collections.Counter()
+    neutral = 0
+    chromatic = 0
+    accent_tally: collections.Counter = collections.Counter()
     for manifest in manifests:
         for slide in manifest["slides"]:
             path = root / manifest["slug"] / slide["image"]
@@ -123,17 +154,50 @@ def palette(
                 continue
             with Image.open(path) as img:
                 small = img.convert("RGB").resize((64, 48))
-                for count, rgb in small.getcolors(maxcolors=64 * 48):
-                    tally[rgb] += count
-    total = sum(tally.values()) or 1
-    return [
-        ("#%02x%02x%02x" % rgb, count / total)
-        for rgb, count in tally.most_common(top)
-    ]
+                for count, (r, g, b) in small.getcolors(maxcolors=64 * 48):
+                    mx = max(r, g, b)
+                    mn = min(r, g, b)
+                    sat = 0 if mx == 0 else (mx - mn) / mx
+                    if sat < NEUTRAL_SAT_CUTOFF or mx < NEUTRAL_MAX_CHANNEL_CUTOFF:
+                        neutral += count
+                    else:
+                        chromatic += count
+                        binned = (
+                            r // ACCENT_BIN_LEVELS * ACCENT_BIN_LEVELS,
+                            g // ACCENT_BIN_LEVELS * ACCENT_BIN_LEVELS,
+                            b // ACCENT_BIN_LEVELS * ACCENT_BIN_LEVELS,
+                        )
+                        accent_tally[binned] += count
+
+    total = neutral + chromatic
+    if total == 0:
+        return {"neutral_share": 0.0, "chromatic_share": 0.0, "accents": []}
+    return {
+        "neutral_share": neutral / total,
+        "chromatic_share": chromatic / total,
+        "accents": [
+            ("#%02x%02x%02x" % rgb, count / total)
+            for rgb, count in accent_tally.most_common(top)
+        ],
+    }
+
+
+def _palette_has_data(palette_data) -> bool:
+    """True when `palette_data` is a real reading from `palette()` (some
+    pixels were sampled), false for the legacy empty-list sentinel some
+    callers still pass for "no palette data available" and for a dict where
+    literally zero pixels were sampled (no matching rendered slides on disk)."""
+    if not palette_data:
+        return False
+    return bool(
+        palette_data.get("neutral_share")
+        or palette_data.get("chromatic_share")
+        or palette_data.get("accents")
+    )
 
 
 def render_report(
-    manifests: list[dict], palette_rows: list[tuple[str, float]]
+    manifests: list[dict], palette_data: dict | list
 ) -> str:
     stats = word_stats(manifests)
     decks = stats["decks"]
@@ -220,14 +284,38 @@ def render_report(
         "",
         "## Palette",
         "",
-        f"Most-used colours over {label}, by share of rendered pixels.",
-        "",
     ]
-    if palette_rows:
-        lines += ["| Colour | Share |", "|---|---|"]
-        lines += [f"| `{hexcode}` | {share:.1%} |" for hexcode, share in palette_rows]
+    if _palette_has_data(palette_data):
+        lines += [
+            f"Measured over {label}, by share of all sampled pixels. A pixel is",
+            f"**neutral** when saturation < {NEUTRAL_SAT_CUTOFF} or its brightest",
+            f"channel < {NEUTRAL_MAX_CHANNEL_CUTOFF}; otherwise **chromatic**.",
+            f"Chromatic colours are binned to {ACCENT_BIN_LEVELS} levels per",
+            "channel before tallying, so close accent hues group into one row",
+            "instead of fragmenting into near-duplicates. Colours are reported,",
+            "not named or interpreted.",
+            "",
+            f"- neutral: **{palette_data['neutral_share']:.1%}**",
+            f"- chromatic: **{palette_data['chromatic_share']:.1%}**",
+            "",
+        ]
+        accents = palette_data["accents"]
+        if accents:
+            lines += [
+                "### Accent colours",
+                "",
+                "| Colour | Share of all pixels |",
+                "|---|---|",
+            ]
+            lines += [f"| `{hexcode}` | {share:.1%} |" for hexcode, share in accents]
+        else:
+            lines.append("_No chromatic pixels sampled._")
     else:
-        lines.append("_No rendered slides available._")
+        lines += [
+            f"Most-used colours over {label}, by share of rendered pixels.",
+            "",
+            "_No rendered slides available._",
+        ]
 
     return "\n".join(lines) + "\n"
 
