@@ -136,10 +136,21 @@ def palette(
     fragmenting into near-duplicates.
 
     Returns `{"neutral_share": float, "chromatic_share": float,
-    "accents": list[(hex, share_of_all_pixels)]}` — shares are fractions of
-    all sampled pixels (neutral + chromatic sum to 1.0, when any pixels were
-    sampled at all). No accent colour is named or interpreted here; that is
-    left to whoever looks at the actual slides.
+    "accents": list[(hex, share_of_chromatic_pixels)]}`.
+
+    `neutral_share` and `chromatic_share` are fractions of ALL sampled pixels
+    (they sum to 1.0, when any pixels were sampled at all) — they are the
+    bridge between the two denominators in this return value. `accents`
+    shares are fractions of CHROMATIC pixels only: dividing by all pixels
+    (the first cut of this fix) reintroduced the exact failure this rewrite
+    exists to close — with ~98% of pixels typically neutral, every accent's
+    share of *all* pixels rounds to 0.0% at one decimal, which is as
+    uninformative as the near-identical whites this function replaced.
+    Re-denominating to chromatic pixels answers the question a design
+    language actually asks: when colour is spent, on what?
+
+    No accent colour is named or interpreted here; that is left to whoever
+    looks at the actual slides.
     """
     from PIL import Image
 
@@ -172,13 +183,22 @@ def palette(
     total = neutral + chromatic
     if total == 0:
         return {"neutral_share": 0.0, "chromatic_share": 0.0, "accents": []}
+    # Explicit guard, not incidental: when nothing was classified chromatic,
+    # accent_tally is empty anyway, but stating the zero-division avoidance
+    # here (rather than relying on that coincidence) is what makes it a
+    # guard rather than a lucky accident of the tallying logic above.
+    accents = (
+        [
+            ("#%02x%02x%02x" % rgb, count / chromatic)
+            for rgb, count in accent_tally.most_common(top)
+        ]
+        if chromatic > 0
+        else []
+    )
     return {
         "neutral_share": neutral / total,
         "chromatic_share": chromatic / total,
-        "accents": [
-            ("#%02x%02x%02x" % rgb, count / total)
-            for rgb, count in accent_tally.most_common(top)
-        ],
+        "accents": accents,
     }
 
 
@@ -304,7 +324,11 @@ def render_report(
             lines += [
                 "### Accent colours",
                 "",
-                "| Colour | Share of all pixels |",
+                f"The table below divides that **{palette_data['chromatic_share']:.1%}**",
+                "chromatic share up further, by colour — each row is a share of",
+                "chromatic pixels only, not of the whole slide.",
+                "",
+                "| Colour | Share of chromatic pixels |",
                 "|---|---|",
             ]
             lines += [f"| `{hexcode}` | {share:.1%} |" for hexcode, share in accents]
