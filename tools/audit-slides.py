@@ -1,0 +1,246 @@
+#!/usr/bin/env python3
+"""Measure Sangho's slide corpus, so slides-like-sangho can cite evidence.
+
+    uv run --with pillow python tools/audit-slides.py
+
+Every figure quoted in slides-like-sangho/references/ comes from this script and
+is labelled with the number of decks behind it. A one-deck measurement must never
+be mistaken for a corpus-wide one: during wave 1 the corpus is Luminate alone.
+"""
+from __future__ import annotations
+
+import collections
+import json
+import pathlib
+import statistics
+import sys
+
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
+
+from tools.slide_canon import CORPUS_ROOT  # noqa: E402
+
+REPORT = pathlib.Path(__file__).resolve().parent / "slide-audit.md"
+
+
+def load_manifests(corpus_root: pathlib.Path | None = None) -> list[dict]:
+    root = corpus_root or CORPUS_ROOT
+    manifests = []
+    for path in sorted(root.glob("*/manifest.json")):
+        manifests.append(json.loads(path.read_text(encoding="utf-8")))
+    return manifests
+
+
+def _word_counts(manifests: list[dict]) -> list[int]:
+    return [
+        len(slide["text"].split())
+        for manifest in manifests
+        for slide in manifest["slides"]
+    ]
+
+
+def word_stats(manifests: list[dict]) -> dict:
+    counts = _word_counts(manifests)
+    if not counts:
+        return {
+            "decks": len(manifests),
+            "slides": 0,
+            "median": 0.0,
+            "p25": 0.0,
+            "p75": 0.0,
+            "max": 0,
+            "share_under_four": 0.0,
+        }
+    ordered = sorted(counts)
+    quartiles = statistics.quantiles(ordered, n=4) if len(ordered) > 1 else [
+        ordered[0],
+        ordered[0],
+        ordered[0],
+    ]
+    return {
+        "decks": len(manifests),
+        "slides": len(counts),
+        "median": statistics.median(ordered),
+        "p25": quartiles[0],
+        "p75": quartiles[2],
+        "max": max(counts),
+        "share_under_four": sum(1 for c in counts if c < 4) / len(counts),
+    }
+
+
+def size_histogram(manifests: list[dict]) -> list[tuple[float, int]]:
+    """Total words per font size across every slide, descending by word count.
+
+    Reads `slides[].spans` (Task 2's per-run-of-size text, sizes rounded to 1
+    decimal). A manifest whose slides carry no `spans` key — a synthetic test
+    manifest, or one ingested before spans were captured — contributes nothing
+    rather than raising.
+
+    This deliberately does NOT classify a size as slide-copy / narration /
+    figure-text. That split is per-deck (see Ruling A / the module docstring
+    in build-slide-corpus.py): the timing-marker convention that puts speaker
+    narration at 12.8pt on Luminate does not hold across the whole canon, and
+    wave 1 is one deck. The histogram exists so that call can be made later,
+    over all four decks, by someone looking at the actual slides — not baked
+    in here from a single data point.
+    """
+    tally: dict[float, int] = collections.defaultdict(int)
+    for manifest in manifests:
+        for slide in manifest.get("slides", []):
+            for span in slide.get("spans", []):
+                tally[span["size"]] += len(span["text"].split())
+    return sorted(tally.items(), key=lambda kv: kv[1], reverse=True)
+
+
+def _notes_word_counts(manifests: list[dict]) -> list[int]:
+    """Word counts of every slide carrying a non-null `notes` field.
+
+    `notes` is optional (Task 4's IWA enrichment); most manifests won't have
+    it yet, and that is recorded, not hidden.
+    """
+    counts = []
+    for manifest in manifests:
+        for slide in manifest.get("slides", []):
+            notes = slide.get("notes")
+            if notes is not None:
+                counts.append(len(notes.split()))
+    return counts
+
+
+def palette(
+    manifests: list[dict],
+    corpus_root: pathlib.Path | None = None,
+    top: int = 8,
+) -> list[tuple[str, float]]:
+    """Most-used colours across rendered slides, as (hex, share) pairs."""
+    from PIL import Image
+
+    root = corpus_root or CORPUS_ROOT
+    tally: collections.Counter = collections.Counter()
+    for manifest in manifests:
+        for slide in manifest["slides"]:
+            path = root / manifest["slug"] / slide["image"]
+            if not path.is_file():
+                continue
+            with Image.open(path) as img:
+                small = img.convert("RGB").resize((64, 48))
+                for count, rgb in small.getcolors(maxcolors=64 * 48):
+                    tally[rgb] += count
+    total = sum(tally.values()) or 1
+    return [
+        ("#%02x%02x%02x" % rgb, count / total)
+        for rgb, count in tally.most_common(top)
+    ]
+
+
+def render_report(
+    manifests: list[dict], palette_rows: list[tuple[str, float]]
+) -> str:
+    stats = word_stats(manifests)
+    decks = stats["decks"]
+    label = f"{decks} deck" + ("" if decks == 1 else "s")
+    geometries = sorted({tuple(m["geometry_pt"]) for m in manifests})
+
+    lines = [
+        "# Slide audit",
+        "",
+        f"Measured over **{label}**, {stats['slides']} slides.",
+        "",
+        "| Deck | Slides | Geometry (pt) | Aspect |",
+        "|---|---|---|---|",
+    ]
+    for m in manifests:
+        w, h = m["geometry_pt"]
+        lines.append(
+            f"| {m['title']} | {m['pages']} | {w:.0f} x {h:.0f} | {m['aspect']} |"
+        )
+
+    lines += [
+        "",
+        "## Words per slide",
+        "",
+        f"Measured over {label}. Slides with no text count as zero, not as missing —",
+        "a full-bleed figure slide is a real measurement.",
+        "",
+        f"- median **{stats['median']:.1f}**",
+        f"- interquartile range {stats['p25']:.1f} - {stats['p75']:.1f}",
+        f"- maximum {stats['max']}",
+        f"- share under four words: **{stats['share_under_four']:.0%}**",
+        "",
+        "**This is an upper bound, not slide copy.** These counts come from",
+        "`page.get_text()`, which sums three unrelated things onto one slide:",
+        "the actual slide copy, speaker narration Sangho sometimes renders onto",
+        "the slide itself, and text baked inside embedded figures. See",
+        "\"Words by font size\" below for the breakdown a threshold would need —",
+        "this script does not pick one.",
+    ]
+
+    hist = size_histogram(manifests)
+    lines += [
+        "",
+        "## Words by font size",
+        "",
+        f"Measured over {label}: total words at each font size, across every",
+        "slide. Slide copy, speaker narration, and figure-embedded text land at",
+        "different sizes on a given deck, but the convention is per-deck, not",
+        "universal — so this table is left unclassified rather than guessing a",
+        "threshold from a single deck.",
+        "",
+    ]
+    if hist:
+        lines += ["| Size (pt) | Words |", "|---|---|"]
+        lines += [f"| {size:.1f} | {words} |" for size, words in hist]
+    else:
+        lines.append("_No per-size span data recorded._")
+
+    notes_counts = _notes_word_counts(manifests)
+    lines += [
+        "",
+        "## Presenter notes",
+        "",
+    ]
+    if notes_counts:
+        lines += [
+            f"Measured over {label}: {len(notes_counts)} of {stats['slides']} slides",
+            "carry presenter notes.",
+            "",
+            f"- median **{statistics.median(notes_counts):.1f}** words",
+            f"- maximum {max(notes_counts)} words",
+        ]
+    else:
+        lines.append("_No presenter notes extracted._")
+
+    lines += [
+        "",
+        "## Geometry",
+        "",
+        f"Measured over {label}: "
+        + ", ".join(f"{w:.0f} x {h:.0f} pt" for w, h in geometries)
+        + ". Archetypes take their dimensions from this table; a hard-coded",
+        "aspect ratio is a defect.",
+        "",
+        "## Palette",
+        "",
+        f"Most-used colours over {label}, by share of rendered pixels.",
+        "",
+    ]
+    if palette_rows:
+        lines += ["| Colour | Share |", "|---|---|"]
+        lines += [f"| `{hexcode}` | {share:.1%} |" for hexcode, share in palette_rows]
+    else:
+        lines.append("_No rendered slides available._")
+
+    return "\n".join(lines) + "\n"
+
+
+def main() -> int:
+    manifests = load_manifests()
+    if not manifests:
+        print(f"no manifests under {CORPUS_ROOT}; run build-slide-corpus.py first")
+        return 1
+    REPORT.write_text(render_report(manifests, palette(manifests)), encoding="utf-8")
+    print(f"wrote {REPORT} over {len(manifests)} deck(s)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
