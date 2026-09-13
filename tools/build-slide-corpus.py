@@ -31,6 +31,32 @@ from tools.slide_canon import (  # noqa: E402
 )
 
 
+def _extract_spans(page: fitz.Page) -> list[dict]:
+    """Per-slide text with font sizes preserved, so downstream work can
+    partition speaker narration / figure-embedded text / slide copy / page
+    chrome by size — a partition `page.get_text()`'s flat string cannot
+    support, since it conflates all of them into one string.
+
+    Consecutive runs at the same (rounded) size are merged into one entry so
+    the list stays short; this deliberately does not classify or threshold
+    sizes — that split is per-deck (see CanonError docstring in this module's
+    caller) and belongs downstream, over the whole corpus, not at ingest time.
+    """
+    spans: list[dict] = []
+    for block in page.get_text("dict").get("blocks", []):
+        for line in block.get("lines", []):
+            for span in line.get("spans", []):
+                text = span.get("text", "").strip()
+                if not text:
+                    continue
+                size = round(span.get("size", 0.0), 1)
+                if spans and spans[-1]["size"] == size:
+                    spans[-1]["text"] = f'{spans[-1]["text"]} {text}'
+                else:
+                    spans.append({"size": size, "text": text})
+    return spans
+
+
 def ingest_deck(
     deck: Deck,
     *,
@@ -65,6 +91,7 @@ def ingest_deck(
                     "index": index,
                     "image": f"slides/{name}",
                     "text": page.get_text().strip(),
+                    "spans": _extract_spans(page),
                 }
             )
 

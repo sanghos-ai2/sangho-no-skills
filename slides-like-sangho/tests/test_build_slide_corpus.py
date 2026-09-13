@@ -107,3 +107,101 @@ def test_filenames_are_zero_padded_to_sort_lexically(tmp_path):
     names = sorted(p.name for p in (tmp_path / "corpus" / deck.slug / "slides").glob("*.png"))
     assert names[0] == "01.png"
     assert names[-1] == "55.png"
+
+
+def _fake_pdf_with_first_page_runs(
+    path: pathlib.Path,
+    pages: int,
+    width: float,
+    height: float,
+    runs: list[tuple[tuple[float, float], str, float]],
+) -> None:
+    """Like `_fake_pdf`, but the first page's text runs are given explicitly as
+    (position, text, fontsize) tuples, so span size + merging can be pinned.
+    Remaining pages get `_fake_pdf`'s placeholder text so the page count still
+    matches the deck (no page-count-drift noise in these tests)."""
+    doc = fitz.open()
+    for i in range(pages):
+        page = doc.new_page(width=width, height=height)
+        if i == 0:
+            for pos, text, fontsize in runs:
+                page.insert_text(pos, text, fontsize=fontsize)
+        else:
+            page.insert_text((72, 144), f"Slide {i + 1} headline", fontsize=44)
+    doc.save(path)
+    doc.close()
+
+
+def test_ingest_preserves_span_font_size_for_a_single_run(tmp_path):
+    deck = by_slug("luminate")
+    inbox = tmp_path / "inbox"
+    inbox.mkdir()
+    _fake_pdf_with_first_page_runs(
+        inbox / deck.pdf_name,
+        pages=deck.pages,
+        width=1024,
+        height=768,
+        runs=[((72, 144), "Slide 1 headline", 44)],
+    )
+
+    manifest = bsc.ingest_deck(
+        deck, dpi=36, inbox=inbox, corpus_root=tmp_path / "corpus"
+    )
+
+    slide = manifest["slides"][0]
+    assert slide["spans"] == [{"size": 44.0, "text": "Slide 1 headline"}]
+    # A single-run slide's merged span text matches the flat `text` field
+    # exactly — merging must not add or drop anything the flat extraction has.
+    assert slide["spans"][0]["text"] == slide["text"]
+
+
+def test_ingest_captures_two_different_font_sizes_in_reading_order(tmp_path):
+    deck = by_slug("luminate")
+    inbox = tmp_path / "inbox"
+    inbox.mkdir()
+    _fake_pdf_with_first_page_runs(
+        inbox / deck.pdf_name,
+        pages=deck.pages,
+        width=1024,
+        height=768,
+        runs=[
+            ((72, 144), "Big Title", 44),
+            ((72, 300), "small caption text", 12),
+        ],
+    )
+
+    manifest = bsc.ingest_deck(
+        deck, dpi=36, inbox=inbox, corpus_root=tmp_path / "corpus"
+    )
+
+    assert manifest["slides"][0]["spans"] == [
+        {"size": 44.0, "text": "Big Title"},
+        {"size": 12.0, "text": "small caption text"},
+    ]
+
+
+def test_ingest_merges_consecutive_same_size_spans(tmp_path):
+    deck = by_slug("luminate")
+    inbox = tmp_path / "inbox"
+    inbox.mkdir()
+    _fake_pdf_with_first_page_runs(
+        inbox / deck.pdf_name,
+        pages=deck.pages,
+        width=1024,
+        height=768,
+        runs=[
+            ((72, 144), "First line", 20),
+            ((72, 200), "Second line", 20),
+        ],
+    )
+
+    manifest = bsc.ingest_deck(
+        deck, dpi=36, inbox=inbox, corpus_root=tmp_path / "corpus"
+    )
+
+    # Two separate text runs at the identical size collapse into one span
+    # entry rather than staying two — this is the assertion that actually
+    # pins the merging rule (as opposed to merely not-splitting).
+    assert manifest["slides"][0]["spans"] == [
+        {"size": 20.0, "text": "First line Second line"}
+    ]
