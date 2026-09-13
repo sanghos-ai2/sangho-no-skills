@@ -28,8 +28,8 @@ The reason it shares: the skill imitates a real, named person, and this repo is 
 If absent, say the skill is gated, explain that `touch .i-am-sangho` opts a repo in, and help with
 the slide task in a normal unimitated register.
 
-The additional one, specific to this skill: `references/` is committed while `corpus/` is
-gitignored. A stranger who installs this plugin therefore receives the *derived characterization*
+The additional one, specific to this skill: `references/` is committed while the corpus lives
+outside the repo entirely (see Corpus containment). A stranger who installs this plugin therefore receives the *derived characterization*
 of Sangho's visual language even though they receive none of the source slides — so the skill would
 work for them. The gate, not the gitignore, is what prevents that.
 
@@ -75,7 +75,8 @@ Two path hazards in this corpus, both of which fail silently rather than loudly:
 
 ### Corpus pipeline (`tools/build-slide-corpus.py`)
 
-Run once; re-runnable when the canon changes. Writes only into `slides-like-sangho/corpus/`.
+Run once; re-runnable when the canon changes. Writes only into `~/.cache/slides-like-sangho/corpus/`,
+outside any git working tree (see Corpus containment).
 
 1. **Export** — AppleScript drives Keynote per deck: slides to PDF, presenter notes to per-slide
    plain text, build order where the format exposes it.
@@ -108,8 +109,7 @@ slides-like-sangho/
     archetypes.md             recurring slide shapes, one entry each
     narrative.md              openings, tension, landing a contribution, closing
     build-rhythm.md           reveal patterns, carried into storyboards as notes
-  archetypes/*.dc.html        runnable artboard templates
-  corpus/                     GITIGNORED — slides, notes, transcripts
+  archetypes/*.dc.html        runnable artboard templates — placeholder content only
 tools/
   build-slide-corpus.py
   audit-slides.py
@@ -118,8 +118,36 @@ tools/
 `references/` is interpretation; `archetypes/` is execution. Prose covers the one-off slide every
 talk has; templates stop the recurring majority from drifting between decks.
 
-`corpus/` is added to `.gitignore` alongside the existing `write-like-sangho/examples/` entry, with
-the same rationale comment.
+### Corpus containment
+
+The corpus lives at `~/.cache/slides-like-sangho/corpus/` — **outside every git working tree** —
+not at `slides-like-sangho/corpus/` behind a `.gitignore` rule.
+
+Nothing reads the corpus at runtime; only the derivation pass touches it. Co-locating it therefore
+buys nothing, while costing a standing obligation to remember a gitignore rule forever. This repo
+has already failed that obligation once, as its own `.gitignore` records: the thematic-analysis
+copyright rule was *"missed when the skill was vendored on 2026-09-02, which left a dropped PDF
+stageable and pushable."* There are also no active git hooks here, so `.gitignore` is the only
+barrier — and it is defeated by `git add -f`, by a path-scoped `git commit -- <path>`, and by any
+parallel session or subagent running a broad `git add`, all of which are recurring patterns in this
+workspace. A 900 MB deck swept into a commit is not merely a leak; it is an unpushable repo.
+
+Outside the working tree, none of those paths reach it. A `slides-like-sangho/corpus/` entry is
+still added to `.gitignore` as a second layer, in case a future refactor moves the directory back.
+
+### Committed artifacts carry no slide content
+
+`archetypes/*.dc.html` **is** committed, which makes it the likeliest leak: an archetype traced from
+a real slide can quietly embed that slide's text or a cropped screenshot.
+
+Archetypes therefore ship with synthetic placeholder text and no real slide imagery. The committed
+artifact encodes layout — grid, type scale, figure treatment, spacing — never content. The same rule
+applies to `references/`: it describes and measures, and quotes real slide text only where a phrase
+is necessary to name a pattern.
+
+The canon is four publicly delivered talks, so this is defense in depth rather than the primary
+concern — but it is the rule that keeps the committed half of the skill safe to distribute no matter
+what the canon grows to include later.
 
 ## Runtime workflow
 
@@ -167,10 +195,22 @@ as decks are made and rejected.
 The corpus pass precedes skill authoring. Nothing truthful can be written about Sangho's visual
 language before the slides have been looked at, so:
 
-1. **Extraction** — build the corpus, run the audit.
-2. **Derivation** — write `references/` and the draft never-list; **present to Sangho for
-   correction**. This gate decides whether the skill feels like him.
-3. **Authoring** — `SKILL.md`, archetypes, the three render paths.
+**Luminate first, then the rest.** Extraction is ~2.4 GB of Keynote and minutes of export per deck,
+and a design language derived from the wrong reading is confidently and unfalsifiably wrong. So the
+canon is extracted in two waves, with a verdict in between.
+
+1. **Extract Luminate alone** (151 MB, the de facto template) and run the audit against it.
+2. **Derive a first-pass design language** from that one deck — `references/` plus the draft
+   never-list — and **present it to Sangho for correction**. This gate decides whether the approach
+   reads as him at all. A wrong reading is cheap to discover here and expensive to discover after
+   the 901 MB job talk.
+3. **Extract the remaining three** (Sensecape, job talk, KAIST), re-run the audit, and update every
+   measured number. Single-deck claims are revised or dropped, never silently kept.
+4. **Author** — `SKILL.md`, archetypes, the three render paths.
+
+One consequence to hold onto: **numbers derived from one deck are provisional.** Until step 3, every
+figure in `references/` is labelled with the deck count behind it, so a one-deck measurement is never
+mistaken for a corpus-wide one.
 
 ## Risks
 
