@@ -321,22 +321,56 @@ second stage), **labelled icon sets** (KAIST 115, job talk 134), a **composition
 `Design Space` ⊕ a page of `Creative Writing`), and an **image pair with a concept line** (job talk
 22, 23).
 
+### Confirmed by Sangho
+
+Two of the calls in this section were put to him and answered (2026-09-13). They are recorded
+separately because this document set grades its evidence, and **"the author confirmed it" is a
+different grade from "the agent classified it and was not contradicted"** — everything under
+"What this does not settle" below is still the latter. **Neither answer changes a count**: both
+confirm the reading the table above was already built on.
+
+**1. The `Code` → `Story` → `Comic` run is an abstraction ladder, not a pipeline.**
+
+*— Sangho Suh, 2026-09-13. Asked whether the nine slides are "a ladder whose axis has been made
+implicit, or a pipeline with three stages", he answered: "ladder".*
+
+> This was the largest open call in the split. The nine are KAIST 100–110 and job talk 118–128,
+> minus the interface captures. It was read as a ladder because KAIST 99 / job talk 117 place those
+> same three on an explicit `Abstract`/`Concrete` axis first, and because nothing is transformed
+> *by* the arrow — the same content is shown three ways. **The rejected reading is kept on the
+> record: taken as a pipeline, that family would go from 10 slides to 19 and the ladder from 64 to
+> 55**, which is what makes this confirmation load-bearing rather than decorative.
+
+**2. Luminate's design-space plane and the frame's Thinkable Territory are one family, not two.**
+
+*— Sangho Suh, 2026-09-13. Asked whether the two figures are one family or two, he answered:
+"one family".*
+
+> The metaphor space's **25 distinct designs** — the count that puts it ahead of the ladder's 18 —
+> depends entirely on this. The two figures were drawn years apart for different arguments, and the
+> Thinkable Territory appears only in the two near-sibling decks. **Split in two they would be 14
+> designs (the design-space plane: Luminate 6–9 and 11–13, KAIST 23–27, 29–31 and 37, job talk
+> 36–40, 42–44 and 50) and 11 (the Thinkable Territory: KAIST 11–15 and 120–124, job talk 1–4,
+> 24–28, 144 and 146–150) — 25 slides each, and both below the ladder's 18** (**computed here**). So the rejected reading would
+> have reversed which family leads on distinct designs.
+
+---
+
 ### What this does not settle
 
 - **Neither of the two big families is evidenced independently in both short decks.** Of the 18
   ladder designs, **4 appear in Luminate or Sensecape** — all four are Sensecape's Simple↔Complex
   axis; the other 14 belong to the CodeToon segment, which appears only in KAIST and the job talk,
   the two near-sibling decks. Of the 25 metaphor-space designs, **7 appear in Luminate**; the other
-  18 are the Thinkable-Territory frame, again KAIST + job talk only. **The ladder is absent from
+  18 do not: **11 of those are the Thinkable-Territory frame and 7 are the *redrawn* design-space
+  plane** (KAIST 24–27, 29–31 and 37 with their job-talk twins), both KAIST + job talk only. An earlier
+  draft of this sentence called all 18 the Thinkable-Territory frame, which is wrong about seven of
+  them — the redraw is documented in `visual-language.md` as a deliberate re-execution of Luminate's
+  figure, so it belongs with the plane, not the territory. The 25 / 7 / 18 counts are unchanged. **The ladder is absent from
   Luminate entirely (0 of 13) and the metaphor space is absent from Sensecape entirely (0 of 6).**
   So each family rests on one independent deck plus one reused segment.
-- **The `Code` → `Story` → `Comic` run is the boundary case.** Nine slides (KAIST 100–110, job talk
-  118–128, minus the interface captures) turn on whether a left-to-right arrow carrying three named
-  representations is a ladder whose axis has been made implicit, or a pipeline with three stages. I
-  read it as a ladder because KAIST 99 / job talk 117 place those same three on an explicit
-  `Abstract`/`Concrete` axis, and because nothing is transformed *by* the arrow — the same content
-  is shown three ways. Read the other way, the pipeline family goes from 10 to 19 and the ladder
-  from 64 to 55, which would change the headline. **One sentence from Sangho settles it.**
+- **The `Code` → `Story` → `Comic` boundary is no longer open** — Sangho confirmed *ladder*; see
+  "Confirmed by Sangho" above, which keeps the rejected reading and its consequence on the record.
 - **Hybrids are real and were assigned, not split.** Luminate 16/17 is a chain *and* a plane;
   KAIST 13 and job talk 26/148 are the Thinkable-Territory plane *with* a `Broader picture`/`Detail`
   levels axis added. Each was assigned to the structure carrying the argument on that slide, which
