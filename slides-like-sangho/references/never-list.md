@@ -75,7 +75,9 @@ title applied because the template has a slot for one. On image slides the subst
 dropped wherever the image is empty, which names the beat without claiming the top of the slide.
 **That substitution is in all four decks; the dark band is in three.** Luminate, KAIST and the job
 talk use a solid grey / near-black rectangle with white text; **Sensecape uses the inverse — black
-text in a white rounded box with a black border (18, 20)** — and carries no dark band anywhere.
+text in a white rounded box with a black border (14–16, 18)** — and carries no dark band anywhere.
+Do not read its unbordered breadcrumb pill (19, 20) as this device; that is the interface's own
+chrome inside the screenshot.
 Promote the *substitution*, not the band: see `visual-language.md`, "Titles and band labels".
 
 ---

@@ -309,16 +309,23 @@ KAIST and the job talk it is often translucent over a photograph rather than opa
 **Sensecape inverts it, and the inversion is the finding.** I checked all 32 of its slides for a
 solid dark rectangle carrying light type and found none — its one white-on-dark slide (9) sets the
 type straight onto the dimmed screenshot with no rectangle behind it. Where it labels an image
-slide it uses the opposite polarity — **black text in a white
-rounded box with a black border** (Sensecape 18, 20, and the node boxes on 14–16 and 21) — the
-same drawn node it uses in its own diagrams, laid over the capture. So the *job* (name the beat
-without claiming the top of the slide) is in all four decks and the *rendering* is not: three
-decks put light type on a dark field, Sensecape puts dark type on a light one. A template that
-treats the dark band as universal will apply it to an austere white-ground deck, which is the one
-place in this corpus it never appears. **(observed)** One caution on provenance: Sensecape 19's
-only chip is a soft-shadowed white pill with no border, which is the **interface's own breadcrumb**
-inside the screenshot, not a label Sangho added — the bordered boxes and that pill are different
-objects and I am counting only the bordered ones.
+slide it uses the opposite polarity — **black text in a white rounded box with a black border**.
+It is the node box it draws on its own diagram slides (Sensecape 14, 15, 16), carried over and
+laid on top of the capture on 18. So the *job* (name the beat without claiming the top of the
+slide) is in all four decks and the *rendering* is not: three decks put light type on a dark
+field, Sensecape puts dark type on a light one. A template that treats the dark band as universal
+will apply it to an austere white-ground deck, which is the one place in this corpus it never
+appears. **(observed)**
+
+**One caution on provenance, and it is why the citation list above is short.** Sensecape also
+carries a soft-shadowed white pill with **no** border — slide 19's only chip, and slide 20's —
+which is the **interface's own breadcrumb** inside the screenshot, not a label Sangho added. The
+bordered boxes and that pill are different objects and I count only the bordered ones. (An earlier
+draft of this sentence cited 20 and 21 as well: 20 is a near-empty canvas whose only label is that
+unbordered breadcrumb, and 21 carries plain unbordered canvas captions. Both were written from the
+shape of the finding rather than from re-opening the slides, which in a passage about raising the
+evidentiary bar would have handed a reader a false counter-example against the claim. Each of
+14, 15, 16 and 18 was re-opened and checked before this list was cut to them.)
 
 **The chapter card is the talk register's replacement for a section divider.** Luminate and
 Sensecape use a bare centred word on white (Luminate 33, 45; Sensecape 25). KAIST and the job
