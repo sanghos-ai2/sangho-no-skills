@@ -6,9 +6,9 @@ usually the thing he actually cares about.
 
 | Path | Pick it when | He can then |
 |---|---|---|
-| [Claude Design canvas](canvas.md) *(default)* | he has not said otherwise | see every slide on one pan/zoom canvas, click any element and edit it, export PNG/PDF |
+| [Claude Design canvas](canvas.md) *(needs the bundled `design` skill)* | it is available AND he wants click-to-edit | see every slide on one pan/zoom canvas, click any element and edit it, export PNG/PDF |
 | [PPTX → Google Slides](pptx-google-slides.md) | he wants to edit in a browser, or to hand the deck to a co-author | edit natively in Google Slides, present from it, share a link |
-| [Standalone HTML](html.md) | he wants a web deck, or you need to screenshot-verify the render | open it, present from a browser, and you can check your own output |
+| [Standalone HTML](html.md) **(the default)** | published as a Claude artifact — his stated preference, and the only path here with a generator | present from the browser, speaker notes on `N`, print to PDF, share a link; you can screenshot-verify it |
 | [Keynote via AppleScript](keynote.md) | he asks for Keynote — **and see the gate; it does not work on this machine** | finish by hand in Keynote |
 
 Everything renders at **1920 × 1080 (16:9)**, matching the corpus. Type sizes from
