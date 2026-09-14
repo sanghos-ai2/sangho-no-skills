@@ -21,3 +21,8 @@ thematic-analysis/source/
 
 # git worktrees for isolated feature work
 .worktrees/
+
+# gate marker for write-like-sangho / slides-like-sangho.
+# Deliberately NOT committed: this repo is public, and a committed marker
+# would opt in every clone, which is exactly what the gate prevents.
+.i-am-sangho
