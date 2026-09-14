@@ -152,6 +152,17 @@ The audit's raw median of **12.0** words/slide is the upper bound including all 
 is the same measure with the two figure bands removed. Either way, **a slide is a phrase, not a
 paragraph.** Nearly one slide in four is three words or fewer.
 
+**Density is behavioural, and it survives a brand swap.** This matters because the skill can be run
+against a house design system, which replaces the palette, the ground polarity and the typeface —
+everything in the "Space" and "Colour" sections below, and the *faces* in this one. It does not
+replace how much he puts on a slide. The 9-word median, the 24% of slides at three words or fewer,
+the 13% carrying no copy at all, the build-by-modification habit and the inverted emphasis in a
+quote are **decisions about the argument**, not about the surface, and a brand pack has no standing
+over them. The one thing in this section a brand *does* touch and might be thought behavioural is
+the derived type scale: keep the absolute point sizes (112 / 84 / 50 / 36 / 24) and take only the
+brand's faces, weights and line heights — see `../brand/README.md` for why transplanting a screen-sized
+scale halves the deck.
+
 **Emphasis is inverted, in every deck, in two different type families.** This was the previous
 pass's strongest single finding and it survives intact — and generalises. In a quote slide the
 *context* is set back and the *load-bearing phrase* is pushed forward, rather than the reverse:

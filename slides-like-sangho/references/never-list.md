@@ -22,6 +22,24 @@ near-duplicate test used for the corpus-wide reuse figures.
 **Only Sangho can promote an entry.** Nothing marked `UNCONFIRMED` should reach the skill as a
 rule.
 
+**Every live entry carries a `visual` or `structural` tag, and the tag decides what a brand pack
+may overrule.** The skill can be run against a house design system (`brand: <DESIGN.md>`), which
+replaces the palette, the ground polarity and the typeface. A *visual* entry is about surface
+treatment and a design system is entitled to have its own opinion about it. A *structural* entry is
+about how the argument is built — what evidence a claim is allowed to take, where a beat sits in
+the talk, whether a slot gets filled because the template has one — and no palette can license
+breaking it. The split is **6 structural / 2 visual**; the tags are on the headings.
+
+Entry 1 is tagged `structural` deliberately, and it is the tag most likely to look wrong. It reads
+as a rule about aesthetics, so `visual` is the obvious call — but `visual` is exactly the tag that
+would let "use the company design system" overrule it, which would turn the one confirmed entry in
+this document into the one entry a brand pack switches off. What it actually forbids is shipping a
+tool's stock look *as if it were a decision*; applying a real, named design system is not that, so
+tagging it `structural` costs nothing and closes the hole.
+
+**The Dead entries are not tagged**, because they are not rules — they are refutations kept on the
+record so nobody re-derives them.
+
 **Scope is stated in decks, not in "registers".** Where an entry needs to say where a pattern
 holds it names the decks. "Conference register" / "talk register" is a hypothesis about *why* the
 four decks differ and is not settled — see `visual-language.md`, "Two registers" and item 1 of its
@@ -47,7 +65,7 @@ old 9 → new 8; old 2, 4, 7 and 10 are in "Dead".
 
 ## Confirmed
 
-### 1. Never use the design skill's default aesthetic.
+### 1. Never use the design skill's default aesthetic. `structural`
 
 *— Sangho Suh, 2026-09-13.*
 
@@ -60,7 +78,7 @@ old 9 → new 8; old 2, 4, 7 and 10 are in "Dead".
 
 ## Candidates that survived four decks (all `UNCONFIRMED`)
 
-### 2. Never put a title on a slide that does not need one. `UNCONFIRMED` — strengthened
+### 2. Never put a title on a slide that does not need one. `structural` · `UNCONFIRMED` — strengthened
 
 **What I checked.** All 365 slides for a title element of any kind.
 
@@ -82,7 +100,7 @@ Promote the *substitution*, not the band: see `visual-language.md`, "Titles and 
 
 ---
 
-### 3. Never put a results chart in the talk. `UNCONFIRMED` — chart claim strengthened, numbers claim corrected
+### 3. Never put a results chart in the talk. `structural` · `UNCONFIRMED` — chart claim strengthened, numbers claim corrected
 
 **What I checked.** All 365 slides for a bar chart, line graph, scatter of results, or table of
 statistics. Then, separately, three text searches over slide copy, described below.
@@ -124,7 +142,7 @@ different, and none is in the canon.
 
 ---
 
-### 4. Never use stock photography of generic people or places. `UNCONFIRMED` — narrowed
+### 4. Never use stock photography of generic people or places. `structural` · `UNCONFIRMED` — narrowed
 
 **What I checked.** All 365 slides for photographic imagery, and where it came from.
 
@@ -147,7 +165,7 @@ about. **(observed)**
 
 ---
 
-### 5. Never use a gradient as a background. `UNCONFIRMED` — the previous pass's correction holds
+### 5. Never use a gradient as a background. `visual` · `UNCONFIRMED` — the previous pass's correction holds
 
 **What I checked.** All 365 slides.
 
@@ -165,7 +183,7 @@ job talk 103–109, 112, 124–128, 130–132). The absence is specifically of g
 
 ---
 
-### 6. Never frame a screenshot as a floating card. `UNCONFIRMED` — the previous pass's correction holds
+### 6. Never frame a screenshot as a floating card. `visual` · `UNCONFIRMED` — the previous pass's correction holds
 
 **What I checked.** All interface captures in the corpus.
 
@@ -181,7 +199,7 @@ rounded, lifted card. Captures run to the slide edges or occupy a clean half —
 
 ---
 
-### 7. Never let a colour mean two things within one deck. `UNCONFIRMED` — holds, but the palette changes between decks
+### 7. Never let a colour mean two things within one deck. `structural` · `UNCONFIRMED` — holds, but the palette changes between decks
 
 **What I checked.** Every appearance of the accent colours in each deck.
 
@@ -201,7 +219,7 @@ it held in four decks and it is easy for Sangho to refute in one sentence.
 
 ---
 
-### 8. Never end the talk on a summary slide. `UNCONFIRMED` — narrowed; the broad form is dead
+### 8. Never end the talk on a summary slide. `structural` · `UNCONFIRMED` — narrowed; the broad form is dead
 
 **What I checked.** All 365 slides for a takeaways / conclusion / contributions-recap slide, and
 separately what each deck's last content slide is.
