@@ -12,6 +12,7 @@ SKILLS=(
   interactive-plan
   codex-audit
   write-like-sangho
+  slides-like-sangho
   fetching-bibtex
   watch-recording
   thematic-analysis
@@ -54,6 +55,9 @@ echo "Per-skill requirements:"
 echo "  interactive-plan : bun (https://bun.sh); first launch installs deps + builds the viewer."
 echo "  codex-audit      : OpenAI Codex CLI (brew install codex; codex login) + a git repo."
 echo "  write-like-sangho: populate the gitignored examples/ corpus locally (not distributed)."
+echo "  slides-like-sangho: no deps for the storyboard. Render paths add their own: the canvas"
+echo "                     path uses the bundled design skill; PPTX needs uv (python-pptx is"
+echo "                     fetched per run) plus the Drive connector; Keynote is gated, see the skill."
 echo "  fetching-bibtex  : curl + python3 (both preinstalled on macOS); no API keys."
 echo "  watch-recording  : ffmpeg + ffprobe (brew install ffmpeg). Local transcription fallback"
 echo "                     also needs whisper-cpp, uv, and a HuggingFace login for pyannote."
