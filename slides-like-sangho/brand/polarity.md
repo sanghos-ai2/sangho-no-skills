@@ -8,10 +8,40 @@ nothing here.
 **Why this document exists.** Several archetypes are not defined by what they contain but by a
 *contrast direction*. Flipping the ground does not repaint them; it reverses or deletes them, and
 it does so quietly — the slide still renders, the tokens are all correct, and the device has simply
-stopped doing its job. The three named cases are the dark band label, the blackout and the
-greying-back family. Working through the other twenty found a fourth pattern nobody warned about:
-**light-ground artwork he does not control** (the paper's own figures, other people's screenshots,
-cut-out portraits) collides with a dark ground harder than any of his own devices do.
+stopped doing its job. Working through all twenty-three found a further pattern nobody warned
+about: **light-ground artwork he does not control** (the paper's own figures, other people's
+screenshots, cut-out portraits) collides with a dark ground harder than any of his own devices do.
+
+**The rule, and its exception, in one line each.**
+
+> **A device whose meaning is a CONTRAST inverts with the ground.** A dark band means something only
+> against light paper; greying-back means recession only relative to a ground; inverted quote
+> emphasis is a comparison between two values. Flip the ground and all three flip with it.
+>
+> **A device whose meaning is ABSENCE does not invert.** It is not saying "different from the
+> surface", it is saying "nothing here", and nothing is nothing at any polarity.
+
+**The blackout is the exception, and Sangho confirmed it** (§3): a blackout on a dark ground is
+still black, not the ground's bright inverse. Applying the inversion rule to it produces a
+confident, wrong answer that still looks like a design decision — which is exactly the failure this
+document exists to prevent, arriving through the document's own rule.
+
+**It is the only absence-defined archetype in the set.** Sorting all thirteen re-specifications by
+*why* they need re-specifying:
+
+| Why | Count | Which |
+|---|---:|---|
+| **Contrast** — the rule above applies | 6 | Conceptual diagram, Participant-quote card, Dimmed-stage question, Chapter card, Study-setup card, Talk title card |
+| **Asset provenance** (§6) — the artwork's own ground, which is not yours to flip | 6 | Interface capture, Prior-work montage, Borrowed-authority quote, Paper title card, Interface ↔ concept split, Annotated paper figure |
+| **Machine readability** (§8) — a scanner, not a viewer, is the reader | 1 | Closing contact card |
+| **Absence** — the rule above does *not* apply | 0 re-specified; 1 unchanged | Blackout (§3) |
+
+So the inversion rule governs **six** of the twenty-three, not all of them. Seven more are
+re-specified for reasons that have nothing to do with polarity, and exactly one is
+absence-defined — the blackout, which is why it is the one the rule gets wrong.
+
+A future archetype added to this file should be sorted the same way **before** the inversion rule is
+applied to it: contrast, absence, or neither.
 
 The archetype list is `references/archetypes.md`. Counts there are his; the verdicts here are mine.
 
@@ -29,14 +59,14 @@ The inversion does not come from Ai2. It comes from **one product system inside 
 Strata is the foundation both products are composed from, and it is a **cream ground with dark-teal
 ink** — which is his own corpus's polarity almost exactly (263 of 365 slides white, 61 cream).
 **Under Strata the inversion mostly does not arise**: the greying-back family fades toward a light
-ground as it already does, the dimmed-stage question dims toward dark as it already does, the
-blackout is still a blackout against a light deck, and the dark band label keeps working. What is
-left is a palette-and-typeface swap and the §6 artwork problem all but disappears, because
-light-ground artwork meets a light ground.
+ground as it already does, the dimmed-stage question dims toward dark as it already does, and the
+dark band label keeps working. What is left is a palette-and-typeface swap, and the §6 artwork
+problem all but disappears because light-ground artwork meets a light ground. (The blackout is
+unchanged either way — see §3; it is not one of the things Strata buys you.)
 
-Asta is dark, and **everything below follows from that one choice.** Twelve of the twenty-three
-archetypes have to be re-specified, one of them (§3, the blackout) by substituting a device the
-corpus contains no example of.
+Asta is dark, and **everything below follows from that one choice.** Thirteen of the twenty-three
+archetypes have to be re-specified — and one, the blackout, notably does **not** (§3, confirmed by
+Sangho), which is the document's own rule failing in its one absence-defined case.
 
 **The default stays Asta.** Sangho chose it and that stands; this is not an argument for switching.
 It is so the cost is legible when the choice is made, and so the light-ground alternative has a
@@ -65,7 +95,7 @@ in. A third system may be either.
 | Chapter card | **re-specified** — greying-back reverses |
 | Paper title card | **re-specified** — pasted light artwork (forbidden under `brand: none`) |
 | Study-setup card | **re-specified** — icons must be restroked |
-| Blackout | **re-specified — it stops being a blackout** |
+| Blackout | **unchanged — it stays black. Confirmed by Sangho** (the one entry the inversion rule gets wrong) |
 | Naming slide | unchanged (ink flips) |
 | AI-image + band question | unchanged, same constraint as Photo + band label |
 | Takeaway card | unchanged (ink flips) |
@@ -77,9 +107,14 @@ in. A third system may be either.
 | Section divider | unchanged (ink flips) |
 | Talk title card | **re-specified** — it loses its distinction (forbidden under `brand: none`) |
 
-Twelve re-specified, nine unchanged, two unchanged-with-a-constraint. "Unchanged (ink flips)" means
+**Thirteen re-specified, ten unchanged** — of those ten, seven are a plain ink flip, two carry one
+constraint, and one (Blackout) is confirmed unchanged by Sangho. "Unchanged (ink flips)" means
 exactly that: black type on white becomes `text` on `background` and nothing else about the slide
 changes.
+
+*(An earlier version of this line read "twelve / nine / two". The rows summed to 23 but the
+categories did not match them — a tally error in my own verdicts, corrected here along with
+Blackout's move out of the re-specified column.)*
 
 ---
 
@@ -124,27 +159,37 @@ ground instead, and keep the question off the image's busiest region.
 **Do not add a scrim.** A translucent dark scrim over a dark ground buys almost no separation and
 costs the ability to see the argument at all.
 
-## 3. Blackout — it stops being a blackout
+## 3. Blackout — it stays black. **Confirmed by Sangho**
 
 **Affects: Blackout** (7 slides; at both ends of Luminate, both ends of KAIST and the job talk, and
 the head of Sensecape — the placement evidence is why it was promoted to a real archetype).
 
-An entirely black slide on a near-black ground **is the ground**. It does not read as a stop; it
-reads as a slide that failed to render. Going darker does not rescue it either — the difference
-between `#032629` and `#000000` is not visible from a room.
+**Sangho Suh, 2026-09-13.** Asked what a blackout should be on a dark ground, he answered:
+*"I think the blackout slide under a dark ground can just be a black slide."*
 
-The archetype's job is a **hard interval with nothing in it, maximally different from its
-neighbours.** On a dark deck the maximally different value is the ground's inverse.
+> **Re-spec: there is none. A blackout is black, `#000000`, empty.** Nothing on it — no mark, no
+> number — exactly as in the corpus. This archetype **does not invert**, and it is the one place in
+> this document where the general rule is wrong.
 
-**Re-spec:** a full-bleed slide in `background-reversed` (Asta: `cream #faf2e9`), empty. Nothing on
-it — no mark, no number.
+**Why, because the reasoning matters more than the verdict.** Every other entry here inverts because
+its meaning is **relational**: a dark band means something only against light paper, greying-back
+means recession only relative to a ground, inverted quote emphasis is a comparison between two
+values. Flip the ground and a relational device flips with it.
 
-**Flag this one in the storyboard as a guess.** It is a real change in feel, not a translation: the
-blackout goes from "lights out" to "cut to white", and where he uses two of them as bookends the
-talk now opens and closes on the brightest slide in the deck rather than the darkest. That may be
-exactly right and it may be wrong; it is Sangho's call and he cannot make it if you do not raise
-it. If he rejects the inversion, the fallback is to drop the archetype rather than to render a
-black slide that reads as a bug.
+**A blackout is not relational. Its meaning is absence — the screen goes away.** Black on
+`extra-dark-teal` is still a step down and still removes the surface, so the gesture survives at a
+smaller contrast step. It does not need to be the *most* different value on offer; it needs to be
+nothing.
+
+**The rejected reading, kept on the record.** This entry previously specified a full-bleed **cream**
+slide (`background-reversed`), reasoning that the archetype's job is "a hard interval maximally
+different from its neighbours" and that on a dark deck the maximally different value is the ground's
+inverse. That is what the general inversion rule produces, and it is wrong twice over: cream in a
+dark room is a **flash**, which is the opposite gesture to lights-out, and it makes a talk that
+opens and closes on two blackouts open and close on the brightest slides in the deck. The rejected
+reading is why the confirmation is load-bearing rather than decorative — the rule that correctly
+governs every contrast-driven entry in this file would have broken this one, and it would have
+broken it in a way that still looked like a deliberate design decision.
 
 ## 4. Band label — Sensecape's inversion becomes the default
 
@@ -262,16 +307,21 @@ stops being distinct, because the whole deck is now that value.
 
 **Re-spec:** keep it, and let the distinction come from the serif face, the image and the amount of
 empty space rather than from the ground. If the deck needs the title card to feel like an arrival,
-the cheapest move is the neighbouring slide: he already places a blackout immediately before it in
-both long decks, and under §3 that blackout is now a cream slide, which restores the contrast step
-for free. Forbidden under `brand: none`.
+the cheapest move is **not** the neighbouring slide. An earlier version of this entry sent you
+there — he places a blackout immediately before the title card in both long decks, and while §3
+still specified a cream blackout that neighbour restored the contrast step for free. §3 is now
+settled the other way, so the preceding slide is black on near-black: a real step down, but a small
+one, and not enough on its own to make the title card feel like an arrival. Buy the arrival inside
+the slide instead — the amount of empty space around the title is the lever, and it costs nothing. Forbidden under `brand: none`.
 
 ---
 
 ## What this document does not settle
 
-- **Whether the cream blackout is right at all.** §3 is a reasoned substitution, not an observation;
-  there is no dark-ground deck in the corpus to check it against.
+- ~~**Whether the cream blackout is right at all.**~~ **Settled — and settled against this
+  document's own reasoning.** Sangho answered on 2026-09-13: the blackout stays black. See §3, where
+  the rejected cream reading is kept on the record. The general lesson is at the top: an
+  absence-defined device does not invert.
 - **Whether a dark deck should carry his cream `#f0eade` frame ground.** The corpus's second ground
   is a warm cream used for the talk's own frame. On Asta, `cream` is the *text* colour, so reusing
   it as a frame ground collides. Left open: either the frame drops its second ground entirely, or
