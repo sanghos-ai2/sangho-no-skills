@@ -44,7 +44,14 @@ switches off the moment a reused conference talk begins.
 
 ## Two registers, not one style
 
-Reading all 365 slides, there are two clearly separated visual registers, and the previous pass
+**"Register" is my word for a bundle of surface choices — ground colour, stroke quality, type
+families, whether people are drawn or photographed — that move together across a deck. It is a
+description, not an explanation, and the two groupings below are a hypothesis about what causes
+them, not a grade of evidence.** Wherever a later section needs to say how well-evidenced a shape
+is, it names the decks, not the register. Read §"What I am least sure of", item 1, before using
+the vocabulary for anything.
+
+Reading all 365 slides, there are two clearly separated bundles, and the previous pass
 described only the first because it only had Luminate.
 
 **The conference register** — Luminate, and only Luminate. Flat white ground. A rough,
@@ -98,26 +105,42 @@ grouping every span by size and counting the slides each size lands on):
 - **21.0 pt — 3,534 words but only 18 slides**, median 64 words per span. That is text baked
   inside the embedded ChatGPT screenshots (Luminate 14, 15, 48–50; and their twins). It is the
   single largest row in the audit's size table and says nothing about how he sets type.
-- **24.0 pt (1,259 words over 93 slides) and 22.0 pt (118 words over 118 slides)**, both with a
-  median span of **one word**. These are the slide number. Verified: **173 spans across the
-  corpus are a bare integer equal to that slide's own index, and zero are a bare integer that
-  is not** — Luminate 42/55, Sensecape 8/32, KAIST 56/126, job talk 67/152 (Luminate numbers at
-  24 pt, the rest mostly at 22 pt).
+- **22.0 pt — 118 words in 118 spans, every one of them the slide number.** Nothing else is set
+  at this size anywhere in the corpus.
+- **24.0 pt — 1,259 words in 122 spans, of which only 55 spans (55 words) are the slide number.**
+  The other 67 spans carry **1,204 words and are entirely figure text**: enumerated, they are
+  11 distinct strings — the ChatGPT avatar chip `SA` (x17), a 49-word CodeToon abstraction table
+  (x16), `1. 2. 3.` (x9), `... ... ... ...` (x6), `Regenerate` / `Explore` / `> <`, and two
+  ChatGPT prompts, one of them 165 words (Sensecape 10, KAIST 56, job talk 71). **The bucket's
+  median span of one word comes from the numbers; its mass does not**, and an earlier draft of
+  this document called the whole bucket "the slide number", which is wrong about 96% of its words.
 
-**Real slide copy is about 10 words** (**computed here**: every span, minus the slide-number
-spans and the 21 pt screenshot band):
+**The slide number itself is 173 spans** — 55 at 24 pt plus 118 at 22 pt — and **zero spans in the
+corpus are a bare integer that is *not* that slide's own index**: Luminate 42/55, Sensecape 8/32,
+KAIST 56/126, job talk 67/152.
 
-| Deck | Median copy words | IQR | Max | ≤ 3 words | 0 words |
-|---|---:|---|---:|---:|---:|
-| Luminate | 9 | 4 – 23 | 69 | 18% | 4% |
-| Sensecape | 4 | 2 – 17 | 195 | 34% | 22% |
-| KAIST | 9 | 4 – 22 | 195 | 21% | 11% |
-| Job talk | 12 | 5 – 21 | 195 | 18% | 10% |
-| **All four** | **10** | **4 – 21** | **195** | **20%** | **10%** |
+**Real slide copy is about 9 words** (**computed here**: every span, minus the 21.0 pt and
+24.0 pt bands — verified above to contain only figure text plus the 55 slide numbers — and minus
+any bare-index span at any size):
 
-The audit's raw median of **12.0** words/slide is the upper bound including figure text; **10**
-is the same measure with the two non-copy bands removed. Either way, **a slide is a phrase, not
-a paragraph.** One slide in five is three words or fewer.
+| Deck | Median copy words | IQR | Max (slide) | ≤ 3 words | 0 words |
+|---|---:|---|---|---:|---:|
+| Luminate | 9 | 4 – 23 | 69 (#39) | 20% | 9% |
+| Sensecape | 4 | 0 – 13 | 44 (#30) | 44% | 28% |
+| KAIST | 9 | 4 – 20 | 83 (#44) | 24% | 13% |
+| Job talk | 11 | 4 – 19 | 77 (#58) | 20% | 11% |
+| **All four** | **9** | **4 – 19** | **83** | **24%** | **13%** |
+
+Each maximum is now a real slide: #39 and #30 are participant-quote cards, #44 and #58 are
+Takeaway cards. **An earlier draft of this table reported a maximum of 195 for three of the four
+decks** — that was Sensecape 10 / KAIST 56 / job talk 71, one reused slide whose 165-word ChatGPT
+prompt sits at 24 pt and therefore survived a filter aimed at 21 pt. The median, IQR and
+short-slide columns barely moved when it was removed (corpus median 10 -> 9); the maximum was the
+only figure it distorted, and it distorted it by a factor of two.
+
+The audit's raw median of **12.0** words/slide is the upper bound including all figure text; **9**
+is the same measure with the two figure bands removed. Either way, **a slide is a phrase, not a
+paragraph.** Nearly one slide in four is three words or fewer.
 
 **Emphasis is inverted, in every deck, in two different type families.** This was the previous
 pass's strongest single finding and it survives intact — and generalises. In a quote slide the
@@ -224,11 +247,17 @@ lettered beneath (Luminate 3, 18; KAIST 20, 36, 81; job talk 6, 33, 49, 99). The
 textual citation anywhere in the corpus's slide copy. **(observed)**
 
 **There is not one chart of his own results in 365 slides.** No bar chart, no line graph, no
-scatter, no table of statistics — **(observed)**, across five studies. Stronger: **zero slides
-carry a statistic-shaped token in their copy** (**computed here**, searching all non-21 pt spans
-for `p <`, `p =`, `M =`, `SD =`, `n = <digit>`, `<digits>%`, "mean", "median", "significant"; the
-four hits are the word "mean" in "what does *amplifying our mind* **mean**?"). Results are carried entirely by participant quotes.
-Luminate says so in the corner of 34 and 35: "* Please read our paper for detailed results".
+scatter, no table of statistics — **(observed)**, across five studies. And **no inferential
+statistic**: searching slide copy for `p </=/>`, `SD`, `M =`, `CI`, `t(`, `F(`, the chi symbol,
+`ANOVA`, `significan*`, "effect size" and the plus-minus sign returns **0 of 365**, as does the
+`%` character (**computed here**).
+
+**Descriptive study quantities are a different matter, and they are present** — `14 Professional
+Writers`, `8 Professional Writers`, `Creative Writing (Average: 7.3 years)`, a task breakdown and
+a study duration, on 7 slides across 3 decks. They are always set as type on a study-setup card,
+never plotted. `never-list.md` entry 3 has the full enumeration and the searches. *Results*
+themselves are carried entirely by participant quotes; Luminate says so in the corner of 34 and
+35: "* Please read our paper for detailed results".
 
 ---
 
@@ -360,8 +389,8 @@ The previous pass recorded "never put persistent chrome on every slide". That is
 talk register:
 
 - **The icon rail** — five line icons down the right edge, current one boxed — on 24 / 126 KAIST
-  and 30 / 152 job-talk slides, zero in the conference decks. It appears only on the frame.
-  **(computed here)**
+  and 30 / 152 job-talk slides, and on zero Luminate or Sensecape slides. It appears only on the
+  frame. **(computed here)**
 - **A slide number** on 173 / 365 slides, corpus-wide. **(computed here)**
 
 So it is not that he refuses chrome; it is that chrome belongs to the talk's own frame and is
@@ -371,11 +400,22 @@ switched off inside the material the frame is carrying.
 
 ## What I am least sure of
 
-1. **Whether "two registers" is a real distinction or an artefact of four decks made over two
-   years.** Only Luminate is fully in the conference register; only KAIST and the job talk are
-   fully in the talk register; Sensecape straddles. It could be a genre distinction (paper talk
-   vs. job talk) or simply a change of taste over time, and one deck is a thin basis for either.
-   One sentence from Sangho settles it, and the two readings give opposite advice to a template.
+1. **Whether "two registers" is a real distinction at all.** This is the most load-bearing
+   uncertainty in the set, and two facts make it worse rather than better.
+
+   **The genre reading does not hold.** Luminate and Sensecape are *both* 15-minute conference
+   paper talks, and they land on opposite sides of the split — Luminate rough, hand-drawn,
+   cartooned; Sensecape clean, grotesque-only, line-iconed. So "conference paper talk vs. long
+   first-person talk" cannot be what separates them.
+
+   **The chronological reading does not hold either.** Sensecape is UIST'23 and Luminate is
+   CHI'24, so the order runs clean (Sensecape) → rough (Luminate) → clean (KAIST, job talk). That
+   is not monotonic, so "his taste changed over time" does not order the decks either.
+
+   What is left is that the Luminate look may be a one-deck experiment, or may be reserved for
+   some property of the material I cannot see from the files. **One sentence from Sangho settles
+   it**, and until he supplies it, treat "register" as a label for what I observed and never as a
+   reason to believe a shape generalises.
 2. **My archetype boundaries in the anthology decks.** KAIST and the job talk contain reused
    material, and I classified reused slides in the deck they appear in, so a per-deck count
    partly measures *how much was reused*, not *what he chooses*. See `archetypes.md`.

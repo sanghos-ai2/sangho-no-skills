@@ -13,7 +13,8 @@ job talk are anthologies: 86% and 72% of their slides have a near-identical twin
 because that is what a reader of that deck sees — but it means an archetype scoring 4/4 may be
 one design Sangho made once and carried forward. **A shape that appears independently in
 Luminate *and* Sensecape is much stronger evidence than one that appears in KAIST and the job
-talk.** The right-hand column flags this.
+talk.** The right-hand column names the decks for exactly this reason, and deliberately avoids the
+word "register" — that is a hypothesis about *why* the decks differ, and it is not settled.
 
 **2. The names are the part most likely to be wrong.** Each name describes *what the slide does
 in the talk*, not what is on it, because a skill has to pick a shape from an intent. If a name
@@ -28,31 +29,37 @@ function alone.
 
 ## Frequency table
 
-| Archetype | Lum (55) | Sen (32) | KAIST (126) | Job (152) | Total | Independent evidence |
+The last column names **which decks the shape was authored in**, which is a fact. It deliberately
+does *not* name a "register": that word is a hypothesis about why the decks differ, not a grade of
+evidence (see `visual-language.md`, "Two registers" and item 1 of its uncertainty list). Read
+`K + J` as close to one deck's worth of evidence, not two — those two decks share 80 groups of
+near-identical slides with each other.
+
+| Archetype | Lum (55) | Sen (32) | KAIST (126) | Job (152) | Total | Authored in |
 |---|---:|---:|---:|---:|---:|---|
-| **Conceptual diagram (build step)** | 13 | 6 | 53 | 63 | **135** | Lum + Sen ✓✓ |
-| **Interface capture** | 13 | 11 | 15 | 15 | **54** | Lum + Sen ✓✓ |
-| **Participant-quote card** | 4 | 3 | 5 | 5 | **17** | Lum + Sen ✓✓ |
-| **Statement card** | 0 | 3 | 6 | 7 | **16** | Sen only, then reused |
-| **Dimmed-stage question** | 2 | 1 | 5 | 7 | **15** | Lum + Sen ✓✓ |
-| **Full-stop question** | 1 | 2 | 5 | 5 | **13** | Lum + Sen ✓✓ |
-| **Prior-work montage** | 2 | 1 | 4 | 5 | **12** | Lum + Sen ✓✓ |
-| **Borrowed-authority quote** | 1 | 0 | 4 | 5 | **10** | Lum + talk register |
-| **Photo + band label** | 0 | 0 | 5 | 5 | **10** | talk register only |
-| **Chapter card** | 0 | 0 | 5 | 5 | **10** | talk register only |
-| **Paper title card** | 1 | 2 | 3 | 3 | **9** | Lum + Sen ✓✓ |
-| **Study-setup card** | 3 | 0 | 3 | 3 | **9** | Lum only, then reused |
-| **Blackout** | 2 | 1 | 2 | 2 | **7** | Lum + Sen ✓✓ |
-| **Naming slide** | 2 | 1 | 2 | 2 | **7** | Lum + Sen ✓✓ |
-| **AI-image + band question** | 0 | 0 | 0 | 7 | **7** | job talk only |
-| **Takeaway card** | 0 | 0 | 3 | 4 | **7** | talk register only |
-| **Interface ↔ concept split** | 2 | 0 | 2 | 2 | **6** | Lum only, then reused |
-| **Question roadmap** | 4 | 0 | 0 | 0 | **4** | **Luminate-specific** |
-| **Annotated paper figure** | 1 | 0 | 1 | 2 | **4** | Lum only, then reused |
-| **Open-question card** | 0 | 0 | 1 | 3 | **4** | talk register only |
-| **Closing contact card** | 2 | 0 | 1 | 1 | **4** | Lum + talk register |
-| **Section divider** | 2 | 1 | 0 | 0 | **3** | Lum + Sen ✓✓ |
-| **Talk title card** | 0 | 0 | 1 | 1 | **2** | not an archetype — see below |
+| **Conceptual diagram (build step)** | 13 | 6 | 53 | 63 | **135** | Lum + Sen + K + J — all four |
+| **Interface capture** | 13 | 11 | 15 | 15 | **54** | Lum + Sen + K + J — all four |
+| **Participant-quote card** | 4 | 3 | 5 | 5 | **17** | Lum + Sen (+ reused in K, J) |
+| **Statement card** | 0 | 3 | 6 | 7 | **16** | Sen + K + J |
+| **Dimmed-stage question** | 2 | 1 | 5 | 7 | **15** | Lum + Sen + K + J — all four |
+| **Full-stop question** | 1 | 2 | 5 | 5 | **13** | Lum + Sen + K + J — all four |
+| **Prior-work montage** | 2 | 1 | 4 | 5 | **12** | Lum + Sen + K + J — all four |
+| **Borrowed-authority quote** | 1 | 0 | 4 | 5 | **10** | Lum + K/J |
+| **Photo + band label** | 0 | 0 | 5 | 5 | **10** | K + J only |
+| **Chapter card** | 0 | 0 | 5 | 5 | **10** | K + J only |
+| **Paper title card** | 1 | 2 | 3 | 3 | **9** | Lum + Sen (+ reused in K, J) |
+| **Study-setup card** | 3 | 0 | 3 | 3 | **9** | Lum (+ reused in K, J) |
+| **Blackout** | 2 | 1 | 2 | 2 | **7** | Lum + Sen + K + J — all four |
+| **Naming slide** | 2 | 1 | 2 | 2 | **7** | Lum + Sen (+ reused in K, J) |
+| **AI-image + band question** | 0 | 0 | 0 | 7 | **7** | J only |
+| **Takeaway card** | 0 | 0 | 3 | 4 | **7** | K + J only |
+| **Interface ↔ concept split** | 2 | 0 | 2 | 2 | **6** | Lum (+ reused in K, J) |
+| **Question roadmap** | 4 | 0 | 0 | 0 | **4** | **Lum only** |
+| **Annotated paper figure** | 1 | 0 | 1 | 2 | **4** | Lum (+ reused in K, J) |
+| **Open-question card** | 0 | 0 | 1 | 3 | **4** | K + J only |
+| **Closing contact card** | 2 | 0 | 1 | 1 | **4** | Lum + K/J |
+| **Section divider** | 2 | 1 | 0 | 0 | **3** | Lum + Sen |
+| **Talk title card** | 0 | 0 | 1 | 1 | **2** | K + J — one design, not an archetype |
 
 Columns sum to 55 / 32 / 126 / 152. Every slide is classified; there is no residual bucket.
 
@@ -172,9 +179,16 @@ clears the stage. The previous pass's fourth uncertain boundary is therefore res
 does belong on its own side.
 
 **New in this pass (7).** Statement card, Photo + band label, Chapter card, Takeaway card,
-AI-image + band question, Open-question card, Talk title card. Every one of them belongs to the
-talk register; none appears in Luminate. They are what a longer, first-person, multi-paper talk
-needs and a 15-minute paper talk does not.
+AI-image + band question, Open-question card, Talk title card. None appears in Luminate; the
+Statement card also appears in Sensecape, and the other six only in KAIST and the job talk.
+
+**The obvious explanation for that — "these are what a long, first-person, multi-paper talk needs
+and a 15-minute paper talk does not" — is a guess, and I cannot support it.** The clean test would
+be Sensecape, which is also a 15-minute paper talk; it carries the Statement card (3 slides) but
+none of the other six, so it sits with Luminate on this axis and against it on nearly every other
+one (see `visual-language.md`, uncertainty item 1). Six shapes appearing only in two decks that
+share 80 groups of near-identical slides is roughly one deck's worth of evidence, and it supports
+**"these shapes are in the two long talks"** and nothing stronger.
 
 **Resolved from the previous pass's uncertainty list:**
 
