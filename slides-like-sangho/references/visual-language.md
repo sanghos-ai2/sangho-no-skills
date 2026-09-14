@@ -160,7 +160,7 @@ the 13% carrying no copy at all, the build-by-modification habit and the inverte
 quote are **decisions about the argument**, not about the surface, and a brand pack has no standing
 over them. The one thing in this section a brand *does* touch and might be thought behavioural is
 the derived type scale: keep the absolute point sizes (112 / 84 / 50 / 36 / 24) and take only the
-brand's faces, weights and line heights — see `brand/README.md` for why transplanting a screen-sized
+brand's faces, weights and line heights — see `../brand/README.md` for why transplanting a screen-sized
 scale halves the deck.
 
 **Emphasis is inverted, in every deck, in two different type families.** This was the previous
