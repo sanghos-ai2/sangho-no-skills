@@ -155,9 +155,22 @@ still added to `.gitignore` as a second layer, in case a future refactor moves t
 
 ### Committed artifacts carry no slide content
 
-Archetype geometry is **measured, never assumed.** All four canon decks export at 1024 × 768 pt —
-4:3, not the 16:9 a modern deck is assumed to be. Archetypes take slide dimensions from the audited
-canon, and any hard-coded aspect ratio is a defect.
+Archetype geometry is **measured, never assumed.** All four canon decks are **1920 × 1080 pt —
+16:9**. Archetypes take slide dimensions from the audited canon (`tools/slide-audit.md`,
+"Geometry"), and any hard-coded aspect ratio is a defect.
+
+> **Correction, 2026-09-13.** This paragraph previously read *"All four canon decks export at
+> 1024 × 768 pt — 4:3, not the 16:9 a modern deck is assumed to be."* That figure came from a
+> Keynote **"Slides With Notes"** export: each PDF page was a 1024 × 768 sheet carrying a 16:9
+> slide in its upper portion with the presenter note printed below, so every page-derived number
+> described the page and not the slide. It was caught by an agent re-cropping the renders to read
+> the handwriting and finding the slide's non-white bounding box byte-identical on all 55 pages of
+> one deck at aspect 1.775. The corpus was re-exported cleanly and rebuilt. Recorded rather than
+> silently overwritten, because the same paragraph calls a hard-coded aspect ratio a defect — and
+> a spec that quietly changes a number teaches nothing about how the number went wrong. Other
+> figures from that export moved a long way too: median words/slide 27 → 12, neutral pixel share
+> 98.4% → 91.3%. **The 1024 × 768 values in the test fixtures are correct and deliberate** — they
+> are synthetic, and their job is to prove no code hard-codes the canon's real geometry.
 
 `archetypes/*.dc.html` **is** committed, which makes it the likeliest leak: an archetype traced from
 a real slide can quietly embed that slide's text or a cropped screenshot.

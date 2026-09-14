@@ -22,7 +22,7 @@
 - **The job-talk directory name ends in a space**: `2024 job-talk ` — never strip or normalize path components.
 - **Paths are passed as argument vectors**, never interpolated into shell strings. Canon paths contain spaces, apostrophes, `@`, and commas.
 - **No AppleScript, and no `tell application "Keynote"`.** On this machine that name resolves to a third-party app signed `TeamIdentifier=JCRTNEU7GK` while declaring `CFBundleIdentifier=com.apple.Keynote`. See the spec's "Why extraction is not scripted".
-- **Slide geometry is measured, never assumed.** All four canon decks are 1024 × 768 pt (4:3). No hard-coded aspect ratio anywhere.
+- **Slide geometry is measured, never assumed.** All four canon decks are **1920 × 1080 pt (16:9)** — see `tools/slide-audit.md`, "Geometry". No hard-coded aspect ratio anywhere. (This line previously said 1024 × 768 pt / 4:3, which was the page size of a Keynote "Slides With Notes" export rather than the slide size; see the spec's "Committed artifacts carry no slide content" for the correction and how it was caught. The 1024 × 768 values in the test fixtures are synthetic and stay as they are.)
 - **Every audited figure carries the deck count behind it.** A one-deck measurement must never render identically to a four-deck one.
 - **Tests never read the real corpus.** It lives outside the repo and is not distributed; tests build synthetic fixtures.
 
@@ -520,7 +520,8 @@ Expected: PASS, 6 tests
 - [ ] **Step 5: Ingest wave 1 for real**
 
 Run: `cd /Users/sanghos/Github/sangho-no-skills && uv run --with pymupdf python tools/build-slide-corpus.py --wave 1`
-Expected: `luminate: 55 slides, 1024x768 pt (aspect 1.3333)`
+Expected: `luminate: 55 slides, 1920x1080 pt (aspect 1.7778)`  
+(This step originally recorded `1024x768 pt (aspect 1.3333)`, which was the page size of a Keynote "Slides With Notes" export, not the slide size. See the spec's "Committed artifacts carry no slide content".)
 
 - [ ] **Step 6: Confirm nothing landed in the repo**
 
@@ -810,7 +811,8 @@ Expected: PASS, 5 tests
 - [ ] **Step 5: Run the audit against real wave-1 data**
 
 Run: `cd /Users/sanghos/Github/sangho-no-skills && uv run --with pillow python tools/audit-slides.py && cat tools/slide-audit.md`
-Expected: a report saying "Measured over **1 deck**, 55 slides", geometry `1024 x 768 pt`, and a palette table.
+Expected: a report saying "Measured over **1 deck**, 55 slides", geometry `1920 x 1080 pt`, and a palette table.  
+(Same correction as Step 5 above; the fixture-driven tests in the previous step keep 1024 × 768 deliberately.)
 
 - [ ] **Step 6: Commit**
 
