@@ -16,7 +16,10 @@ This is the thing most likely to mislead in everything below, and it was not kno
 previous pass was written.
 
 **The decks share slides, heavily.** Comparing every slide against every other at 64 × 36 px
-(box-filtered, mean absolute RGB difference), **computed here**:
+(box-filtered, mean absolute RGB difference), **computed here** — and, since this review round,
+generated into [`tools/slide-audit.md`](../../tools/slide-audit.md)'s header too, so the evidence
+base this document cites carries the same caveat this document opens with. The audit's union-find
+over the same test puts the corpus at **170 distinct designs, not 365 slides**:
 
 | Deck | Slides with a near-identical twin in another deck (MAE < 3) | Strict (MAE < 1.5, low-detail slides excluded) |
 |---|---:|---:|
@@ -246,15 +249,37 @@ under a dark translucent band carrying the question. Job talk slide 93's present
 generation's own description text ("Here is the image depicting a group of researchers…"), which
 is how we know. **(observed / notes)**
 
-**Prior work is shown, not cited.** Other people's systems appear as screenshots with a venue
-lettered beneath (Luminate 3, 18; KAIST 20, 36, 81; job talk 6, 33, 49, 99). There is no
-textual citation anywhere in the corpus's slide copy. **(observed)**
+**Prior work is credited by venue tag, not by reference.** Other people's systems appear as
+screenshots with the venue lettered beneath (Luminate 3, 18; KAIST 20, 36, 81; job talk 6, 33, 49,
+99). **(observed)**
+
+**An earlier draft said "there is no textual citation anywhere in the corpus's slide copy". That
+is false**, and it is the same failure as the statistics claim above: an absence asserted from a
+search that could not see the counter-examples. Re-measured (**computed here**), slide copy
+carries **venue tags on 4 slides** — Luminate 3 (`CHI'22 UIST'23 VIS'23 DIS'23 IUI'23`),
+Luminate 18 / KAIST 36 / job talk 49 (`Promptify (UIST'23)`, `PromptMagician (VIS'23)`) — and a
+**source URL on 2** — KAIST 6 / job talk 14, the Mount Wilson photograph, lettered along the
+bottom edge. A system name plus a parenthesised venue *is* a citation.
+
+**What is genuinely absent is the academic apparatus**: searching slide copy for `Author et al.`,
+`Author (2023)` and bracketed numbered references `[12]` returns **0 of 365** (**computed here**).
+So the rule is *"no author–year and no numbered reference"* — he credits by venue tag and by URL,
+in the smallest type on the slide, and never by a reference list. **(observed + computed here)**
 
 **There is not one chart of his own results in 365 slides.** No bar chart, no line graph, no
 scatter, no table of statistics — **(observed)**, across five studies. And **no inferential
-statistic**: searching slide copy for `p </=/>`, `SD`, `M =`, `CI`, `t(`, `F(`, the chi symbol,
-`ANOVA`, `significan*`, "effect size" and the plus-minus sign returns **0 of 365**, as does the
-`%` character (**computed here**).
+statistic**: the pattern below, run case-insensitively over slide copy, returns **0 of 365**, as
+does the `%` character (**computed here**).
+
+```
+\bp\s*[<=>]\s*0?\.\d|\bSD\b|\bM\s*=|\bCI\b|\bt\s*\(|\bF\s*\(|χ|\bANOVA\b|\bsignifican|\beffect size\b|\bstd\b|±
+```
+
+**The word boundaries are load-bearing and an earlier draft of this sentence dropped them when it
+paraphrased the pattern in prose.** Written without them, `SD` matches inside "San Diego", `CI`
+inside "San Francisco", and `t(` inside `print("true")` — 85 slides rather than 0. The pattern as
+written above is the one that was run; `\bt\s*\(` alone matches 0 slides, because the character
+before the `t` in `print(` is a word character and so there is no boundary there.
 
 **Descriptive study quantities are a different matter, and they are present** — `14 Professional
 Writers`, `8 Professional Writers`, `Creative Writing (Average: 7.3 years)`, a task breakdown and
@@ -275,10 +300,25 @@ across the corpus the pattern holds wherever a figure or a screenshot is doing t
 Sensecape 23, 24, 30; KAIST 44, 45; job talk 57, 58, 132). Not left-aligned, not in a coloured
 bar. **(observed)**
 
-**The band label is the substitute for a title on any image slide**, and it is in all four decks:
-a solid grey / near-black rectangle carrying white text, dropped wherever the image is empty.
-Luminate 3, 9, 13, 20, 22–32; KAIST 4, 6, 7, 8; job talk 5, 12–14, 59–60, 91–93, 140–141. In the
-talk register it is often translucent over a photograph rather than opaque. **(observed)**
+**The band label is the substitute for a title on an image slide — in three decks of four.**
+A solid grey / near-black rectangle carrying white text, dropped wherever the image is empty:
+Luminate 3, 9, 13, 20, 22–32; KAIST 4, 6, 7, 8; job talk 5, 12–14, 59–60, 91–93, 140–141. In
+KAIST and the job talk it is often translucent over a photograph rather than opaque.
+**(observed)**
+
+**Sensecape inverts it, and the inversion is the finding.** I checked all 32 of its slides for a
+solid dark rectangle carrying light type and found none — its one white-on-dark slide (9) sets the
+type straight onto the dimmed screenshot with no rectangle behind it. Where it labels an image
+slide it uses the opposite polarity — **black text in a white
+rounded box with a black border** (Sensecape 18, 20, and the node boxes on 14–16 and 21) — the
+same drawn node it uses in its own diagrams, laid over the capture. So the *job* (name the beat
+without claiming the top of the slide) is in all four decks and the *rendering* is not: three
+decks put light type on a dark field, Sensecape puts dark type on a light one. A template that
+treats the dark band as universal will apply it to an austere white-ground deck, which is the one
+place in this corpus it never appears. **(observed)** One caution on provenance: Sensecape 19's
+only chip is a soft-shadowed white pill with no border, which is the **interface's own breadcrumb**
+inside the screenshot, not a label Sangho added — the bordered boxes and that pill are different
+objects and I am counting only the bordered ones.
 
 **The chapter card is the talk register's replacement for a section divider.** Luminate and
 Sensecape use a bare centred word on white (Luminate 33, 45; Sensecape 25). KAIST and the job
@@ -301,19 +341,24 @@ The audit's top two rows — `#303040` at 14.5% and `#404050` at 14.4% of all ch
 are the flat fills of a dark chat interface inside screenshots, and they are extraordinarily
 concentrated. **Computed here**, tallying pixels falling in those two bins:
 
-- **18 slides of 365 (4.9%) account for 96% of all slate-bin pixels in the corpus.** Only 66
-  slides carry any at all.
-- On those 18, the slate covers **22 – 95% of the whole slide** — the signature of a full-bleed
-  or half-bleed screenshot, not of an accent.
+- **21 slides of 365 (5.8%) account for 96.9% of all slate-bin pixels in the corpus** — and the
+  18 largest of those 21 carry **96.0%** on their own. Only 66 slides carry any at all.
+- On the 18 largest the slate covers **22 – 95% of the whole slide** — the signature of a
+  full-bleed or half-bleed screenshot, not of an accent. The remaining three (Sensecape 12,
+  KAIST 58, job talk 73) carry it at 2.7% each: the same window, shown small.
 - At true colour (1/8 nearest-neighbour subsample, so no resampling blur invents values) the
   bins resolve to **two flat fills**, `#343441` and `#444554` (with `#333441`, a one-step variant
   of the first, in the anthology decks). Those account for **99.6% of Luminate's, 94.5% of
   Sensecape's, 92.9% of KAIST's and 91.7% of the job talk's** slate pixels. Two or three flat
   values over enormous areas is a UI fill, not drawn artwork.
-- Visually: those 18 slides are Luminate 14, 15, 48, 49, 50; Sensecape 6, 8, 10, 12;
-  KAIST 32, 33, 52, 54, 56, 58; job talk 45, 46, 67, 69, 71, 73 — every one of them a capture of
-  the same dark ChatGPT-style window. And they are only **six distinct designs**, repeated across
-  the anthology decks.
+- Visually: all 21 are Luminate 14, 15, 48, 49, 50; Sensecape 6, 8, 10, 12; KAIST 32, 33, 52,
+  54, 56, 58; job talk 45, 46, 67, 69, 71, 73 — every one of them a capture of the same dark
+  ChatGPT-style window. And they are only **7 distinct designs** (**computed here**, grouping the
+  21 at MAE < 3): three of them appear in three decks each, one in four decks and two variants
+  (Sensecape 6/8 ≡ KAIST 52/54 ≡ job talk 67/69), one pair inside Luminate (48 ≡ 50), and
+  Luminate 49 alone. (An earlier draft said "18 slides" in the sentence above and then named 21 —
+  the 18 was the top-18 cumulative figure — and put the design count at six by eye rather than
+  measuring it. Both are corrected.)
 
 **Remove those slides and the colour table inverts** (**computed here**, same classifier):
 

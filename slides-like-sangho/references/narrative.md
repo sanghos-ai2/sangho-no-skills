@@ -65,9 +65,11 @@ segment, which is also where its notes are longest (median 33 words over slides 
 the section he timed most carefully. **(computed here)**
 
 **A note belongs to a beat, not to a slide** — in the three decks that have narration.
-Verbatim-identical notes are repeated across *consecutive* slides: Luminate 26/27/28 and 53/54;
-Sensecape 3/4/5, 13/14/15, 19/20/21/22; KAIST 49/50/51, 59/60/61, 65/66/67/68. That is **14% of
-Luminate's notes-bearing slides, 45% of Sensecape's and 18% of KAIST's** — where a slide is a
+Verbatim-identical notes are repeated across *consecutive* slides. The lists are **complete**, so
+the slide counts add up to the percentages: Luminate 26/27/28 and 53/54 (5 slides); Sensecape
+3/4/5, 13/14/15, 19/20/21/22 and 28/29/30 (13); KAIST 9/10, 49/50/51, 59/60/61, 65/66/67/68 and
+71/72/73 (15). That is **14% of Luminate's notes-bearing slides, 45% of Sensecape's and 18% of
+KAIST's** (5/35, 13/29, 15/84) — where a slide is a
 build step or a return to something already said, the note is repeated or omitted rather than
 rewritten. **(computed here)**
 
