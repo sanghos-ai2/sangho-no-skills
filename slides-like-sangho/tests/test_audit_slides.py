@@ -214,12 +214,22 @@ def test_palette_half_white_half_red_splits_and_ranks_red_first(tmp_path):
     assert result["neutral_share"] == pytest.approx(0.5, abs=0.01)
     assert result["chromatic_share"] == pytest.approx(0.5, abs=0.01)
     assert result["accents"]
-    top_hex, top_share = result["accents"][0]
-    assert top_hex == "#f00000"  # 255 binned to 16 levels/channel -> 240 = 0xf0
+    top = result["accents"][0]
+    assert top["hex"] == "#f00000"  # 255 binned to 16 levels/channel -> 240 = 0xf0
     # accents is a fraction of CHROMATIC pixels only: red is the only
     # chromatic colour present, so it is ~100% of the chromatic share, not
     # ~50% of all pixels.
-    assert top_share == pytest.approx(1.0, abs=0.01)
+    assert top["share"] == pytest.approx(1.0, abs=0.01)
+    # Concentration: with one red slide in a one-slide deck, 90% of the red
+    # sits on that one slide. This is the column that lets a reader tell a
+    # colour spent across a deck from one flat fill inside a screenshot.
+    assert top["slides_for_90pc"] == 1
+    assert top["slides_any"] == 1
+    # The printed rows must state their own coverage; red is the only bin, so
+    # the listed share is the whole of it.
+    assert result["listed_share"] == pytest.approx(1.0, abs=0.01)
+    assert result["distinct_bins"] == 1
+    assert result["slides_sampled"] == 2
 
 
 def test_mid_grey_counts_as_neutral_via_saturation_arm(tmp_path):
@@ -488,8 +498,67 @@ def test_word_count_caveat_drops_notes_category_when_agreement_is_negligible():
     text = " ".join(lines)
     assert "does not appear in the slide text layer" in text
     assert "text identical to the deck's presenter notes" not in text
-    assert "sums two things" in text
+    assert "sums onto one slide the actual slide copy" in text
     assert "1 of 20 notes-bearing slides" in text
+    # With no chrome measured, the caveat must not invent a page-chrome clause.
+    assert "page chrome" not in text
+
+
+def test_word_count_caveat_names_page_chrome_only_when_measured():
+    # build-slide-corpus.py's _extract_spans names four things get_text()
+    # conflates -- slide copy, narration, figure text and PAGE CHROME -- and
+    # this caveat used to name only two of them. The clause is data-driven so
+    # it cannot outlive the data: a corpus with no slide numbers gets no
+    # clause (asserted above), one with them gets the measured count.
+    agreement = {"slides_with_notes": 20, "slides_matching": 1, "size_breakdown": []}
+    text = " ".join(audit.word_count_caveat_lines(agreement, 173))
+    assert "page chrome" in text
+    assert "173 spans" in text
+
+
+def test_report_reuse_frame_is_generated_and_omitted_when_unmeasured(tmp_path):
+    # Every other figure in slide-audit.md is a count of SLIDES. When decks
+    # reuse each other's slides that stops being a count of decisions, and the
+    # four reference documents all open with that caveat -- so the file they
+    # cite has to carry it too, generated rather than hand-written. And when
+    # no renders are on disk the frame must be OMITTED, not printed as a zero
+    # that reads like a finding.
+    _manifest("luminate", ["a b"], tmp_path)
+    manifests = audit.load_manifests(tmp_path)
+
+    framed = audit.render_report(
+        manifests,
+        {"neutral_share": 1.0, "chromatic_share": 0.0, "accents": []},
+        {
+            "slides": 365,
+            "distinct": 170,
+            "per_deck": {"luminate": {"slides": 55, "twinned": 10}},
+        },
+    )
+    assert "not 365" in framed
+    assert "170 distinct designs" in framed
+    assert "Twinned in another deck" in framed
+    assert "10 (18%)" in framed
+
+    bare = audit.render_report(
+        manifests, {"neutral_share": 1.0, "chromatic_share": 0.0, "accents": []}
+    )
+    assert "distinct designs" not in bare
+    assert "Twinned in another deck" not in bare
+
+
+def test_page_chrome_spans_counts_only_a_slide_s_own_index(tmp_path):
+    manifest = {
+        "slides": [
+            # the slide's own number -- chrome
+            {"index": 7, "spans": [{"size": 22.0, "text": "7"}]},
+            # a number that is not this slide's index -- content, not chrome
+            {"index": 8, "spans": [{"size": 44.0, "text": "14"}]},
+            # a number inside a phrase -- content
+            {"index": 9, "spans": [{"size": 44.0, "text": "14 Professional Writers"}]},
+        ]
+    }
+    assert audit.page_chrome_spans([manifest]) == 1
 
 
 def test_word_count_caveat_handles_no_notes_data_at_all():
