@@ -9,7 +9,9 @@ deck of 55, and that is enough to kill several candidates outright. Each entry s
 checked and against how many slides, so Sangho can reject it on one counter-example.
 
 **That N is not 365 independent slides.** KAIST and the job talk reuse 86% and 72% of their slides
-from other decks (see `visual-language.md`), so the corpus is roughly 200 distinct designs.
+from other decks, so the corpus is **170 distinct designs, not 365 slides** — measured, not
+estimated: `tools/slide-audit.md` now computes it in its header (every slide grouped against every
+other at 64 × 36 px, MAE < 3).
 Absence claims degrade gently under duplication — a shape absent from 365 slides is still absent
 from the 200 designs behind them — so most entries below survive the correction. **Presence**
 claims do not: an instance count is a count of slides, not of decisions. **Each of the four
@@ -69,9 +71,12 @@ does exist it is centred, bold, black, at the top (Luminate 9, 13, 34–44; Sens
 KAIST 44, 45; job talk 57, 58, 132).
 
 **Note the inversion.** This is not "never use titles". The rule is against the *default* — a
-title applied because the template has a slot for one. On image slides the substitute is a band
-label dropped wherever the image is empty, which names the beat without claiming the top of the
-slide, and that device is in all four decks.
+title applied because the template has a slot for one. On image slides the substitute is a label
+dropped wherever the image is empty, which names the beat without claiming the top of the slide.
+**That substitution is in all four decks; the dark band is in three.** Luminate, KAIST and the job
+talk use a solid grey / near-black rectangle with white text; **Sensecape uses the inverse — black
+text in a white rounded box with a black border (18, 20)** — and carries no dark band anywhere.
+Promote the *substitution*, not the band: see `visual-language.md`, "Titles and band labels".
 
 ---
 
@@ -237,11 +242,13 @@ as two designs, and only ever on a Takeaway or Limitations card. Phrase it that 
 
 ### ~~Never use clip art or a stock icon set.~~ — **false — 15 slides, 11 designs, and 2 of them outside the anthology decks**
 
-Flat and line vector icons used as nouns appear in three of the four decks: the abstract-concept
-icons on Sensecape 26/27; the clipboard/person process icons on KAIST 42 and job talk 55; **flat
-orange-and-slate stock people** on KAIST 43 and job talk 56; the bar-chart / brain / Σ / padlock
-`Opportunities` grid on KAIST 115 and job talk 134, 135; the `</>` window, book and comic icons on
-job talk 98, 100, 101, 124, 129; and the five-icon rail itself on 54 slides.
+Flat and line vector icons used as nouns appear in three of the four decks, on **15 slides** —
+the list below is complete and totals 15: the abstract-concept icons on Sensecape 26, 27; the
+clipboard/person process icons on KAIST 42 and job talk 55; **flat orange-and-slate stock people**
+on KAIST 43 and job talk 56; the people-and-clipboard evaluation icons on KAIST 111 and job talk
+129; the bar-chart / brain / Σ / padlock `Opportunities` grid on KAIST 115 and job talk 134, 135;
+and the `</>` window, book and comic icons on job talk 98, 100, 101, 124. (The five-icon rail on a
+further 54 slides is the same habit, counted separately under persistent chrome.)
 
 **Distinct designs: 11 of the 15 cited slides** (**computed here**), of which only four pairs are
 duplicates (KAIST 42 ≡ job talk 55, KAIST 115 ≡ job talk 134, KAIST 111 ≡ job talk 129, job talk

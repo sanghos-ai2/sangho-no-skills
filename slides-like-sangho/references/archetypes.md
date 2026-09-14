@@ -93,9 +93,10 @@ white-box-with-black-border in KAIST and the job talk — but the move is identi
 **Full-stop question** — a question on a blank stage, no dimmed argument beneath. Luminate 4
 (black); Sensecape 7, 27; KAIST 9, 10, 53, 82, 83; job talk 20, 21, 68, 100, 101.
 
-**Prior-work montage** — other people's systems (or tweets about them) as pictures with the venue
-lettered beneath. No textual citation. Luminate 3, 18; Sensecape 31; KAIST 20, 36, 75, 81;
-job talk 6, 33, 49, 90, 99.
+**Prior-work montage** — other people's systems (or tweets about them) as pictures, credited by a
+venue tag lettered beneath rather than by a reference. Luminate 3, 18; Sensecape 31; KAIST 20, 36,
+75, 81; job talk 6, 33, 49, 90, 99. See `visual-language.md` for what the crediting actually is —
+"no textual citation" was wrong, and a system name plus a parenthesised venue is a citation.
 
 **Borrowed-authority quote** — a named person's sentence, with their photograph. Luminate 5
 (Pauling); KAIST 7, 8, 74, 84 (Griffith, Bret Victor, Knuth); job talk 8, 15, 16, 89, 102.
