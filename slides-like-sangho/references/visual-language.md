@@ -216,9 +216,9 @@ pictures, not distinct slides.
 
 | Role | Spans | Slides | Designs | Distinct sizes | Median pt | Where it actually sits |
 |---|---:|---:|---:|---:|---:|---|
-| Slide number | 173 | 173 | 97 | **2** | 22 | 22 pt everywhere except Luminate, which uses 24 |
+| Slide number | 173 | 173 | 97 | **2** | 22 | 22 pt (118 spans) or 24 pt (55). Luminate sets it at 24 on 40 of its 42; the other three are mostly 22 |
 | Slide title | 74 | 74 | 39 | 14 | 84 | **84 pt** — 52 of 74 spans, 20 designs |
-| Section / chapter name | 35 | 35 | 20 | 6 | 100 | **bimodal**: 112 pt (Luminate) vs 74 pt (KAIST + job talk) |
+| Section / chapter name | 35 | 35 | 20 | 6 | 100 | deck-dependent: 112 pt is Luminate's section word (9 of its 11); 74 pt is the boxed chapter label in KAIST and the job talk (6 each); wordmarks sit at 116–120 |
 | Hero (the slide's one line) | 53 | 52 | 25 | 15 | 84 | 66 – 137, clustered 78 – 112 |
 | Band label on an image | 43 | 29 | 23 | 12 | 75 | 45 – 128, plus a 244 pt drop cap |
 | Quote | 39 | 35 | 22 | **20** | 79 | 38 – 119 — very nearly one size per quote |
@@ -227,8 +227,9 @@ pictures, not distinct slides.
 | Caption / credit | 93 | 33 | 25 | 15 | 47.5 | 31.7 and 47.5 are the title-card apparatus (31 spans each) |
 | Deck / paper title | 11 | 11 | 9 | 6 | 79 | 59.8 – 98, one per title card |
 
-**Two roles have a real size and the rest do not.** The slide number is 22 pt (or 24 in Luminate)
-and nothing else. The slide title is **84 pt** in three decks of four — Sensecape 2/2, KAIST 23/28,
+**Two roles have a size stable enough to hard-code; the rest are looser, and two are not sizes at
+all.** The slide number takes one of two values and nothing else. The slide title is **84 pt** in
+three decks of four — Sensecape 2/2, KAIST 23/28,
 job talk 27/35 — and **0 of Luminate's 9 title spans are at 84**; Luminate titles are 59, 60, 72.8,
 75, 86 and 103 pt, one size each. That is the sharpest caveat on the scale below.
 
