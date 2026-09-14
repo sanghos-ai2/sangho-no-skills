@@ -2,12 +2,22 @@
 
 Measured over **4 decks**, 365 slides.
 
-| Deck | Slides | Geometry (pt) | Aspect |
-|---|---|---|---|
-| Job talk 2024 | 152 | 1920 x 1080 | 1.7778 |
-| KAIST invited talk | 126 | 1920 x 1080 | 1.7778 |
-| Luminate @ CHI'24 | 55 | 1920 x 1080 | 1.7778 |
-| Sensecape @ UIST'23 | 32 | 1920 x 1080 | 1.7778 |
+**Those 365 slides are not 365
+independent observations.** Grouping every slide against every
+other at 64 x 36 px (box-filtered, mean
+absolute RGB difference < 3.0) leaves
+**170 distinct designs** — decks in this corpus reuse
+each other's slides. Every other figure in this file is a count of
+SLIDES, so a shape that recurs may be one slide carried forward rather
+than a habit. The per-deck column below gives the share of each deck
+that has a near-identical twin in another deck.
+
+| Deck | Slides | Geometry (pt) | Aspect | Twinned in another deck |
+|---|---|---|---|---|
+| Job talk 2024 | 152 | 1920 x 1080 | 1.7778 | 109 (72%) |
+| KAIST invited talk | 126 | 1920 x 1080 | 1.7778 | 108 (86%) |
+| Luminate @ CHI'24 | 55 | 1920 x 1080 | 1.7778 | 10 (18%) |
+| Sensecape @ UIST'23 | 32 | 1920 x 1080 | 1.7778 | 27 (84%) |
 
 ## Words per slide
 
@@ -20,8 +30,10 @@ a full-bleed figure slide is a real measurement.
 - share under four words: **18%**
 
 **This is an upper bound, not slide copy.** These counts come from
-`page.get_text()`, which sums two things onto one slide: the actual
-slide copy, and text baked inside embedded figures. Presenter-note
+`page.get_text()`, which sums onto one slide the actual slide copy,
+text baked inside embedded figures,
+and the deck's own page chrome (173 spans in this corpus
+are a bare integer equal to their own slide's index). Presenter-note
 text does not appear in the slide text layer in this corpus
 (measured at 0 of 180 notes-bearing slides, below the 10% materiality bar this script uses — see "Notes in the text layer" under Presenter notes).
 See "Words by font size" below for the breakdown a threshold would
@@ -162,19 +174,29 @@ not named or interpreted.
 - neutral: **91.3%**
 - chromatic: **8.7%**
 
-### Accent colours
+### Chromatic colours, ranked
 
 The table below divides that **8.7%**
 chromatic share up further, by colour — each row is a share of
 chromatic pixels only, not of the whole slide.
 
-| Colour | Share of chromatic pixels |
-|---|---|
-| `#303040` | 14.5% |
-| `#404050` | 14.4% |
-| `#505060` | 1.8% |
-| `#304050` | 1.5% |
-| `#f0f090` | 1.3% |
-| `#d0d0a0` | 1.2% |
-| `#c0e0f0` | 1.2% |
-| `#203040` | 1.1% |
+**These are the 8 largest of 1466 bins and cover
+36.9% of chromatic pixels; the remaining
+63.1% is not listed.** The heading says *chromatic*,
+not *accent*, on purpose: a large bin is not necessarily a design
+choice. The last column is how many slides carry 90% of that
+colour's pixels — against 365 sampled slides, a single-digit
+figure means the colour is one flat fill in a handful of images (a
+screenshot, say) rather than an ink spent across the deck.
+Reported, not interpreted.
+
+| Colour | Share of chromatic pixels | Slides carrying 90% of it |
+|---|---|---|
+| `#303040` | 14.5% | 13 of 55 |
+| `#404050` | 14.4% | 11 of 49 |
+| `#505060` | 1.8% | 17 of 43 |
+| `#304050` | 1.5% | 11 of 40 |
+| `#f0f090` | 1.3% | 6 of 14 |
+| `#d0d0a0` | 1.2% | 8 of 22 |
+| `#c0e0f0` | 1.2% | 9 of 70 |
+| `#203040` | 1.1% | 10 of 23 |

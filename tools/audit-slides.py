@@ -209,7 +209,29 @@ def notes_span_agreement(manifests: list[dict]) -> dict:
 NOTES_CAVEAT_MATERIAL_SHARE = 0.10  # of notes-bearing slides
 
 
-def word_count_caveat_lines(agreement: dict) -> list[str]:
+def page_chrome_spans(manifests: list[dict]) -> int:
+    """Spans that are a bare integer equal to their own slide's index.
+
+    `_extract_spans` (build-slide-corpus.py) names four things `get_text()`
+    conflates -- slide copy, speaker narration, figure-embedded text and PAGE
+    CHROME. On the branch where presenter-note text is immaterial the caveat
+    below used to name only two of those four (slide copy and figure-embedded
+    text), which made it disagree with the ingest module about its own data.
+    This counts the chrome instead of asserting it.
+    """
+    import re
+
+    return sum(
+        1
+        for manifest in manifests
+        for slide in manifest["slides"]
+        for span in slide.get("spans", [])
+        if re.fullmatch(r"\d{1,3}", span["text"].strip())
+        and int(span["text"].strip()) == slide["index"]
+    )
+
+
+def word_count_caveat_lines(agreement: dict, chrome_spans: int = 0) -> list[str]:
     """The explanatory paragraph under 'Words per slide', built from
     `notes_span_agreement`'s measured result rather than stated as a standing
     fact. When presenter-note text materially appears in the text layer
@@ -245,15 +267,106 @@ def word_count_caveat_lines(agreement: dict) -> list[str]:
     else:
         detail = "no presenter notes have been extracted for this corpus yet"
 
+    chrome = (
+        f",\nand the deck's own page chrome ({chrome_spans} spans in this corpus"
+        "\nare a bare integer equal to their own slide's index)"
+        if chrome_spans
+        else ""
+    )
     return [
         "**This is an upper bound, not slide copy.** These counts come from",
-        "`page.get_text()`, which sums two things onto one slide: the actual",
-        "slide copy, and text baked inside embedded figures. Presenter-note",
+        "`page.get_text()`, which sums onto one slide the actual slide copy,",
+        f"text baked inside embedded figures{chrome}. Presenter-note",  # noqa: E501
         "text does not appear in the slide text layer in this corpus",
         f"({detail} — see \"Notes in the text layer\" under Presenter notes).",
         "See \"Words by font size\" below for the breakdown a threshold would",
         "need — this script does not pick one.",
     ]
+
+
+REUSE_MAE_CUTOFF = 3.0
+REUSE_THUMB = (64, 36)
+
+
+def reuse_stats(
+    manifests: list[dict], corpus_root: pathlib.Path | None = None
+) -> dict:
+    """How much of the corpus is the same slide appearing twice.
+
+    Every other figure in this report is a count of SLIDES. When one deck
+    carries another deck's slides, a slide count stops being a count of
+    decisions, and a reader who treats 365 slides as 365 independent
+    observations will over-credit whatever those reused slides happen to do.
+    This measures that directly so the header can say it, rather than leaving
+    every consumer of this file to discover it.
+
+    Two slides are "the same" when their 64x36 box-filtered renders differ by
+    less than REUSE_MAE_CUTOFF in mean absolute RGB. That is deliberately
+    strict enough to ignore ordinary visual similarity and loose enough to
+    survive re-export: on this corpus it separates pixel-identical reuse from
+    a redrawn version of the same figure.
+
+    Returns per-deck twin counts plus a corpus-wide distinct-design count.
+    Degrades to an empty dict when no renders are on disk, so the report can
+    omit the frame rather than print a zero that looks like a finding.
+    """
+    from PIL import Image
+
+    root = corpus_root or CORPUS_ROOT
+    vectors: dict[tuple[str, int], list[tuple[int, int, int]]] = {}
+    for manifest in manifests:
+        for slide in manifest["slides"]:
+            path = root / manifest["slug"] / slide["image"]
+            if not path.is_file():
+                continue
+            with Image.open(path) as img:
+                thumb = img.convert("RGB").resize(REUSE_THUMB, Image.BOX)
+            vectors[(manifest["slug"], slide["index"])] = list(thumb.getdata())
+    if not vectors:
+        return {}
+
+    keys = sorted(vectors)
+    parent = {k: k for k in keys}
+
+    def find(x):
+        while parent[x] != x:
+            parent[x] = parent[parent[x]]
+            x = parent[x]
+        return x
+
+    px = REUSE_THUMB[0] * REUSE_THUMB[1] * 3
+    for i, a in enumerate(keys):
+        va = vectors[a]
+        for b in keys[i + 1 :]:
+            vb = vectors[b]
+            total = 0
+            for (r1, g1, b1), (r2, g2, b2) in zip(va, vb):
+                total += abs(r1 - r2) + abs(g1 - g2) + abs(b1 - b2)
+            if total / px < REUSE_MAE_CUTOFF:
+                ra, rb = find(a), find(b)
+                if ra != rb:
+                    parent[ra] = rb
+
+    groups: dict = collections.defaultdict(list)
+    for k in keys:
+        groups[find(k)].append(k)
+
+    cross = [g for g in groups.values() if len({x[0] for x in g}) > 1]
+    twins: collections.Counter = collections.Counter()
+    for g in cross:
+        for slug, _ in g:
+            twins[slug] += 1
+    return {
+        "slides": len(keys),
+        "distinct": len(groups),
+        "per_deck": {
+            m["slug"]: {
+                "slides": sum(1 for k in keys if k[0] == m["slug"]),
+                "twinned": twins[m["slug"]],
+            }
+            for m in manifests
+        },
+    }
 
 
 NEUTRAL_SAT_CUTOFF = 0.15
@@ -308,11 +421,23 @@ def palette(
     neutral = 0
     chromatic = 0
     accent_tally: collections.Counter = collections.Counter()
+    # Per-colour, per-slide tallies, so the report can say how CONCENTRATED a
+    # colour is. A bin spread thinly over many slides behaves like an accent; a
+    # bin whose mass sits on a handful of slides is far more likely to be one
+    # flat fill inside a screenshot, which is not a design choice at all. The
+    # report prints the concentration beside each share rather than asserting
+    # either reading.
+    by_slide: dict[tuple[int, int, int], collections.Counter] = (
+        collections.defaultdict(collections.Counter)
+    )
+    slides_sampled = 0
     for manifest in manifests:
         for slide in manifest["slides"]:
             path = root / manifest["slug"] / slide["image"]
             if not path.is_file():
                 continue
+            key = (manifest["slug"], slide["index"])
+            slides_sampled += 1
             with Image.open(path) as img:
                 small = img.convert("RGB").resize((64, 48))
                 for count, (r, g, b) in small.getcolors(maxcolors=64 * 48):
@@ -329,6 +454,7 @@ def palette(
                             b // ACCENT_BIN_LEVELS * ACCENT_BIN_LEVELS,
                         )
                         accent_tally[binned] += count
+                        by_slide[binned][key] += count
 
     total = neutral + chromatic
     if total == 0:
@@ -337,18 +463,42 @@ def palette(
     # accent_tally is empty anyway, but stating the zero-division avoidance
     # here (rather than relying on that coincidence) is what makes it a
     # guard rather than a lucky accident of the tallying logic above.
-    accents = (
-        [
-            ("#%02x%02x%02x" % rgb, count / chromatic)
-            for rgb, count in accent_tally.most_common(top)
-        ]
-        if chromatic > 0
-        else []
-    )
+    def _concentration(rgb: tuple[int, int, int]) -> tuple[int, int]:
+        """(slides carrying 90% of this bin's pixels, slides carrying any).
+
+        Reported, not interpreted: a low first number against a large corpus
+        means the colour is not spread across the deck.
+        """
+        counts = sorted(by_slide[rgb].values(), reverse=True)
+        target = 0.9 * sum(counts)
+        running = 0
+        for taken, c in enumerate(counts, start=1):
+            running += c
+            if running >= target:
+                return taken, len(counts)
+        return len(counts), len(counts)
+
+    ranked = accent_tally.most_common(top) if chromatic > 0 else []
+    accents = [
+        {
+            "hex": "#%02x%02x%02x" % rgb,
+            "share": count / chromatic,
+            "slides_for_90pc": _concentration(rgb)[0],
+            "slides_any": _concentration(rgb)[1],
+        }
+        for rgb, count in ranked
+    ]
     return {
         "neutral_share": neutral / total,
         "chromatic_share": chromatic / total,
         "accents": accents,
+        # What share of chromatic pixels the printed rows actually account for.
+        # Without this the table looks exhaustive when it is not.
+        "listed_share": (
+            sum(count for _, count in ranked) / chromatic if chromatic > 0 else 0.0
+        ),
+        "distinct_bins": len(accent_tally),
+        "slides_sampled": slides_sampled,
     }
 
 
@@ -367,7 +517,9 @@ def _palette_has_data(palette_data) -> bool:
 
 
 def render_report(
-    manifests: list[dict], palette_data: dict | list
+    manifests: list[dict],
+    palette_data: dict | list,
+    reuse: dict | None = None,
 ) -> str:
     stats = word_stats(manifests)
     decks = stats["decks"]
@@ -375,19 +527,49 @@ def render_report(
     geometries = sorted({tuple(m["geometry_pt"]) for m in manifests})
     agreement = notes_span_agreement(manifests)
 
+    reuse = reuse or {}
+
     lines = [
         "# Slide audit",
         "",
         f"Measured over **{label}**, {stats['slides']} slides.",
         "",
-        "| Deck | Slides | Geometry (pt) | Aspect |",
-        "|---|---|---|---|",
     ]
-    for m in manifests:
-        w, h = m["geometry_pt"]
-        lines.append(
-            f"| {m['title']} | {m['pages']} | {w:.0f} x {h:.0f} | {m['aspect']} |"
-        )
+    if reuse:
+        lines += [
+            f"**Those {reuse['slides']} slides are not {reuse['slides']}",
+            "independent observations.** Grouping every slide against every",
+            f"other at {REUSE_THUMB[0]} x {REUSE_THUMB[1]} px (box-filtered, mean",
+            f"absolute RGB difference < {REUSE_MAE_CUTOFF}) leaves",
+            f"**{reuse['distinct']} distinct designs** — decks in this corpus reuse",
+            "each other's slides. Every other figure in this file is a count of",
+            "SLIDES, so a shape that recurs may be one slide carried forward rather",
+            "than a habit. The per-deck column below gives the share of each deck",
+            "that has a near-identical twin in another deck.",
+            "",
+        ]
+        lines += [
+            "| Deck | Slides | Geometry (pt) | Aspect | Twinned in another deck |",
+            "|---|---|---|---|---|",
+        ]
+        for m in manifests:
+            w, h = m["geometry_pt"]
+            d = reuse["per_deck"].get(m["slug"], {"slides": 0, "twinned": 0})
+            share = d["twinned"] / d["slides"] if d["slides"] else 0.0
+            lines.append(
+                f"| {m['title']} | {m['pages']} | {w:.0f} x {h:.0f} | {m['aspect']} "
+                f"| {d['twinned']} ({share:.0%}) |"
+            )
+    else:
+        lines += [
+            "| Deck | Slides | Geometry (pt) | Aspect |",
+            "|---|---|---|---|",
+        ]
+        for m in manifests:
+            w, h = m["geometry_pt"]
+            lines.append(
+                f"| {m['title']} | {m['pages']} | {w:.0f} x {h:.0f} | {m['aspect']} |"
+            )
 
     lines += [
         "",
@@ -401,7 +583,7 @@ def render_report(
         f"- maximum {stats['max']}",
         f"- share under four words: **{stats['share_under_four']:.0%}**",
         "",
-    ] + word_count_caveat_lines(agreement)
+    ] + word_count_caveat_lines(agreement, page_chrome_spans(manifests))
 
     hist = size_histogram(manifests)
     lines += [
@@ -492,17 +674,34 @@ def render_report(
         ]
         accents = palette_data["accents"]
         if accents:
+            listed = palette_data.get("listed_share", 0.0)
+            bins = palette_data.get("distinct_bins", 0)
+            sampled = palette_data.get("slides_sampled", 0)
             lines += [
-                "### Accent colours",
+                "### Chromatic colours, ranked",
                 "",
                 f"The table below divides that **{palette_data['chromatic_share']:.1%}**",
                 "chromatic share up further, by colour — each row is a share of",
                 "chromatic pixels only, not of the whole slide.",
                 "",
-                "| Colour | Share of chromatic pixels |",
-                "|---|---|",
+                f"**These are the {len(accents)} largest of {bins} bins and cover",
+                f"{listed:.1%} of chromatic pixels; the remaining",
+                f"{1 - listed:.1%} is not listed.** The heading says *chromatic*,",
+                "not *accent*, on purpose: a large bin is not necessarily a design",
+                "choice. The last column is how many slides carry 90% of that",
+                f"colour's pixels — against {sampled} sampled slides, a single-digit",
+                "figure means the colour is one flat fill in a handful of images (a",
+                "screenshot, say) rather than an ink spent across the deck.",
+                "Reported, not interpreted.",
+                "",
+                "| Colour | Share of chromatic pixels | Slides carrying 90% of it |",
+                "|---|---|---|",
             ]
-            lines += [f"| `{hexcode}` | {share:.1%} |" for hexcode, share in accents]
+            lines += [
+                f"| `{a['hex']}` | {a['share']:.1%} | "
+                f"{a['slides_for_90pc']} of {a['slides_any']} |"
+                for a in accents
+            ]
         else:
             lines.append("_No chromatic pixels sampled._")
     else:
@@ -520,7 +719,10 @@ def main() -> int:
     if not manifests:
         print(f"no manifests under {CORPUS_ROOT}; run build-slide-corpus.py first")
         return 1
-    REPORT.write_text(render_report(manifests, palette(manifests)), encoding="utf-8")
+    REPORT.write_text(
+        render_report(manifests, palette(manifests), reuse_stats(manifests)),
+        encoding="utf-8",
+    )
     print(f"wrote {REPORT} over {len(manifests)} deck(s)")
     return 0
 
