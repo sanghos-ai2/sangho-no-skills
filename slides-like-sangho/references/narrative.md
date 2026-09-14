@@ -212,14 +212,24 @@ and `Average: 7.3 years`). Luminate says so out loud: "* Please read our paper f
 (34, 35). This was the previous pass's most Luminate-suspect finding and it holds across five
 studies in four decks.
 
-**The contribution is named twice, in two registers** — framework first, system second, on
-separate slides (Luminate 20 then 22; KAIST 38 then 40; job talk 51 then 53). **(observed)**
+**The contribution is named twice, at two levels of abstraction** — framework first, system
+second, on separate slides (Luminate 20 then 22; KAIST 38 then 40; job talk 51 then 53).
+**(observed)**
 
 **Re-orientation is done by returning to an unchanged card**, not by a progress bar — but the card
-differs by register. Luminate returns to the same rough-bordered research-question box four times
-(34, 35, 40, 41). The talk register instead returns to the three-spaces chapter card with a
-different one blackened (KAIST 17/46/47/76/77/118; job talk 30/61/62/94/95/142). Same job, two
-implementations. **(observed)**
+differs between decks. Luminate returns to the same rough-bordered research-question box four
+times (34, 35, 40, 41). KAIST and the job talk instead return to the three-spaces chapter card
+with a different one blackened (KAIST 17/46/47/76/77/118; job talk 30/61/62/94/95/142). Same job,
+two implementations. **(observed)**
+
+**A note on vocabulary, for readers arriving from the other three documents.** Those group the
+decks into a "conference register" (Luminate) and a "talk register" (KAIST, the job talk), with
+Sensecape straddling. **That grouping is a hypothesis about *why* the four decks differ, not a
+grade of evidence, and it is not settled** — both conference talks land on opposite sides of it,
+and the decks do not order chronologically (Sensecape is UIST'23, Luminate CHI'24, so the sequence
+runs clean → rough → clean). See `visual-language.md`, "Two registers" and item 1 of its
+uncertainty list. **This document therefore names decks rather than registers**, and the words
+"conference register" and "talk register" appear nowhere in it outside this paragraph.
 
 **"There is no summary" was wrong.** The previous pass called this its most falsifiable claim and
 it is false: **Takeaway cards exist** — KAIST 44, 45, 114 and job talk 57, 58, 132, 133, plus
