@@ -37,7 +37,7 @@ near-identical slides with each other.
 
 | Archetype | Lum (55) | Sen (32) | KAIST (126) | Job (152) | Total | Authored in |
 |---|---:|---:|---:|---:|---:|---|
-| **Conceptual diagram (build step)** | 13 | 6 | 53 | 63 | **135** | Lum + Sen + K + J — all four |
+| **Conceptual diagram (build step)** † | 13 | 6 | 53 | 63 | **135** | Lum + Sen + K + J — all four |
 | **Interface capture** | 13 | 11 | 15 | 15 | **54** | Lum + Sen + K + J — all four |
 | **Participant-quote card** | 4 | 3 | 5 | 5 | **17** | Lum + Sen (+ reused in K, J) |
 | **Statement card** | 0 | 3 | 6 | 7 | **16** | Sen + K + J |
@@ -63,6 +63,10 @@ near-identical slides with each other.
 
 Columns sum to 55 / 32 / 126 / 152. Every slide is classified; there is no residual bucket.
 
+† **Conceptual diagram is split three ways** — abstraction ladder / metaphor space / pipeline,
+plus a residual — under "Inside the Conceptual-diagram bucket" below. The row is left whole here
+on purpose.
+
 ---
 
 ## What each one is
@@ -72,6 +76,8 @@ replaced. The corpus's governing shape: 37% of all slides, and a majority of eve
 consecutive pairs are edits of the picture before (see `visual-language.md`). Examples: the
 design-space plane (Luminate 6–13), the simple↔complex axis (Sensecape 11–16), the abstraction
 ladder (job talk 103–113), the thinkable-territory parallelogram (KAIST 11–17, 120–124).
+**This bucket is split three ways under "Inside the Conceptual-diagram bucket" below** — the row
+is kept whole here because the build-by-modification finding runs across all of it.
 
 **Interface capture** — a screenshot at full bleed or on one clean half, with a band label and,
 in Luminate only, hand-drawn arrows and handwritten part-names. Luminate 23–32 and 48–50;
@@ -154,6 +160,146 @@ KAIST 3; job talk 11. **Two occurrences of what is plainly one design; not an ar
 
 ---
 
+---
+
+## Inside the Conceptual-diagram bucket
+
+The bucket is 135 of 365 — 37% of the corpus — and the previous pass could not find a split it
+could defend from the slides alone. **Sangho supplied the split** (2026-09-13): *"i'd say it's
+abstraction ladder and pipeline diagrams (e.g., user study procedure) are most common"*. This
+section tests that against the slides. **It half holds.**
+
+### Re-deriving the bucket first
+
+`archetypes.md` gives examples per archetype, not full membership lists, so the 135 could not be
+looked up and had to be re-derived. Re-classifying all 365 slides gives a bucket of **137**:
+Luminate 13, Sensecape 6, KAIST 53, job talk 65 (against the table's 13 / 6 / 53 / 63). The
+difference is three boundary slides, named so it can be checked: I read job talk 143 as a
+Prior-work montage (it is a tweet, like job talk 6, 33, 49, 90, 99) rather than an Open-question
+card, and job talk 144 as a conceptual diagram (it carries the Thinkable-Territory sphere) rather
+than an Open-question card; and I keep KAIST 115 and job talk 134 — `Opportunities` over four
+line icons, with no claim sentence — as labelled icon sets rather than Statement cards. **Nothing
+below turns on ±2 slides**, and the frequency table at the top of this document is left at 135.
+
+### The three-way split
+
+A slide is assigned by the **organising structure of its figure**, not by its subject:
+
+| Sub-archetype | Lum (13) | Sen (6) | KAIST (53) | Job (65) | Total | Distinct designs |
+|---|---:|---:|---:|---:|---:|---:|
+| **Abstraction ladder** | 0 | 6 | 28 | 30 | **64** (47%) | 18 |
+| **Metaphor space** | 7 | 0 | 19 | 24 | **50** (36%) | 25 |
+| **Everything else** | 2 | 0 | 3 | 8 | **13** (9%) | 7 |
+| **Pipeline / procedure** | 4 | 0 | 3 | 3 | **10** (7%) | 5 |
+| | 13 | 6 | 53 | 65 | **137** | 55 |
+
+Design counts use the same MAE < 3 grouping as the rest of this document, which merges build steps
+of one figure as well as cross-deck twins — so 64 ladder slides really are 18 distinct pictures.
+
+### Where Sangho's reading holds, and where the slides disagree with it
+
+**The abstraction ladder: confirmed, and it is the largest family.** 64 of 137, 47% of the bucket.
+
+**The pipeline: not confirmed — inside this bucket it is the smallest of the three, 10 slides
+(7%).** That is worth stating plainly because it is the one place the slides contradict the
+brief. Two things explain the gap, and both are about bucket boundaries rather than about Sangho
+being wrong:
+
+- **His own exemplar is not in this bucket.** The user-study procedure strip — `PRE-STUDY SURVEY →
+  INTERFACE TUTORIAL → CREATIVE WRITING TASK → POST-STUDY SURVEY & INTERVIEW` (KAIST 42, job talk
+  55) — is classified as a **Study-setup card** in the table above, not as a Conceptual diagram.
+  So is the CodeToon two-study strip (`① User Study ② Comic Evaluation`, KAIST 111, job talk 129).
+- **The Luminate method figure is filed as an Annotated paper figure** (Luminate 21, KAIST 39, job
+  talk 52) even though it is a numbered two-stage flow: `prompt #1` → a row of `Dimension #n`
+  boxes → response sets → the design-space plane.
+
+**Counted across the whole corpus rather than inside one bucket, pipeline-shaped slides come to
+17 of 365 (5%) on 9 distinct designs** — the 10 above plus those 7. Still the smallest of the
+three families, but no longer marginal, and his instinct about *which kinds of picture he draws*
+is defensible even though the bucket's arithmetic does not show it.
+
+**A third family he did not name is larger than the pipeline and, deduplicated, larger than the
+ladder: the metaphor space.** 50 slides (36%) and **25 of the bucket's 55 distinct designs** — the
+largest by design count, against the ladder's 18. This is the Luminate design-space parallelogram
+and the Thinkable-Territory plane/sphere. A skill given only "ladder or pipeline" would have no
+shape for the bucket's most-drawn figure family.
+
+### What each one is, so a skill can choose between them
+
+**Abstraction ladder** — *an ordered axis of levels, where each position is the same subject at a
+different grain.* Moving along it changes the level, not the topic. Identified by: a labelled axis
+with two named poles that are degrees of one quality (`Abstract` ↔ `Concrete`, `Simple` ↔
+`Complex`, `Broader picture` ↔ `Detail`), and items placed at positions along it. Its job in a
+talk is to make "these are the same thing seen from different heights" visible.
+
+- **KAIST 85–95 / job talk 103–113** — `Changing Levels of Abstraction for Learning`. A vertical
+  `Abstract`/`Concrete` arrow; three rungs (`Programming Concept`, `Analogy & Metaphor`,
+  `Real-life Example`) arrive one at a time, then three more columns are added beside them.
+- **Sensecape 11–16 / KAIST 57–62 / job talk 72–77** — a horizontal `Simple` → `Complex` arrow
+  carrying five representations (a dot, a numbered list, a grid, a graph, a tree), with a topic
+  hierarchy built above it.
+- **KAIST 100–110 / job talk 118–128** — `Code` → `Story` → `Comic` along a single arrow. The axis
+  is implicit here; KAIST 99 / job talk 117 establish it by placing those same three on the
+  `Abstract`/`Concrete` diagonal first. *(That is a judgment call, and the one I am least sure of
+  in this table — see below.)*
+
+**Pipeline / procedure** — *a directed chain of at least two distinct stages, where one stage's
+output feeds the next.* Identified by: boxes or icons in a row joined by arrows, each labelled
+with a different action or step. Its job is to make a process auditable — "here is what happened,
+in order".
+
+- **KAIST 42 / job talk 55** (Study-setup card) — the four-box user-study procedure, each box an
+  icon over a small-caps stage name. This is the exemplar Sangho named.
+- **Luminate 16, 17 / KAIST 34, 35 / job talk 47, 48** — `Single-Output`: `prompt #1` → ○ →
+  `prompt #2` → ○ → `…`, the outputs dropping onto the design-space plane below. Note this is a
+  **hybrid**: the chain is at full contrast and the plane is greyed back, which is why it is
+  assigned here.
+- **KAIST 21 / job talk 34** — `prompt #1` → 😟 → `prompt #2` → … → 🙂, laid over two dimmed
+  tweets about prompt engineering.
+
+**Metaphor space** — *a named region in an abstract space, usually on drawn axes, that the talk
+then moves around in.* Identified by: a filled shape (parallelogram, plane, sphere) with a name
+attached by a leader line, sitting on axes that are directions rather than measured quantities.
+Its job is to give an argument a place, so that later slides can point at parts of it.
+
+- **Luminate 6–13 / KAIST 23–31 / job talk 36–44** — the `Design Space` parallelogram: ideas as
+  dots on it, a cone of attention narrowing onto one region (`Fixation`), then the whole plane
+  lit (`Design Space Thinking`).
+- **KAIST 11–15, 120–124 / job talk 24–28, 146–150** — `Thinkable Territory`, a grey parallelogram
+  on `X`/`Y`/`Z` axes that grows into a sphere as `range` and then `depth` are added.
+
+**Everything else — 13 slides, 7 designs**, and it is worth knowing this residual exists rather
+than forcing it into the two poles: a **timeline** (job talk 17–19, `1650 BC` → `Today` → `2023 - ?`
+with artefacts along it), a **labelled triad** (KAIST 16, job talk 29 — the three "spaces" with all
+three at full contrast, which is the Chapter card's figure before it starts greying any of them
+back), a **fan-out** (Luminate 10, KAIST 28, job talk 41 — one `LLMs` bubble, many output dots, no
+second stage), **labelled icon sets** (KAIST 115, job talk 134), a **composition** (Luminate 51,
+`Design Space` ⊕ a page of `Creative Writing`), and an **image pair with a concept line** (job talk
+22, 23).
+
+### What this does not settle
+
+- **Neither of the two big families is evidenced independently in both short decks.** Of the 18
+  ladder designs, **4 appear in Luminate or Sensecape** — all four are Sensecape's Simple↔Complex
+  axis; the other 14 belong to the CodeToon segment, which appears only in KAIST and the job talk,
+  the two near-sibling decks. Of the 25 metaphor-space designs, **7 appear in Luminate**; the other
+  18 are the Thinkable-Territory frame, again KAIST + job talk only. **The ladder is absent from
+  Luminate entirely (0 of 13) and the metaphor space is absent from Sensecape entirely (0 of 6).**
+  So each family rests on one independent deck plus one reused segment.
+- **The `Code` → `Story` → `Comic` run is the boundary case.** Nine slides (KAIST 100–110, job talk
+  118–128, minus the interface captures) turn on whether a left-to-right arrow carrying three named
+  representations is a ladder whose axis has been made implicit, or a pipeline with three stages. I
+  read it as a ladder because KAIST 99 / job talk 117 place those same three on an explicit
+  `Abstract`/`Concrete` axis, and because nothing is transformed *by* the arrow — the same content
+  is shown three ways. Read the other way, the pipeline family goes from 10 to 19 and the ladder
+  from 64 to 55, which would change the headline. **One sentence from Sangho settles it.**
+- **Hybrids are real and were assigned, not split.** Luminate 16/17 is a chain *and* a plane;
+  KAIST 13 and job talk 26/148 are the Thinkable-Territory plane *with* a `Broader picture`/`Detail`
+  levels axis added. Each was assigned to the structure carrying the argument on that slide, which
+  means a few slides could defensibly sit in either family.
+
+---
+
 ## Testing the previous pass's vocabulary
 
 The first pass named 12 archetypes from Luminate alone. On four decks:
@@ -205,12 +351,14 @@ share 80 groups of near-identical slides is roughly one deck's worth of evidence
 
 ## Boundaries I am unsure of, in order of how much they matter
 
-1. **Conceptual diagram is a very large bucket (135 of 365).** It runs from a single rough
-   parallelogram to an eleven-slide abstraction ladder to a three-icon row. I kept it whole
-   because splitting it would hide the build-by-modification finding, but a skill that has to
-   *choose* a shape probably needs it split — plausibly into "metaphor plane", "ladder / axis",
-   and "labelled triad". I did not split it because I could not find a boundary I could defend
-   from the slides.
+1. **Conceptual diagram is a very large bucket (135 of 365), and it is now split.** Sangho
+   supplied the split and it is worked through under "Inside the Conceptual-diagram bucket"
+   above: **abstraction ladder 64 / metaphor space 50 / everything else 13 / pipeline 10**, over
+   a re-derived bucket of 137. The bucket row in the frequency table is deliberately left whole
+   at 135, because splitting it there would hide the build-by-modification finding that is the
+   strongest thing in this corpus. What remains unsure is named in that section: whether the
+   `Code` → `Story` → `Comic` run is a ladder or a pipeline (nine slides turn on it), and that
+   neither big family is evidenced independently in both short decks.
 2. **Statement card vs. Full-stop question.** A centred claim and a centred question are the same
    composition with different punctuation. I split them because the *talk move* is opposite — one
    asserts, one stops and asks — but a reader could reasonably merge them into one "centred line"
