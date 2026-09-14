@@ -1,142 +1,232 @@
-# Narrative — first pass
+# Narrative
 
-**Evidence base: one deck.** Luminate @ CHI'24, 55 slides. This is the best-evidenced of the four
-documents, because 35 of the 55 slides carry a presenter note and those notes are a **timed
-script**, not reminders. It is still one talk, and a conference talk is the most constrained
-speaking format there is — a job talk or an invited talk may have a completely different arc.
+**Evidence base: four decks, 365 slides, 180 of them carrying a presenter note**
+([`tools/slide-audit.md`](../../tools/slide-audit.md), "Presenter notes").
 
-Audit figures cite [`tools/slide-audit.md`](../../tools/slide-audit.md) (1 deck). Figures marked
-`controller-findings` come from `controller-findings.md`. Anything else is **my count** over the
-55 manifest entries.
+Figures marked **(computed here)** are mine, over the `notes` field of each manifest, with the
+method stated. Slide-level readings are marked **(observed)**.
 
 ---
 
-## The source, and what it is
+## Read this first: the job talk has no script, and that is not what it looks like
 
-**Notes: 35 of 55 slides, median 23 words, maximum 47** (audit, "Presenter notes", 1 deck).
+The brief for this pass reported note coverage as Sensecape 91% / KAIST 67% / Luminate 64% /
+job talk 21%, and read the spread as "conference talks are scripted, the job talk is improvised."
+The coverage numbers are right. The reading is wrong, and in an interesting way.
 
-They are a script with a clock in it. The first reads:
+**30 of the job talk's 32 notes contain Korean, and 29 of 32 are glossary-shaped** — lines of the
+form `term - term`, e.g. *"Broader picture - 큰 그림 / Detail - 세부적인 / Levels of abstraction -
+추상화 레벨/계층"* (slide 1). **(computed here**: Hangul codepoint search, plus a line-shape test
+requiring ≥60% of a note's non-empty lines to match `<phrase> - <phrase>`.) The remaining three
+are not narration either: slides 22 and 23 are **media attributions** (author, title, YouTube
+link for the telescope and microscope footage) and slide 93 is the **generated-image record**
+("Here is the image depicting a group of researchers…").
 
-> `00:00 - 00:20 (20 s)` — Hi, my name is Sangho. I will present Luminate on behalf of my
-> co-authors…
+So the honest figure is: **0 of 152 job-talk slides carry a line of narration.** Its notes field
+is being used for three completely different jobs — an English→Korean vocabulary crib, a media
+credits ledger, and a provenance record for generated imagery. Whether that means the talk was
+improvised, rehearsed from memory, or prepared for delivery in Korean is **not** something the
+file can tell you, and I have not asserted one.
 
-**Timing markers appear on 20 of the 55 Luminate slides** (`controller-findings`), and
-`controller-findings` is explicit that this is a per-deck convention: **21/126 on KAIST, 0/32 on
-Sensecape, 0/152 on the job talk.** Do not carry the habit to other decks.
+By contrast the other three decks' notes are unambiguously spoken narration:
 
-**The clock is the strongest single finding here.** Of the notes that start with a cue, the
-duration is almost always **10 s or 15 s**, occasionally 20 s (my reading of the 22 cue-bearing
-notes). He is budgeting per slide, at roughly a slide every twelve seconds through the setup —
-which is why the setup can spend eleven slides on one diagram without feeling slow.
-
-**A note belongs to a beat, not to a slide.** Slides 26, 27 and 28 carry the *same note, word for
-word* — three slides of one semantic-zoom build, narrated once. Slides 53 and 54 do the same. Where
-a slide is a build step or a return to something already narrated, the note is absent or repeated
-rather than rewritten. This is the mechanism behind everything in the next section.
-
----
-
-## How much lives in his mouth
-
-Reading notes-word count as "how much is spoken here" against what is on the slide:
-
-**Where the notes are densest, the slides are emptiest.** The five highest note counts are slides
-2 (47 words), 4 (45), 5 (42), 32 (36) and 36 (36). Slide 4 is *one sentence on a black field*.
-Slide 5 is a quotation and a photograph. The setup slides 6–13 carry a wordless diagram and notes
-of 12–32 words each. The argument is spoken; the slide holds the picture he is speaking over.
-
-**Where the notes disappear, the slide is doing one of three things** (all 20 note-free slides
-account for):
-
-| Job | Slides | Count |
-|---|---|---:|
-| **Build step** — the previous beat continuing, already narrated | 23, 24, 25, 29, 30, 46, 47, 48, 49, 50 | 10 |
-| **Return / re-orientation** — a card the audience has already seen | 35, 40, 41, 37, 43, 44 | 6 |
-| **Structural** — divider or blackout, nothing to say | 1, 33, 45, 55 | 4 |
-
-That third of the deck is the part he *shows* rather than *says*. Note the 43/44 entry: the two
-deployment-study quote slides carry no note at all, which means he intends the audience to **read
-the quote** while he is silent or improvising over it. The user-study quote slides (38, 39) do
-carry notes — and their notes paraphrase the quote rather than adding to it.
-
-**The demo is where speech drops out hardest.** Slides 23–32 are ten slides; they carry 4 distinct
-notes between them (26/27/28 share one). He narrates the *capability* once and then lets the
-interface play.
+> **Luminate 2** — `00:00 - 00:20 (20 s)` · "Hi, my name is Sangho. I will present Luminate on
+> behalf of my co-authors, Meng Chen, Bryan Min, Toby Li, and Haijun Xia…"
+>
+> **KAIST 79** — `0:15 - 0:45 (30 s)` · "So, here is a photo of two kids looking at a laptop
+> screen. Does anyone find anything weird about this picture? (Pause) I think it's weird that
+> they are looking at this Java code and are smiling…"
 
 ---
 
-## The arc
+## The source, per deck
+
+**(computed here**, over the manifests' `notes` fields.)
+
+| Deck | Notes | Coverage | Median words | Max | What the notes are |
+|---|---:|---:|---:|---:|---|
+| Sensecape | 29 | **91%** | 33 | 76 | narration |
+| KAIST | 84 | 67% | 23 | 155 | narration |
+| Luminate | 35 | 64% | 23 | 47 | narration, timed |
+| Job talk | 32 | 21% | 12 | 78 | **not narration** — see above |
+
+**Timing markers are a per-deck convention and the corrected numbers differ from what
+`controller-findings.md` records** (which was measured on the bad export):
+
+| Deck | Notes with a duration `(N s)` | Notes with a wall clock `mm:ss` |
+|---|---:|---:|
+| Luminate | 20 of 35 | 2 |
+| Sensecape | 0 of 29 | 2 |
+| KAIST | 28 of 84 | **33** |
+| Job talk | 0 of 32 | 0 |
+
+KAIST's clocks are not spread across the deck — they cluster on slides 78–106, the CodeToon
+segment, which is also where its notes are longest (median 33 words over slides 51–75). That is
+the section he timed most carefully. **(computed here)**
+
+**A note belongs to a beat, not to a slide.** Verbatim-identical notes are repeated across
+consecutive slides in every deck: Luminate 26/27/28 and 53/54; Sensecape 3/4/5, 13/14/15,
+19/20/21/22; KAIST 49/50/51, 59/60/61, 65/66/67/68; job talk 1/2/3/4, 6/7/11, 126/127/128. That
+is **14% of Luminate's notes-bearing slides, 45% of Sensecape's, 18% of KAIST's, 44% of the job
+talk's** — where a slide is a build step or a return to something already said, the note is
+repeated or omitted rather than rewritten. **(computed here)**
+
+**Presenter notes do not appear in the slide text layer** — 0 of the 180 notes-bearing slides
+(audit, "Notes in the text layer"). The previous pass's claim that a 12.8 pt band *was* the note
+came from the bad export and is dead.
+
+---
+
+## How much lives in his mouth, and where
+
+Notes coverage by position in the deck **(computed here**, quintiles by slide index):
+
+| Deck | 1st fifth | 2nd | 3rd | 4th | 5th |
+|---|---:|---:|---:|---:|---:|
+| Luminate | 91% | 100% | 45% | 45% | 36% |
+| Sensecape | 83% | 100% | 100% | 100% | 71% |
+| KAIST | 32% | 76% | 92% | 80% | 54% |
+| Job talk | 57%* | 20%* | 3%* | 10%* | 16%* |
+
+\* job-talk cells count the Korean glossary, not narration.
+
+Three genre shapes fall straight out of this.
+
+**Luminate — scripted front, shown back.** The setup is written out sentence by sentence with a
+per-slide clock; by the demo and the results it drops to under half, and the two deployment-study
+quote slides (43, 44) carry no note at all. He narrates the *capability* once over ten
+screenshots (23–32 carry four distinct notes between them) and then lets the interface play.
+**The densest notes sit on the emptiest slides** — slide 4 is one sentence on black with a 45-word
+note; slide 5 is a quotation and a photograph with 42. **(observed + computed here)**
+
+**Sensecape — scripted throughout.** 91% coverage, the highest in the corpus, and the longest
+median note (33 words). It is also the shortest deck and the emptiest — 22% of its slides carry
+no copy at all. The talk is almost entirely in his mouth and the slides are almost entirely
+picture. **(computed here)**
+
+**KAIST — scripted where it is new.** Coverage climbs from 32% in the opening frame to 92% in the
+middle, and the clocks concentrate in the CodeToon section. The frame — telescopes, observatories,
+the thinkable-territory metaphor — is the part he can say without notes; the paper segments are
+the part he times. **(computed here)**
+
+**Job talk — no script anywhere.** See above.
+
+---
+
+## The arcs
+
+### Luminate (CHI'24, 55 slides) — the conference arc
 
 | Slides | Beat | Move |
 |---|---|---|
-| 1–2 | **Open** | Blackout, then the paper's own title card. Names co-authors and where the work was done, in twenty seconds. No preamble, no outline slide. |
-| 3 | **The world now** | Other people's systems, as pictures, venue-tagged. Establishes that the area is live without claiming anything. |
-| 4 | **Turn 1 — the challenge** | Black slide, one question: *"But are we using the creative potential of generative AI to its fullest?"* He tells you the answer is no in the note, not on the slide. |
-| 5 | **Borrowed authority** | Pauling: have lots of ideas, throw the bad ones away. The talk's whole principle arrives in someone else's words before any of Sangho's. |
-| 6–8 | **The principle, drawn** | The design-space plane. Then fixation. Then design-space thinking replacing it, staged as a strike-through. |
-| 9–12 | **The opportunity** | The *same* drawing, now with LLMs attached, built up across four slides at 12–20 words of narration each. |
-| 13 | **The gap** | Same drawing again, with two large X marks and a band title: current paradigms do not support this. |
-| 14–18 | **The gap, concretely** | Real ChatGPT, real prior systems. Single-output, then multi-output, then the two papers that did multi-output — and the verdict: *help converge, not diverge*. |
-| 19 | **Turn 2 — the research question** | The evidence he just built is dimmed to grey and the question is laid across it on a black band. The question is literally placed *on top of* what motivated it. |
-| 20–21 | **Contribution named** | The framework gets a name and a one-line gloss, then one dense worked example. |
-| 22 | **System named** | Luminate, centred, alone. |
-| 23–32 | **System shown** | Ten full-bleed captures, annotated. Four notes total. |
-| 33 | **Divider** | "Evaluation." |
-| 34–35 | **Roadmap** | All three research questions in a box; then the same box narrowed to Study I. |
-| 36–39 | **Study I** | Who (14 writers, cartoon faces), what (task counts), then two slides of findings *entirely in participant quotes*. |
-| 40–41 | **Roadmap, returned to** | The same box again — Study I closed, Study II opened. No note on either: the card does the work. |
-| 42–44 | **Study II** | Who (8 writers), then two quote slides, both note-free. |
-| 45 | **Divider** | "Implications & Future Work." |
-| 46–47 | **Widen** | Divergent/convergent thinking — the talk's specific result placed inside a general theory of creativity. |
-| 48–50 | **Speculate** | What an ordinary chat interface would look like with an "Explore" button. Note-free: he is showing a possible future, not arguing for one. |
-| 51 | **Next** | Design space ⊕ creative writing, and the implied ⊕ everything else. |
-| 52 | **Turn 3 — the closing questions** | The future-work slide dimmed, two questions laid over it in *handwriting*. The talk ends on questions, not on claims. |
-| 53–54 | **Close** | QR, URL, "Demo & Code", team, contact, "Questions?". |
-| 55 | **Blackout** | |
+| 1–2 | Open | Blackout, then the paper's own title card. Co-authors named in twenty seconds. No outline slide. |
+| 3 | The world now | Other people's systems, as pictures, venue-tagged. |
+| 4 | **Turn 1 — the challenge** | Black slide, one question. The answer is in the note, not on the slide. |
+| 5 | Borrowed authority | Pauling: have lots of ideas and throw the bad ones away. The talk's whole principle arrives in somebody else's words before any of Sangho's. |
+| 6–13 | The principle, drawn | The design-space plane; fixation; design-space thinking staged as a strike-through; then the same drawing with LLMs attached; then two ✗ marks. Eight slides, one picture. |
+| 14–18 | The gap, concretely | Real ChatGPT, real prior systems, and the verdict: *help converge, not diverge*. |
+| 19 | **Turn 2 — the research question** | The evidence just built is dimmed and the question is laid on top of it. |
+| 20–22 | Contribution named twice | The framework (an abstraction), then one worked example, then the system (a thing you can run). |
+| 23–32 | System shown | Ten full-bleed captures, four notes between them. |
+| 33–44 | Evaluation | Divider; the question box; who; then findings **entirely in participant quotes**. The box returns unchanged at 40/41 to close Study I and open Study II. |
+| 45–51 | Widen and speculate | Divergent/convergent thinking; a chat interface with an "Explore" button; design space ⊕ creative writing. |
+| 52 | **Turn 3 — the closing questions** | The future-work slide dimmed, two questions laid over it in handwriting. |
+| 53–55 | Close | QR, URL, team, "Questions?", blackout. |
+
+### Sensecape (UIST'23, 32 slides) — the same arc, compressed and barer
+
+Blackout → title card → **a scenario acted out in screenshots** (3–6: a search box, a results
+page, a ChatGPT answer) → the question on white (7) → the limitation stated over a dimmed
+screenshot (9) → simple-vs-complex comparison (10) → the axis built over six slides (11–16) →
+the system named over the dimmed axis (17) → the system shown (18–22) → two quote cards (23, 24)
+→ "Takeaway & Future Work" (25) → three widening statements (26–31) → **the title card again**
+(32).
+
+Two differences from Luminate that are worth a skill knowing: **the scenario comes before the
+argument** (you watch somebody fail at a task before you are told what is wrong), and **the deck
+ends where it began**, on its own title card, with no QR and no "Questions?".
+
+### KAIST (126 slides) and the job talk (152) — the anthology arc
+
+Both are a **frame** into which whole conference talks are dropped. The frame is measurable: the
+cream ground with the right-edge icon rail appears on KAIST 1–17, 46–47, 76–77, 118–124 and job
+talk 5, 12–30, 61–62, 94–95, 142–150 — the opening, the joins between papers, and the close — and
+on none of the embedded segments (**computed here**; see `visual-language.md`).
+
+**The frame's arc, shared by both:**
+
+1. **Who I am, in photographs.** Two lab photos with band labels (KAIST 1; job talk 5).
+2. **Blackout.** (KAIST 2; job talk 10.)
+3. **Talk title card** — serif, on black, beside a generated image, with only his name.
+4. **An extended physical metaphor, told as a visit.** Griffith Observatory, Mount Wilson, a
+   founder's quote, a timeline from 1650 BC to today (KAIST 4–8; job talk 12–19). The talk's
+   thesis — *optical instruments extend the range and depth of perception; AI tools should do the
+   same for thought* — is established entirely through other people's things before any of his
+   work appears.
+5. **The question, twice** (KAIST 9, 10; job talk 20, 21), then the abstraction built as one
+   drawing over five to seven slides.
+6. **Three chapters**, each announced by the chapter card and each containing a whole paper talk:
+   Design Space (Luminate), Information Space (Sensecape), Representation Space (CodeToon).
+7. **Looking ahead** — an open-question card naming the spaces he has *not* entered
+   (KAIST 119; job talk 143–145), then the metaphor drawn one last time.
+8. **Contact card, blackout.**
+
+**The job talk differs from KAIST in three ways**, all of them additive: it opens with four
+diagram slides *before* the lab photos (see `archetypes.md`, boundary 5 — I cannot tell whether
+that is a cold open or leftovers); it inserts seven **AI-image + band question** slides
+(59, 60, 91, 92, 93, 140, 141) that widen each chapter from "writers" to "the general public" and
+"scientists"; and it carries a research-agenda slide (139, the Artshine partnership) that KAIST
+does not.
 
 ---
 
-## What the shape is
+## What the shape is, across four decks
 
-**Three questions, three hinges.** Slides 4, 19 and 52 are the only slides that stop the argument
-to ask something, and they sit at almost exactly the three joints of the talk: motivation→principle,
-evidence→contribution, results→future. Each is staged the same way — the stage is blanked or dimmed
-so nothing competes with the question.
+**The talk turns on questions, and the question is laid over the evidence that produced it.**
+15 dimmed-stage questions and 13 full-stop questions across the corpus, in all four decks. The
+dimmed form is the signature: Luminate 19 and 52, Sensecape 9, KAIST 19/22/94/95, job talk
+7/9/32/35/112/113 all fade the argument to grey and put the question on top of it, so the
+question is literally placed on what motivated it. **(observed)**
 
-**The principle is borrowed before it is asserted.** Slide 5 puts a Nobel laureate's sentence on
-screen before Sangho makes any claim of his own. The rest of the setup (6–13) is that sentence
-turned into a drawing.
+**The principle is borrowed before it is asserted.** Ten borrowed-authority quotes: Pauling
+(Luminate 5), Griffith J. Griffith (KAIST 7, job talk 15), Bill Buxton (job talk 8), Bret Victor
+(KAIST 74, job talk 89), Donald Knuth (KAIST 84, job talk 102). In every case the borrowed
+sentence arrives *before* Sangho's own claim on the same subject, and the next several slides are
+that sentence turned into a drawing. **(observed)**
 
-**The contribution is named twice, in two registers.** First the framework (20 — an abstraction),
-then the system (22 — a thing you can run). They are separate slides with separate names, and the
-system slide is deliberately quiet: a logo and two lines.
+**Results are testimony, not measurement.** 17 participant-quote cards across four decks, and
+**zero statistics anywhere in the corpus's slide copy** (**computed here**; see
+`visual-language.md`). Luminate says so out loud: "* Please read our paper for detailed results"
+(34, 35). This was the previous pass's most Luminate-suspect finding and it holds across five
+studies in four decks.
 
-**Results are testimony, not measurement.** Both studies report through participant quotes and
-cartoon faces, and both the evaluation roadmap slides carry a grey line in the corner —
-"* Please read our paper for detailed results". The talk delegates the numbers to the paper
-on purpose and says so.
+**The contribution is named twice, in two registers** — framework first, system second, on
+separate slides (Luminate 20 then 22; KAIST 38 then 40; job talk 51 then 53). **(observed)**
 
-**There is no summary.** No conclusion slide, no takeaways, no recap of contributions. The last
-content slide is two open questions in handwriting. **This is the most falsifiable claim in this
-document**: if the other three decks all end in a takeaways slide, it is a CHI-format artifact,
-not taste.
+**Re-orientation is done by returning to an unchanged card**, not by a progress bar — but the card
+differs by register. Luminate returns to the same rough-bordered research-question box four times
+(34, 35, 40, 41). The talk register instead returns to the three-spaces chapter card with a
+different one blackened (KAIST 17/46/47/76/77/118; job talk 30/61/62/94/95/142). Same job, two
+implementations. **(observed)**
 
-**The audience is re-oriented by returning to an unchanged card, not by a progress bar.** Slides
-34, 35, 40, 41 are the same rough-bordered box, shown four times with different amounts of it
-live. That device carries all the structural signalling in the second half.
+**"There is no summary" was wrong.** The previous pass called this its most falsifiable claim and
+it is false: **Takeaway cards exist** — KAIST 44, 45, 114 and job talk 57, 58, 132, 133, plus
+Sensecape's "Takeaway & Future Work" divider (25). Three of the four decks summarise. What is
+true, and worth keeping, is the narrower claim: **no deck in the corpus *ends* on a takeaways
+slide.** All four end on a contact card or the title card, and two of them on a blackout. The
+takeaway lands mid-talk, at the close of each paper segment, not at the end of the talk.
 
 ---
 
 ## What I could not get from this source
 
-- **Whether the script was followed.** These are authored notes; the talk as delivered is not in
-  the corpus. `watch-recording` over the CHI recording would settle how much he improvises —
-  particularly over the note-free quote slides (43, 44), where the current reading assumes he
-  lets the audience read.
-- **Whether the clock is normal for him.** `controller-findings` already shows it is not: two of
-  the four canon decks carry no timing markers at all. The *habit of budgeting* may still be
-  there and just not written down.
-- **Why 18 slides are skipped in the file** (`controller-findings`). Cut material is kept rather
-  than deleted, which is itself a working-method fact, but the cut slides are not in the render
-  and I could not read what he chose to drop. That is probably the single most informative thing
-  still unextracted.
+- **Whether any script was followed.** These are authored notes; no recording is in the corpus.
+  `watch-recording` over the CHI'24 or the KAIST recording would settle how much he improvises,
+  and is the single most informative thing still unextracted.
+- **Why the job talk's notes are a Korean glossary.** Three readings fit the file equally well
+  (delivery in Korean, rehearsal aid, personal vocabulary practice) and nothing in the corpus
+  separates them.
+- **Whether job-talk slides 1–4 are a cold open or leftovers.** See `archetypes.md`.
+- **What was cut.** `controller-findings.md` records that Luminate's `.key` holds 73 slides of
+  which 18 are skipped — cut material is kept rather than deleted. The cut slides are not in any
+  render, so what he chose to drop is still invisible.

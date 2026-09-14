@@ -1,102 +1,217 @@
-# Archetypes — first pass
+# Archetypes
 
-**Evidence base: one deck.** Luminate @ CHI'24, 55 slides. Every count below is **my count**,
-produced by classifying all 55 rendered slides by hand. None of it is an audit figure. A shape
-that recurs eleven times in one talk may still be a one-talk habit.
+**Evidence base: four decks, 365 slides.** Every count below is **my classification**, produced
+by looking at all 365 rendered slides. None of it is an audit figure.
 
-**The names are the part most likely to be wrong.** I named each shape by *what the slide does
-in the talk*, not by what is on it, because a skill has to choose a shape from an intent. If a
-name does not match how Sangho thinks about that slide, the name is the defect, not the grouping.
+---
 
-**A caveat on the evidence.** The Keynote file records no per-slide master
-(`controller-findings.md`), so every boundary below is drawn from what the slide looks like and
-what it is doing at that point in the talk. Where I was unsure I said so in the row. **If
-per-slide master usage can be extracted, it would settle three of these boundaries** — see the
-note at the end.
+## Read this first: three things most likely to be wrong
+
+**1. The decks share slides, so a per-deck count is partly a measure of reuse.** KAIST and the
+job talk are anthologies: 86% and 72% of their slides have a near-identical twin in another deck
+(see `visual-language.md` for the method). I classified every slide in the deck it appears in,
+because that is what a reader of that deck sees — but it means an archetype scoring 4/4 may be
+one design Sangho made once and carried forward. **A shape that appears independently in
+Luminate *and* Sensecape is much stronger evidence than one that appears in KAIST and the job
+talk.** The right-hand column flags this.
+
+**2. The names are the part most likely to be wrong.** Each name describes *what the slide does
+in the talk*, not what is on it, because a skill has to pick a shape from an intent. If a name
+does not match how Sangho thinks about that slide, the name is the defect, not the grouping.
+
+**3. Several boundaries below are genuinely arbitrary** — five are listed at the end under
+"Boundaries I am unsure of". The `masters` list in each manifest is Keynote's stock theme catalog
+and no slide records which master it uses, so every boundary here is drawn from appearance and
+function alone.
 
 ---
 
 ## Frequency table
 
-| # | Archetype | What it is for | Slides | Examples |
-|---:|---|---|---:|---|
-| 1 | **Conceptual diagram** | Make the argument as a drawing and then change the drawing. One rough-stroke figure carries the claim; the next slide modifies it rather than replacing it. | **13** | 6, 12 |
-| 2 | **Annotated interface capture** | Show the real thing, full-bleed, and mark it up. A screenshot to all four edges, a band label naming the beat, hand-drawn arrows and handwritten labels pointing at parts. | **13** | 26, 31 |
-| 3 | **Participant-quote card** | Let a participant make the finding. Quote in handwriting, grey with the load-bearing phrase in black and marker-underlined, one cartoon face, hand-lettered participant id. | **4** | 38, 44 |
-| 4 | **Question roadmap** | Say where we are. The study's research questions in a rough-bordered box, returned to unchanged so the audience can re-orient. | **4** | 34, 40 |
-| 5 | **Study-setup card** | Say who and what, fast. A cluster of cartoon faces with a count, plus a stack of bolded facts with grey detail beneath each. | **3** | 36, 42 |
-| 6 | **Full-stop question** | Stop the argument and ask. The hinge question set large over a blanked or dimmed stage — pure black (4), a black band over the dimmed previous slide (19), or white bands over it in handwriting (52). | **3** | 4, 19 |
-| 7 | **Interface ↔ concept split** | Bind the real interface to the abstraction. Screenshot on one half, the design-space diagram on the other, with an arrow crossing between them. | **2** | 14, 15 |
-| 8 | **Section divider** | One or two words, centred, alone on white. Nothing else. | **2** | 33, 45 |
-| 9 | **Prior-work montage** | Show other people's systems as pictures with the venue lettered beneath. No textual citation. | **2** | 3, 18 |
-| 10 | **Naming slide** | Give the contribution its name. Centred name, a band-label subtitle, a hand-drawn arrow, a handwritten gloss. | **2** | 20, 22 |
-| 11 | **Closing card** | QR code, URL, team headshots, institution marks, contact — half black, half white. | **2** | 53, 54 |
-| 12 | **Blackout** | An entirely black slide at each end of the deck. | **2** | 1, 55 |
+| Archetype | Lum (55) | Sen (32) | KAIST (126) | Job (152) | Total | Independent evidence |
+|---|---:|---:|---:|---:|---:|---|
+| **Conceptual diagram (build step)** | 13 | 6 | 53 | 63 | **135** | Lum + Sen ✓✓ |
+| **Interface capture** | 13 | 11 | 15 | 15 | **54** | Lum + Sen ✓✓ |
+| **Participant-quote card** | 4 | 3 | 5 | 5 | **17** | Lum + Sen ✓✓ |
+| **Statement card** | 0 | 3 | 6 | 7 | **16** | Sen only, then reused |
+| **Dimmed-stage question** | 2 | 1 | 5 | 7 | **15** | Lum + Sen ✓✓ |
+| **Full-stop question** | 1 | 2 | 5 | 5 | **13** | Lum + Sen ✓✓ |
+| **Prior-work montage** | 2 | 1 | 4 | 5 | **12** | Lum + Sen ✓✓ |
+| **Borrowed-authority quote** | 1 | 0 | 4 | 5 | **10** | Lum + talk register |
+| **Photo + band label** | 0 | 0 | 5 | 5 | **10** | talk register only |
+| **Chapter card** | 0 | 0 | 5 | 5 | **10** | talk register only |
+| **Paper title card** | 1 | 2 | 3 | 3 | **9** | Lum + Sen ✓✓ |
+| **Study-setup card** | 3 | 0 | 3 | 3 | **9** | Lum only, then reused |
+| **Blackout** | 2 | 1 | 2 | 2 | **7** | Lum + Sen ✓✓ |
+| **Naming slide** | 2 | 1 | 2 | 2 | **7** | Lum + Sen ✓✓ |
+| **AI-image + band question** | 0 | 0 | 0 | 7 | **7** | job talk only |
+| **Takeaway card** | 0 | 0 | 3 | 4 | **7** | talk register only |
+| **Interface ↔ concept split** | 2 | 0 | 2 | 2 | **6** | Lum only, then reused |
+| **Question roadmap** | 4 | 0 | 0 | 0 | **4** | **Luminate-specific** |
+| **Annotated paper figure** | 1 | 0 | 1 | 2 | **4** | Lum only, then reused |
+| **Open-question card** | 0 | 0 | 1 | 3 | **4** | talk register only |
+| **Closing contact card** | 2 | 0 | 1 | 1 | **4** | Lum + talk register |
+| **Section divider** | 2 | 1 | 0 | 0 | **3** | Lum + Sen ✓✓ |
+| **Talk title card** | 0 | 0 | 1 | 1 | **2** | not an archetype — see below |
 
-Total: 50 of 55. The remaining 5 are below.
-
-### Membership
-
-1. **Conceptual diagram** — 6, 7, 8, 9, 10, 11, 12, 13, 16, 17, 46, 47, 51
-2. **Annotated interface capture** — 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 48, 49, 50
-3. **Participant-quote card** — 38, 39, 43, 44
-4. **Question roadmap** — 34, 35, 40, 41
-5. **Study-setup card** — 36, 37, 42
-6. **Full-stop question** — 4, 19, 52
-7. **Interface ↔ concept split** — 14, 15
-8. **Section divider** — 33, 45
-9. **Prior-work montage** — 3, 18
-10. **Naming slide** — 20, 22
-11. **Closing card** — 53, 54
-12. **Blackout** — 1, 55
+Columns sum to 55 / 32 / 126 / 152. Every slide is classified; there is no residual bucket.
 
 ---
 
-## One-offs (appear once — not archetypes)
+## What each one is
 
-| Slide | What it is | Why it is not promoted |
-|---|---|---|
-| 2 | **Title card** — the paper's own title-and-authors graphic, headshots, venue and institution marks, pasted in as one image. | Once. Also probably an asset reused from the paper rather than a slide he composed. |
-| 5 | **Borrowed-authority quote** — Linus Pauling's line, set left with his photograph right, three phrases coloured blue and red. | Once. It is doing the same job as archetype 6 (stop and reframe) with a completely different shape; with more decks it may merge there or stand on its own. |
-| 21 | **Annotated paper figure** — the paper's own dense method figure, full width, with hand-drawn arrows and handwritten labels added underneath it. | Once. Closest relative is archetype 2, but the substrate is a static figure rather than a live interface, and the density is far higher than anything else in the deck. |
+**Conceptual diagram (build step)** — the argument made as a drawing, then *changed* rather than
+replaced. The corpus's governing shape: 37% of all slides, and a majority of every deck's
+consecutive pairs are edits of the picture before (see `visual-language.md`). Examples: the
+design-space plane (Luminate 6–13), the simple↔complex axis (Sensecape 11–16), the abstraction
+ladder (job talk 103–113), the thinkable-territory parallelogram (KAIST 11–17, 120–124).
 
-Plus the two slides pulled into archetypes 1 and 2 that I am least certain about — see below.
+**Interface capture** — a screenshot at full bleed or on one clean half, with a band label and,
+in Luminate only, hand-drawn arrows and handwritten part-names. Luminate 23–32 and 48–50;
+Sensecape 3–6, 8, 18–22; job talk 79–83, 122–123.
+
+**Participant-quote card** — a quote does the reporting, with the context set back and the
+load-bearing phrase pushed forward. Handwriting + a cartoon face + a hand-lettered id in Luminate
+(38, 39, 43, 44); grotesque italic with **bold** in every other deck (Sensecape 23, 24, 30;
+KAIST 73, 112, 113; job talk 84, 85, 88, 130, 131).
+
+**Statement card** — a claim, centred, with nothing else. Often two or three words coloured.
+Sensecape 26, 28, 29; KAIST 38, 71, 72, 80, 96, 115; job talk 51, 86, 87, 98, 114, 134, 135.
+
+**Dimmed-stage question** — the slide that just made the argument is dimmed to grey or black and a
+question is laid across it. Luminate 19, 52; Sensecape 9; KAIST 19, 22, 55, 94, 95; job talk 7, 9,
+32, 35, 70, 112, 113. The chrome differs by register — a black band in Luminate, a
+white-box-with-black-border in KAIST and the job talk — but the move is identical.
+
+**Full-stop question** — a question on a blank stage, no dimmed argument beneath. Luminate 4
+(black); Sensecape 7, 27; KAIST 9, 10, 53, 82, 83; job talk 20, 21, 68, 100, 101.
+
+**Prior-work montage** — other people's systems (or tweets about them) as pictures with the venue
+lettered beneath. No textual citation. Luminate 3, 18; Sensecape 31; KAIST 20, 36, 75, 81;
+job talk 6, 33, 49, 90, 99.
+
+**Borrowed-authority quote** — a named person's sentence, with their photograph. Luminate 5
+(Pauling); KAIST 7, 8, 74, 84 (Griffith, Bret Victor, Knuth); job talk 8, 15, 16, 89, 102.
+
+**Photo + band label** — a real photograph, full-bleed or as a pair, with a grey band naming it.
+KAIST 1, 4, 5, 6, 79; job talk 5, 12, 13, 14, 97.
+
+**Chapter card** — the three "spaces" with the current one black and the others greyed, under a
+boxed section label. KAIST 17, 46, 47, 76, 77; job talk 30, 61, 62, 94, 95, 142.
+
+**Paper title card** — the paper's own title graphic with author headshots and institution marks,
+pasted in as one image. Luminate 2; Sensecape 2, 32; KAIST 18, 48, 78; job talk 31, 63, 96. In the
+anthology decks this is how each embedded talk announces itself.
+
+**Study-setup card** — who and what, fast. Cartoon faces + bolded facts in Luminate (36, 37, 42);
+an icon-and-arrow process strip in the talk register (KAIST 42, 43, 111; job talk 55, 56, 129).
+
+**Blackout** — an entirely black slide. Luminate 1, 55; Sensecape 1; KAIST 2, 126; job talk 10,
+152. **Promoted from "possibly an artefact" to a real archetype**: it appears at both ends of
+Luminate, at both ends of KAIST and the job talk, and at the head of Sensecape — a consistent
+placement across four files is not an export accident.
+
+**Naming slide** — the contribution gets its name, alone. Luminate 20, 22; Sensecape 17;
+KAIST 40, 63; job talk 53, 78.
+
+**AI-image + band question** — a generated illustration used full-bleed as a backdrop with a dark
+translucent band carrying the question, and a band label in the corner. Job talk 59, 60, 91, 92,
+93, 140, 141. **New in this pass; entirely absent from Luminate.**
+
+**Takeaway card** — a bold claim with a supporting quote beneath, or a short bulleted list.
+KAIST 44, 45, 114; job talk 57, 58, 132, 133. **New in this pass, and it kills a Luminate-derived
+never-list candidate** — see `never-list.md`.
+
+**Interface ↔ concept split** — the real interface on one half, the abstraction on the other, with
+an arrow crossing between them. Luminate 14, 15; KAIST 32, 33; job talk 45, 46.
+
+**Question roadmap** — the study's research questions in a rough-bordered box, returned to
+unchanged so the audience can re-orient. Luminate 34, 35, 40, 41 only. **Confirmed
+Luminate-specific.** Nothing in the other three decks does this job; the talk register uses the
+chapter card instead.
+
+**Annotated paper figure** — the paper's own dense method figure at full width with added arrows
+and labels. Luminate 21; KAIST 39; job talk 52, 139.
+
+**Open-question card** — a titled card that names a question and then three labelled question
+marks for the spaces it has not entered. KAIST 119; job talk 143, 144, 145.
+
+**Closing contact card** — QR / URL / headshots / handle. Luminate 53, 54 (half black, half
+white); KAIST 125; job talk 151.
+
+**Section divider** — one or two words, centred, alone. Luminate 33, 45; Sensecape 25.
+
+**Talk title card** — a serif title on black beside a generated image, with just "Sangho Suh".
+KAIST 3; job talk 11. **Two occurrences of what is plainly one design; not an archetype.**
+
+---
+
+## Testing the previous pass's vocabulary
+
+The first pass named 12 archetypes from Luminate alone. On four decks:
+
+**Survived and generalised (8).** Conceptual diagram, Interface capture, Participant-quote card,
+Full-stop question, Section divider, Prior-work montage, Naming slide, Blackout. Of these,
+Conceptual diagram and Participant-quote card are much stronger than before — the first because
+the build-by-modification habit turns out to govern the whole corpus, the second because the
+inverted-emphasis device survives being re-set in a completely different type family.
+
+**Survived, but as one deck's design reused (3).** Interface ↔ concept split, Study-setup card,
+Closing card. Each appears in 3 or 4 decks but the later appearances are the same slides carried
+forward, so the independent evidence is one deck.
+
+**Did not generalise (1).** **Question roadmap** is Luminate-only, 4 occurrences, and the previous
+pass was right to expect this might be format-specific. The job it does — periodic
+re-orientation — is done in the talk register by the chapter card instead.
+
+**Split in two.** The first pass's **Full-stop question** grouped Luminate 4, 19 and 52 and was
+unsure whether the dimming mattered. It does. **Dimmed-stage question** (15 occurrences, all four
+decks) and **Full-stop question** (13, all four decks) are both real and both frequent, and the
+dimming is the distinction: one lays the question over the evidence that produced it, the other
+clears the stage. The previous pass's fourth uncertain boundary is therefore resolved — Luminate 4
+does belong on its own side.
+
+**New in this pass (7).** Statement card, Photo + band label, Chapter card, Takeaway card,
+AI-image + band question, Open-question card, Talk title card. Every one of them belongs to the
+talk register; none appears in Luminate. They are what a longer, first-person, multi-paper talk
+needs and a 15-minute paper talk does not.
+
+**Resolved from the previous pass's uncertainty list:**
+
+- **Luminate 48–50 ("speculative interface")** — folded into Interface capture. Sensecape 3–5 do
+  exactly the same thing (a staged, not-yet-real interaction shown as a plain capture with no
+  annotation), so the form is general and the annotation is optional.
+- **Blackout** — promoted to a real archetype, on the placement evidence above.
+- **Luminate 46/47 and 51** — left inside Conceptual diagram. Both are the running metaphor being
+  modified, which is now the corpus's dominant shape; giving them their own row would fragment
+  the one finding that matters most.
 
 ---
 
 ## Boundaries I am unsure of, in order of how much they matter
 
-1. **48, 49, 50 inside "Annotated interface capture".** These are full-bleed captures of a
-   *hypothetical* interface (a ChatGPT-like window gaining an "Explore" button), not of Luminate,
-   and they carry no band label and no hand-drawn mark. They match the archetype's *form* and
-   not its *annotation*. If they are really their own thing — "speculative interface" — archetype 2
-   drops to 10.
-2. **46, 47 inside "Conceptual diagram".** These are the only diagram slides with a persistent
-   centred title above them and with green/salmon highlighter bands. They might be a distinct
-   "theory frame" shape used in the implications section.
-3. **51 inside "Conceptual diagram".** It is an *A ⊕ B* composition (two framed pictures joined by
-   a plus sign, handwritten captions beneath) rather than a modification of the running metaphor.
-4. **Whether 4 belongs with 19 and 52.** All three stop the talk to ask a question, which is why
-   I grouped them, but 4 is a blank black stage while 19 and 52 lay the question over the dimmed
-   argument that produced it. If the dimming is the point, 4 is a one-off.
-5. **Whether 12 (Blackout) is an archetype at all.** Two all-black slides at the two ends of the
-   deck could be deliberate blackouts, could be video slides whose poster frame exported black, or
-   could be an artifact. I cannot tell from a static export. `controller-findings.md` notes 18
-   skipped slides in the file, which is consistent with either.
-
----
-
-## Would per-slide master usage help?
-
-**Yes, for boundaries 1–3, and it is the cheapest way to settle them.** `controller-findings.md`
-records that no slide stores its master, so this may not be extractable at all — but if it is,
-knowing which slides share a master would tell me whether Sangho *himself* treats 46/47 and 51 as
-the same kind of slide as 6–13, and whether 48–50 sit with 23–32. I drew those three lines from
-appearance and function alone and would change them on that evidence.
-
-**It would not help for boundaries 4 and 5.** Those turn on intent (is the dimming the point?
-is the blackout deliberate?), which a master assignment cannot answer. Sangho can, in one sentence
-each.
-
-**It would not help for the counts.** The large groups (1, 2) are unambiguous regardless of master;
-Keynote's "Blank" master would very plausibly carry most of the deck and tell us nothing.
+1. **Conceptual diagram is a very large bucket (135 of 365).** It runs from a single rough
+   parallelogram to an eleven-slide abstraction ladder to a three-icon row. I kept it whole
+   because splitting it would hide the build-by-modification finding, but a skill that has to
+   *choose* a shape probably needs it split — plausibly into "metaphor plane", "ladder / axis",
+   and "labelled triad". I did not split it because I could not find a boundary I could defend
+   from the slides.
+2. **Statement card vs. Full-stop question.** A centred claim and a centred question are the same
+   composition with different punctuation. I split them because the *talk move* is opposite — one
+   asserts, one stops and asks — but a reader could reasonably merge them into one "centred line"
+   archetype of 29.
+3. **Whether Photo + band label and AI-image + band question are one archetype.** Both are an
+   image at full bleed under a translucent band. I split them because the images are procured
+   differently (photographed vs. generated) and the bands carry different things (a name vs. a
+   question), and because the AI-image slides are the job talk's own invention. Merging gives
+   17 and loses that.
+4. **Chapter card vs. the greying-back device generally.** The chapter card *is* greying-back
+   applied to the talk's own structure. I gave it a row because it is a fixed, repeated slide;
+   but greying-back also appears mid-diagram everywhere, and treating one instance of a device as
+   an archetype is a line I drew.
+5. **Where the job talk's slides 1–4 belong.** They are the abstraction diagram, in the talk
+   register, sitting *before* the lab photos, the framing quote, the blackout and the title card.
+   Either they are a cold open, or they are leftovers parked at the front of the file. I
+   classified them as Conceptual diagram, which is what they look like; their position is the
+   only thing that is odd. **One sentence from Sangho settles it**, and it matters for
+   `narrative.md`.
