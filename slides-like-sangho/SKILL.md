@@ -118,6 +118,13 @@ single-shot — no way to ask, no way to be answered — then the storyboard is 
 rendering anyway spends the one gate this workflow has, unsupervised. A single turn is a reason to
 stop earlier, not a licence to skip the stop.
 
+**Hand over the interactive editor, not a wall of prose.** `storyboard/README.md` — author the
+talk as a payload, build it with `storyboard/build_storyboard.py`, publish it as an artifact with
+`capabilities: {db: {}}`. He reorders, rewrites, attaches figures and tables, and picks a slide
+type from the 23 measured archetypes; his edits persist in the artifact's database, and you read
+them back to render. A storyboard he can *work in* is a better gate than one he has to reply to in
+chat. Do not rebuild this editor — it exists, and four of its bugs were expensive.
+
 One block per beat, in order:
 
 ```
@@ -175,9 +182,16 @@ completeness I also"*, or catching yourself explaining the stop in the past tens
 
 ### 4. Render — only after approval
 
-`render/README.md` picks the path. Default is the Claude Design canvas; PPTX → Google Slides when
-he wants to edit in a browser; standalone HTML when you need to verify by screenshot; Keynote is
-gated and currently unusable on this machine (see `render/keynote.md`).
+`render/README.md` picks the path. **Sangho's stated default is HTML published as a Claude
+artifact** — it lives in his account, he can port to Google Slides from there, and it is the only
+path with a working generator: `render/html/` holds `build_deck_json.py` (merge his edits over the
+payload), `gen_deck.py` (render), and `crop_paper_tables.py` (faithful table crops from a compiled
+paper). PPTX → Google Slides when he wants to edit in a browser; Keynote is gated and currently
+unusable on this machine (see `render/keynote.md`).
+
+**Read `render/html.md` before changing anything in `render/html/`.** Its rules — fit-to-box
+sizing, binned header sizes, table alignment from column content — each replaced something that
+looked correct and was visibly wrong, and each fails silently.
 
 ### 5. Sweep
 
@@ -234,6 +248,13 @@ Read all four before storyboarding. In this order:
 | `references/archetypes.md` | the 23 slide shapes, by the job each does in a talk |
 | `references/visual-language.md` | type, space, figures, colour, emphasis — and the derived type scale |
 | `references/never-list.md` | one confirmed rule, seven hypotheses, four refuted candidates |
+
+And two that describe the tooling rather than the taste:
+
+| File | What it settles |
+|---|---|
+| `storyboard/README.md` | the interactive editor: pipeline, what it gives him, and four silent failures it now guards |
+| `render/html.md` | the HTML path: sizing, headers, tables, and why each rule is what it is |
 
 Three things about them that a reader routinely gets wrong:
 
