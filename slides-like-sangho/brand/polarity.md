@@ -171,10 +171,12 @@ the head of Sensecape — the placement evidence is why it was promoted to a rea
 > number — exactly as in the corpus. This archetype **does not invert**, and it is the one place in
 > this document where the general rule is wrong.
 
-**Why, because the reasoning matters more than the verdict.** Every other entry here inverts because
-its meaning is **relational**: a dark band means something only against light paper, greying-back
-means recession only relative to a ground, inverted quote emphasis is a comparison between two
-values. Flip the ground and a relational device flips with it.
+**Why, because the reasoning matters more than the verdict.** Every entry here that inverts at all
+does so because its meaning is **relational**: a dark band means something only against light paper,
+greying-back means recession only relative to a ground, inverted quote emphasis is a comparison
+between two values. Flip the ground and a relational device flips with it. (Six of the twenty-three
+are relational in that sense — see the sort at the top; the rest are re-specified for reasons that
+are not about polarity, or, in this one case, not re-specified at all.)
 
 **A blackout is not relational. Its meaning is absence — the screen goes away.** Black on
 `extra-dark-teal` is still a step down and still removes the surface, so the gesture survives at a
