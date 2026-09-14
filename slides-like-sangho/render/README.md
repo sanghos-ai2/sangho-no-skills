@@ -32,8 +32,11 @@ Screenshot the render and look at it. Two failures are common enough to check fo
 
 - **Type too small.** Measure one Display and one Title against 112 pt / 84 pt. This is the failure
   mode a brand pack causes silently (`brand/README.md`, Finding 1).
-- **A slide that went blank.** On a dark ground this is usually a black-ink asset on a dark ground
-  or an inverted blackout (`brand/polarity.md`). On a light ground it is usually white-on-white.
+- **A slide that went blank — but check the storyboard before calling it.** On a dark ground the
+  usual cause is a black-ink asset that was never restroked; on a light ground, white-on-white.
+  **An all-black slide with nothing on it is not a failure if the beat is a blackout** — that is the
+  correct output at any polarity (`brand/polarity.md` §3, confirmed by Sangho). The error worth
+  flagging is the inverse: **a blackout beat that came out light.**
 
 The HTML path is the one you can verify most cheaply — if you need certainty about a tricky figure,
 render it there first even when the deliverable is something else.
