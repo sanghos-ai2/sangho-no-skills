@@ -108,12 +108,16 @@ grouping every span by size and counting the slides each size lands on):
 - **22.0 pt — 118 words in 118 spans, every one of them the slide number.** Nothing else is set
   at this size anywhere in the corpus.
 - **24.0 pt — 1,259 words in 122 spans, of which only 55 spans (55 words) are the slide number.**
-  The other 67 spans carry **1,204 words and are entirely figure text**: enumerated, they are
-  11 distinct strings — the ChatGPT avatar chip `SA` (x17), a 49-word CodeToon abstraction table
-  (x16), `1. 2. 3.` (x9), `... ... ... ...` (x6), `Regenerate` / `Explore` / `> <`, and two
-  ChatGPT prompts, one of them 165 words (Sensecape 10, KAIST 56, job talk 71). **The bucket's
-  median span of one word comes from the numbers; its mass does not**, and an earlier draft of
-  this document called the whole bucket "the slide number", which is wrong about 96% of its words.
+  The other 67 spans carry **1,204 words and are entirely figure text**: enumerated on their full
+  text, they are **12 distinct strings** — the ChatGPT avatar chip `SA` (x17), `1. 2. 3.` (x9),
+  the CodeToon abstraction table in two lengths (an 18-word variant x8 and a 49-word variant x8),
+  `... ... ... ...` (x6), `Regenerate` (x4), `SA Regenerate` (x4), `> <` (x3), `Explore` (x1),
+  `Regenerate Explore` (x1), and two ChatGPT prompts — 28 words (x3) and 165 words (x3, on
+  Sensecape 10, KAIST 56, job talk 71). **The bucket's median span of one word comes from the
+  numbers; its mass does not**, and an earlier draft of this document called the whole bucket
+  "the slide number", which is wrong about 96% of its words. (An earlier count of this
+  enumeration said 11 distinct strings; it compared truncated text and so merged the CodeToon
+  table's two length variants.)
 
 **The slide number itself is 173 spans** — 55 at 24 pt plus 118 at 22 pt — and **zero spans in the
 corpus are a bare integer that is *not* that slide's own index**: Luminate 42/55, Sensecape 8/32,

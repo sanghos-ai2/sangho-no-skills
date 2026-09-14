@@ -12,8 +12,10 @@ checked and against how many slides, so Sangho can reject it on one counter-exam
 from other decks (see `visual-language.md`), so the corpus is roughly 200 distinct designs.
 Absence claims degrade gently under duplication — a shape absent from 365 slides is still absent
 from the 200 designs behind them — so most entries below survive the correction. **Presence**
-claims do not: an instance count is a count of slides, not of decisions, and every "Dead" entry
-below states how many distinct designs its counter-examples reduce to.
+claims do not: an instance count is a count of slides, not of decisions. **Each of the four
+"Dead" entries below therefore states how many distinct designs its counter-examples reduce to**,
+measured by grouping the cited slides at MAE < 3 on a 64 × 36 box-filtered render — the same
+near-duplicate test used for the corpus-wide reuse figures.
 
 **Only Sangho can promote an entry.** Nothing marked `UNCONFIRMED` should reach the skill as a
 rule.
@@ -218,7 +220,7 @@ absence rule.
 These were reasonable inferences from one deck and are now refuted. Recorded so nobody re-derives
 them.
 
-### ~~Never use bullet lists as body text.~~ — **false, barely**
+### ~~Never use bullet lists as body text.~~ — **false, barely — 3 slides, 2 designs**
 
 Searched every text span in the corpus for `• ‣ ▪ ◦ · ● ○ – — › »` used as a list marker
 (**computed here**). Result: **3 slides of 365** — KAIST 114 and job talk 132, 133, all of them
@@ -226,16 +228,26 @@ Searched every text span in the corpus for `• ‣ ▪ ◦ · ● ○ – — �
 a bare stack of lines with no marker (Luminate 36 and 37, KAIST 115) or numbered by content
 ("**Q1.** …", "**Q2.** …").
 
-The honest statement is not a never but a **conditional**: bullets appear on 0.8% of the corpus
-and only ever on a Takeaway or Limitations card. Phrase it that way or drop it.
+**Distinct designs: 2** (**computed here**). KAIST 114 and job talk 132 are pixel-identical
+(MAE 0.00); job talk 133 is a separate slide (MAE 5.33 against both). So the counter-example is
+two designs, in two decks that share most of their slides.
 
-### ~~Never use clip art or a stock icon set.~~ — **false**
+The honest statement is not a never but a **conditional**: bullets appear on 0.8% of the corpus,
+as two designs, and only ever on a Takeaway or Limitations card. Phrase it that way or drop it.
+
+### ~~Never use clip art or a stock icon set.~~ — **false — 15 slides, 11 designs, and 2 of them outside the anthology decks**
 
 Flat and line vector icons used as nouns appear in three of the four decks: the abstract-concept
 icons on Sensecape 26/27; the clipboard/person process icons on KAIST 42 and job talk 55; **flat
 orange-and-slate stock people** on KAIST 43 and job talk 56; the bar-chart / brain / Σ / padlock
 `Opportunities` grid on KAIST 115 and job talk 134, 135; the `</>` window, book and comic icons on
 job talk 98, 100, 101, 124, 129; and the five-icon rail itself on 54 slides.
+
+**Distinct designs: 11 of the 15 cited slides** (**computed here**), of which only four pairs are
+duplicates (KAIST 42 ≡ job talk 55, KAIST 115 ≡ job talk 134, KAIST 111 ≡ job talk 129, job talk
+100 ≡ 101). **This is the one Dead entry whose refutation does not rest on the anthology pair**:
+Sensecape 26 and 27 are two further distinct designs with no twin anywhere else in the corpus
+(**computed here**), so icons-as-nouns are evidenced in three decks, not two.
 
 What is true is the *Luminate-specific* version: in Luminate all illustration belongs to one
 consistent hand-drawn black-and-white cartoon family and no stock icon appears. That is a fact
@@ -261,11 +273,21 @@ So the honest statement is the same shape as the clip-art entry: the grid is a d
 long talks, built once and re-shown, and the candidate is **refuted for those decks and untested
 for the other two** — not refuted corpus-wide.
 
-### ~~Never put persistent chrome on every slide.~~ — **false**
+### ~~Never put persistent chrome on every slide.~~ — **false — two independent kinds of chrome**
 
 A slide number appears on **173 of 365** slides (**computed here**: a bare integer span equal to
 that slide's own index; 173 matches, 0 mismatches). A five-icon rail runs down the right edge of
 **24 of 126** KAIST and **30 of 152** job-talk slides (**computed here**).
+
+**Distinct designs, and why the two halves differ** (**computed here**). The rail's 54 instances
+reduce to **23 distinct designs**, 10 of which appear in both KAIST and the job talk — so the rail
+is a two-deck device, built once per beat and re-shown. **The slide number is not subject to that
+correction at all**: it is per-slide chrome rather than a repeated composition, it appears on 173
+slides, and it appears independently in **all four decks** — Luminate 42/55 (76%), Sensecape 8/32
+(25%), KAIST 56/126 (44%), job talk 67/152 (44%), 47% corpus-wide (**computed here**). So the
+refutation does not depend on the anthology pair. Note it is *not* on every slide of any deck, so
+the candidate is better read as refuted in its spirit — he does use repeated chrome — than
+falsified on its literal wording.
 
 The true pattern is more interesting than the rule it replaces: **chrome belongs to the talk's own
 frame and is switched off inside the material the frame carries.** The rail appears on the
