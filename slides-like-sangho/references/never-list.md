@@ -4,12 +4,24 @@
 pass's eleven candidates are now dead.**
 
 The confirmed entry came from Sangho. The rest are *inferred from absence*, which is the weakest
-kind of evidence there is — but the evidence base is now **four decks, 365 slides** rather than
-one deck of 55, and that is enough to kill several candidates outright. Each entry states what I
+kind of evidence there is — but the evidence base is now four decks and 365 slides rather than one
+deck of 55, and that is enough to kill several candidates outright. Each entry states what I
 checked and against how many slides, so Sangho can reject it on one counter-example.
+
+**That N is not 365 independent slides.** KAIST and the job talk reuse 86% and 72% of their slides
+from other decks (see `visual-language.md`), so the corpus is roughly 200 distinct designs.
+Absence claims degrade gently under duplication — a shape absent from 365 slides is still absent
+from the 200 designs behind them — so most entries below survive the correction. **Presence**
+claims do not: an instance count is a count of slides, not of decisions, and every "Dead" entry
+below states how many distinct designs its counter-examples reduce to.
 
 **Only Sangho can promote an entry.** Nothing marked `UNCONFIRMED` should reach the skill as a
 rule.
+
+**Scope is stated in decks, not in "registers".** Where an entry needs to say where a pattern
+holds it names the decks. "Conference register" / "talk register" is a hypothesis about *why* the
+four decks differ and is not settled — see `visual-language.md`, "Two registers" and item 1 of its
+uncertainty list.
 
 ---
 
@@ -61,20 +73,37 @@ slide, and that device is in all four decks.
 
 ---
 
-### 3. Never put a results chart in the talk. `UNCONFIRMED` — much stronger than before
+### 3. Never put a results chart in the talk. `UNCONFIRMED` — chart claim strengthened, numbers claim corrected
 
 **What I checked.** All 365 slides for a bar chart, line graph, scatter of results, or table of
-statistics. Then, separately, I searched every non-figure text span in the corpus for
-statistic-shaped tokens (`p <`, `p =`, `M =`, `SD =`, `n = <digit>`, `<digits>%`, "mean",
-"median", "significant").
+statistics. Then, separately, three text searches over slide copy, described below.
 
-**Result.** **0 of 365 slides**, across five studies in four decks. The token search returns
-**four hits, all of them the word "mean" in the sentence "What does *amplifying our mind* mean?"**
-(KAIST 10; job talk 21, 22, 23). No p-value, no standard deviation, no sample-size statement, no
-percentage appears anywhere in the corpus's slide copy.
+**Result: 0 of 365 slides carry a chart** — no bar chart, no line graph, no scatter, no table of
+statistics, across five studies in four decks. **(observed)**
 
-Findings are carried entirely by participant quotes (17 quote cards) and by Takeaway cards that
-state a claim and then quote somebody. Luminate says so out loud in the corner of 34 and 35:
+**"No numbers at all" would be false, and my first search could not have seen the
+counter-examples.** Searching for statistic-shaped tokens (`p <`, `p =`, `M =`, `SD =`,
+`n = <digit>`, `<digits>%`, "mean", "median", "significant") returns four hits, all of them the
+word "mean" in "What does *amplifying our mind* mean?" (KAIST 10; job talk 21, 22, 23). That
+pattern structurally cannot match `14 Professional Writers` or `Average: 7.3 years`, and I stated
+its result as though it could. **Enumerating every numeric span in slide copy instead**
+(**computed here**) finds descriptive study quantities on **7 slides across 3 decks**:
+
+| What | Where |
+|---|---|
+| Sample size (`14 Professional Writers`, `8 Professional Writers`) | Luminate 36, 37, 42; KAIST 42, 43; job talk 55, 56 |
+| A reported mean (`Creative Writing (Average: 7.3 years)`) | Luminate 36 |
+| A task breakdown (`4 copywriting / 4 short story / 2 email / 2 poem / 1 video game scene / 1 song lyrics`) | Luminate 37 |
+| Study duration and interview count (`Start / + 1 week / + 2.5 weeks / interview#13`) | KAIST 43; job talk 56 |
+
+**What is genuinely absent is inferential statistics.** Re-searching with a much wider pattern —
+`p </=/>`, `SD`, `M =`, `CI`, `t(`, `F(`, `χ`, `ANOVA`, `significan*`, "effect size", `±` —
+returns **0 of 365**, and the `%` character appears **0 times** in slide copy (**computed here**).
+
+**So the defensible rule is about form, not about numbers.** Study quantities are set as type on a
+study-setup card. No *result* is ever plotted, tabulated, or given an inferential statistic;
+findings are carried by participant quotes (17 quote cards) and by Takeaway cards that state a
+claim and then quote somebody. Luminate says so out loud in the corner of 34 and 35:
 "* Please read our paper for detailed results".
 
 **This was the candidate the previous pass most expected the job talk to kill.** It did not. The
@@ -90,8 +119,8 @@ different, and none is in the canon.
 
 **What I checked.** All 365 slides for photographic imagery, and where it came from.
 
-**Result.** Photography is common in the talk register and almost absent from the conference
-register. What it is, though, is consistent: **specific, named, or personal**. His own lab groups
+**Result.** Photography is common in KAIST and the job talk and almost absent from Luminate and
+Sensecape. What it is, though, is consistent: **specific, named, or personal**. His own lab groups
 (KAIST 1; job talk 5), portraits of the people he is quoting (Pauling, Griffith, Buxton, Bret
 Victor, Knuth), his own headshot, his own photographs of Griffith Observatory (KAIST 4, 5;
 job talk 12, 13), an archival photograph of Mount Wilson with its source URL lettered along the
@@ -202,7 +231,7 @@ and only ever on a Takeaway or Limitations card. Phrase it that way or drop it.
 
 ### ~~Never use clip art or a stock icon set.~~ — **false**
 
-Flat and line vector icons used as nouns appear throughout the talk register: the abstract-concept
+Flat and line vector icons used as nouns appear in three of the four decks: the abstract-concept
 icons on Sensecape 26/27; the clipboard/person process icons on KAIST 42 and job talk 55; **flat
 orange-and-slate stock people** on KAIST 43 and job talk 56; the bar-chart / brain / Σ / padlock
 `Opportunities` grid on KAIST 115 and job talk 134, 135; the `</>` window, book and comic icons on
@@ -210,14 +239,27 @@ job talk 98, 100, 101, 124, 129; and the five-icon rail itself on 54 slides.
 
 What is true is the *Luminate-specific* version: in Luminate all illustration belongs to one
 consistent hand-drawn black-and-white cartoon family and no stock icon appears. That is a fact
-about the conference register, not a rule.
+about one deck, not a rule. (Grouping Luminate with Sensecape as a "conference register" would
+make it look like a two-deck fact; it is not — Sensecape uses line icons. See `visual-language.md`
+on why that grouping is a hypothesis, not an evidence grade.)
 
-### ~~Never lay out a three-column feature grid.~~ — **false**
+### ~~Never lay out a three-column feature grid.~~ — **false in two decks, untested in the other two**
 
 The `Design Space | Information Space | Representation Space` row is exactly a three-column
-labelled feature grid, and it is the corpus's most-repeated single composition (KAIST 16, 17, 46,
-47, 76, 77, 118; job talk 29, 30, 61, 62, 94, 95, 142). Plus 2 × 2 grids on KAIST 115 and job
-talk 99, 134, 135, and a three-labelled-question row on KAIST 119 and job talk 143–145.
+labelled feature grid: KAIST 16, 17, 46, 47, 76, 77, 118 and job talk 29, 30, 61, 62, 94, 95, 142.
+Plus 2 × 2 grids on KAIST 115 and job talk 99, 134, 135, and a three-labelled-question row on
+KAIST 119 and job talk 143–145.
+
+**But scope it before using it.** Every instance is in the two anthology decks — **0 in Luminate,
+0 in Sensecape** (**computed here**: no Luminate or Sensecape slide carries three or more
+`Space`-style labels). And the 14 instances are not 14 decisions: every KAIST slide is
+**pixel-identical** to its job-talk twin (MAE 0.00 at 64 × 36 on all seven pairs), and within
+KAIST 17 ≡ 46 (MAE 0.01), 77 ≡ 118 (0.00) and 47 ≈ 76 (1.49). **The 14 instances reduce to
+4 distinct designs**, each shown 2–4 times as the current chapter is blackened.
+
+So the honest statement is the same shape as the clip-art entry: the grid is a device of the two
+long talks, built once and re-shown, and the candidate is **refuted for those decks and untested
+for the other two** — not refuted corpus-wide.
 
 ### ~~Never put persistent chrome on every slide.~~ — **false**
 

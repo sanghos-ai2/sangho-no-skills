@@ -64,12 +64,19 @@ KAIST's clocks are not spread across the deck — they cluster on slides 78–10
 segment, which is also where its notes are longest (median 33 words over slides 51–75). That is
 the section he timed most carefully. **(computed here)**
 
-**A note belongs to a beat, not to a slide.** Verbatim-identical notes are repeated across
-consecutive slides in every deck: Luminate 26/27/28 and 53/54; Sensecape 3/4/5, 13/14/15,
-19/20/21/22; KAIST 49/50/51, 59/60/61, 65/66/67/68; job talk 1/2/3/4, 6/7/11, 126/127/128. That
-is **14% of Luminate's notes-bearing slides, 45% of Sensecape's, 18% of KAIST's, 44% of the job
-talk's** — where a slide is a build step or a return to something already said, the note is
-repeated or omitted rather than rewritten. **(computed here)**
+**A note belongs to a beat, not to a slide** — in the three decks that have narration.
+Verbatim-identical notes are repeated across *consecutive* slides: Luminate 26/27/28 and 53/54;
+Sensecape 3/4/5, 13/14/15, 19/20/21/22; KAIST 49/50/51, 59/60/61, 65/66/67/68. That is **14% of
+Luminate's notes-bearing slides, 45% of Sensecape's and 18% of KAIST's** — where a slide is a
+build step or a return to something already said, the note is repeated or omitted rather than
+rewritten. **(computed here)**
+
+**The job talk is deliberately excluded from that figure.** Its notes repeat too (14 of 32 slides
+under any-duplicate matching, 9 under consecutive-only), but a repeated Korean glossary block is
+not a beat narrated once — it is the same vocabulary list pasted onto adjacent slides. Counting it
+here would use the glossary as evidence of a narration habit the deck does not have. The three
+narration decks give identical figures under both matching rules; only the job talk diverges
+(44% vs 28%), which is itself a sign it is a different kind of artefact. **(computed here)**
 
 **Presenter notes do not appear in the slide text layer** — 0 of the 180 notes-bearing slides
 (audit, "Notes in the text layer"). The previous pass's claim that a 12.8 pt band *was* the note
@@ -148,10 +155,13 @@ ends where it began**, on its own title card, with no QR and no "Questions?".
 
 ### KAIST (126 slides) and the job talk (152) — the anthology arc
 
-Both are a **frame** into which whole conference talks are dropped. The frame is measurable: the
-cream ground with the right-edge icon rail appears on KAIST 1–17, 46–47, 76–77, 118–124 and job
-talk 5, 12–30, 61–62, 94–95, 142–150 — the opening, the joins between papers, and the close — and
-on none of the embedded segments (**computed here**; see `visual-language.md`).
+Both are a **frame** into which whole conference talks are dropped. The frame is measurable: a
+cream right-edge strip carrying the icon rail appears on **24 KAIST slides** — 1, 4, 5, 6, 9–17,
+46, 47, 76, 77, 118–124 — and **30 job-talk slides** — 5, 12, 13, 14, 17, 18, 20–30, 61, 62, 94,
+95, 142–150. That is the opening, the joins between papers, and the close, and none of the
+embedded segments (**computed here**; same measurement as `visual-language.md`). Note what is
+*not* in those lists: KAIST 2 (the blackout), 3 (the title card) and 7 (a full-bleed photograph)
+carry no rail — their right strip is 100%, 94% and 100% dark respectively.
 
 **The frame's arc, shared by both:**
 
@@ -195,8 +205,10 @@ sentence arrives *before* Sangho's own claim on the same subject, and the next s
 that sentence turned into a drawing. **(observed)**
 
 **Results are testimony, not measurement.** 17 participant-quote cards across four decks, and
-**zero statistics anywhere in the corpus's slide copy** (**computed here**; see
-`visual-language.md`). Luminate says so out loud: "* Please read our paper for detailed results"
+**no result is ever plotted, tabulated or given an inferential statistic** — 0 charts and 0
+inferential tokens in 365 slides (**computed here**; see `never-list.md` entry 3 for the searches
+and for the descriptive study quantities that *are* on slides, such as `14 Professional Writers`
+and `Average: 7.3 years`). Luminate says so out loud: "* Please read our paper for detailed results"
 (34, 35). This was the previous pass's most Luminate-suspect finding and it holds across five
 studies in four decks.
 
