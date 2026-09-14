@@ -17,6 +17,38 @@ The archetype list is `references/archetypes.md`. Counts there are his; the verd
 
 ---
 
+## First: this document is the cost of choosing Asta, not the cost of branding with Ai2
+
+The inversion does not come from Ai2. It comes from **one product system inside it**:
+
+| System | `colors.background` | `colors.text` | Ground |
+|---|---|---|---|
+| **Strata** (the base system) | `{colors.cream}` | `{colors.dark-teal}` | **light** |
+| **Asta** | `{colors.extra-dark-teal}` | `{colors.cream}` | **dark** |
+
+Strata is the foundation both products are composed from, and it is a **cream ground with dark-teal
+ink** — which is his own corpus's polarity almost exactly (263 of 365 slides white, 61 cream).
+**Under Strata the inversion mostly does not arise**: the greying-back family fades toward a light
+ground as it already does, the dimmed-stage question dims toward dark as it already does, the
+blackout is still a blackout against a light deck, and the dark band label keeps working. What is
+left is a palette-and-typeface swap and the §6 artwork problem all but disappears, because
+light-ground artwork meets a light ground.
+
+Asta is dark, and **everything below follows from that one choice.** Twelve of the twenty-three
+archetypes have to be re-specified, one of them (§3, the blackout) by substituting a device the
+corpus contains no example of.
+
+**The default stays Asta.** Sangho chose it and that stands; this is not an argument for switching.
+It is so the cost is legible when the choice is made, and so the light-ground alternative has a
+name. If a deck does not specifically need Asta's identity — an internal talk, a submission draft,
+anything where "Ai2" is the brand rather than "Asta" — `strata/DESIGN.md` gives the Ai2 palette and
+typeface at his own polarity, and this document becomes almost entirely unnecessary.
+
+Check `background` / `text` on whatever DESIGN.md you are handed before assuming which case you are
+in. A third system may be either.
+
+---
+
 ## All 23, at a glance
 
 | Archetype | On a dark ground |
