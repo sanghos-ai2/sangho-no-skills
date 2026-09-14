@@ -181,13 +181,15 @@ skill has to put a number on a hero question and cannot ask. **Sangho chose this
 nearest archetype. What follows is therefore a derived default with its own error bars, not a
 finding about how he sets type.
 
-### Method, and what was excluded (computed here)
+### Method, and what was excluded
 
-Every one of the **1,147 spans** in the corpus was given a **role** — by reading the slide it sits
-on, not by its size — from: hero, section, deck title, slide title, quote, body, band label,
-figure label, caption/credit, slide number. Sizes were then measured per role. All 365 slides were
-read for this (31 contact sheets at 620 px per cell, plus individual slides at full resolution
-where a call was close).
+**The role assignment is (observed), not (computed here), and the difference matters for how much
+weight the table below can carry.** Every one of the **1,147 spans** in the corpus was given a
+**role** — hero, section, deck title, slide title, quote, body, band label, figure label,
+caption/credit, slide number — **by reading the slide it sits on**, not by its size. All 365
+slides were read for this (31 contact sheets at 620 px per cell, plus individual slides at full
+resolution where a call was close). Once the roles were fixed, the size arithmetic on top of them
+is **(computed here)** and reproducible; the roles themselves are one reader's calls.
 
 **147 spans (13%) were excluded before any of it**, on 55 slides and 18 distinct designs:
 
@@ -208,7 +210,7 @@ those are kept as figure labels.
 That leaves **1,000 authored spans on 345 of the 365 slides**, and **475 distinct
 (design, size) pairs** once the 170-design deduplication from the top of this document is applied.
 
-### Role → size, measured
+### Role → size (observed roles, computed sizes)
 
 Design counts use the same MAE < 3 grouping as everywhere else in this document, which merges
 **build steps of one figure** as well as cross-deck twins — so "designs" here means distinct
@@ -227,11 +229,22 @@ pictures, not distinct slides.
 | Caption / credit | 93 | 33 | 25 | 15 | 47.5 | 31.7 and 47.5 are the title-card apparatus (31 spans each) |
 | Deck / paper title | 11 | 11 | 9 | 6 | 79 | 59.8 – 98, one per title card |
 
+**How much of this table survives a different reader.** The hero/title boundary is a judgment,
+not a measurement — *is* `Complex Information` alone on white (Sensecape 28) a hero or a title? —
+and the **Hero row is the one that moves**: 53 spans over 15 sizes, and 12 of its spans sit at
+84 pt, which is also the title size. Reassign those and Hero's median walks up and Title's span
+count grows. **Two results survive a different hero/title line**, because they do not depend on
+the hero/title line at all: the slide number takes exactly two values, and **Luminate contains no
+84.0 pt span of any role** (Sensecape 6, KAIST 27, job talk 31 — computed here). Read the Quote,
+Body and Figure-label rows the same way: their point is the *spread*, and moving a few spans
+between roles narrows it at the margin without closing it.
+
 **Two roles have a size stable enough to hard-code; the rest are looser, and two are not sizes at
 all.** The slide number takes one of two values and nothing else. The slide title is **84 pt** in
 three decks of four — Sensecape 2/2, KAIST 23/28,
-job talk 27/35 — and **0 of Luminate's 9 title spans are at 84**; Luminate titles are 59, 60, 72.8,
-75, 86 and 103 pt, one size each. That is the sharpest caveat on the scale below.
+job talk 27/35 — and **0 of Luminate's 9 title spans are at 84**. Those nine spans use six sizes,
+not nine: 59 (Luminate 46, 47), 60 (36, 37), 72.8 (43, 44), 75 (39), 86 (13) and 103 (38). That is
+the sharpest caveat on the scale below.
 
 ### The scale
 
@@ -244,8 +257,22 @@ are 1.50, 1.39, 1.68, 1.33, and the two geometric ladders I tested fitted the co
 | **Display** | **112** | a section's name; the contribution's name; a question that is the whole slide | `Evaluation` (Luminate 33, 34, 35, 40, 41); `Luminate` (Luminate 22, KAIST 40, job talk 53) |
 | **Title** | **84** | the slide's title; a claim card's single line | `Changing Levels of Abstraction for Learning` (KAIST 85–91, job talk 103–109); `How Do We Make Connections Clear?` (KAIST 106–110, job talk 124–128) |
 | **Support** | **50** | a body line; the larger labels in a diagram; a study fact | `Design Space` + the six `idea` dots (Luminate 6, KAIST 23, job talk 36); `Single-Output` / `Multi-Output` (Luminate 16, 17, 19; KAIST 34, 35, 37) |
-| **Label** | **36** | labels inside a dense diagram; affiliations on a title card | `Thinkable Territory` (KAIST 11, 12, 13, 14, 15); `Knowledge Territory / Problem Territory / Solution Territory` (KAIST 120–124, job talk 146–150) |
+| **Label** ‡ | **36** | labels inside a dense diagram; affiliations on a title card | `Thinkable Territory` (KAIST 11–15); `Knowledge Territory / Problem Territory / Solution Territory` (KAIST 120–124, job talk 146–150); the `…` continuing a prompt chain (KAIST 21, 22; job talk 34, 35) |
 | **Caption** | **24** | the slide number; a venue tag; a source URL | the slide number on 173 slides; `https://huntington.org/verso/…` at 23 pt (KAIST 6, job talk 14) |
+
+‡ **The point value 36 is the weakest of the five and should be read as a default, not a finding.**
+The *band* is populated in all four decks, but the *value* that names it is not: exactly 36.0 pt
+occurs **17 times in KAIST and 36 in the job talk, once in Luminate and never in Sensecape**
+(computed here), and Luminate's single instance is not a figure label at all but the body line
+`An interactive system that demonstrates` on Luminate 22. What the two short decks actually put in
+this band is 31.7 pt (the title-card affiliations, 5 in Luminate and 8 in Sensecape) and 32.0 pt
+(Sensecape's 7 node labels on its hierarchy figure) — neither of which is 36. So the step's value
+rests on the KAIST / job-talk pair, which `archetypes.md` says to read as close to one deck's worth
+of evidence; and its first two exemplars are **one figure family** (Thinkable Territory) seen
+twice, the third a different figure but still KAIST + job talk. The other four steps are anchored
+more widely: 24.0 pt occurs exactly in all four decks and 50.0 or its 2%-neighbour 51.0 in all
+four; 84.0 pt occurs exactly in three of four (Luminate is the documented exception); and
+Sensecape reaches the Display step at 120 pt, within 8% of 112.
 
 **How much of the corpus this actually covers** (computed here):
 
@@ -299,9 +326,22 @@ misses are not noise:
 - **Figure labels.** 440 spans across **35 distinct sizes**, with real modes at 30, 36, 45, 50/51
   and 80 pt, and hardly a gap anywhere between 30 and 51. A figure's labels are sized to the figure.
 
-**So the rule a skill should carry is: use the scale for the roles that have one — the slide
-number, the title, the section name — and size quotes and figure labels to fit.** Deviating is not
-a defect; on this corpus it is what he does 13% of the time by span and, in Luminate, 23%.
+**So the rule a skill should carry is: hard-code the scale only for the two roles that have one —
+the slide number and the slide title — and size everything else to fit.** Deviating is not a
+defect; measured at the ±15% tolerance used throughout this section, it is what he does on **13%
+of authored spans corpus-wide and 23% in Luminate**. At the tighter ±8% tolerance the same figures
+are 49% corpus-wide and 46% in Luminate, which is the more honest way to read them.
+
+**The section name is deliberately not on that list**, because it takes two values and the choice
+is per deck, not per role. Luminate sets a bare section word at **112 pt** (`Evaluation`,
+`Implications & Future Work` — 9 of its 11 section spans); KAIST and the job talk set a **boxed**
+chapter label at **74 pt** (`Interaction`, `Interface & Interaction`, `Interface Design`,
+`Design Concept` — KAIST 17, 46, 47, 76, 77, 118 and job talk 30, 61, 62, 94, 95, 142, six each).
+**74 pt occurs zero times in Luminate and zero times in Sensecape** (computed here), and it falls
+inside the **Title** band, not Display — which is why the per-step table above shows 21 section
+spans landing on the 112 step and 14 on the 84 step. A skill that hard-codes 112 pt for every
+section name is applying Luminate's convention to the two decks that supply three-quarters of the
+corpus.
 
 ---
 
