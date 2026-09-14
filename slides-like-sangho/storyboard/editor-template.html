@@ -1,0 +1,890 @@
+<title>Storyboard</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&family=Archivo:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+:root{
+  --bench:#e8ebee; --bench-2:#dde2e6; --panel:#ffffff; --ink:#16191d; --ink-2:#4a555f;
+  --ink-3:#78848d; --rule:#c8d0d6; --rule-2:#dfe5e9;
+  --accent:#8a7f3f; --accent-soft:#d0d0a0; --focus:#2d6ea8;
+  --keep:#3d7a55; --change:#9a6a1c; --cut:#9c4a44;
+  --slide-ink:#0a3235; --slide-ground:#faf2e9; --slide-grey:#9cb2af;
+  --slide-pink:#f0529c; --slide-green:#0fcb8c;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SF Mono",monospace;
+  --slidefont:"Archivo","Helvetica Neue",Arial,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bench:#15191c; --bench-2:#1c2226; --panel:#21282d; --ink:#e8edf0; --ink-2:#a8b5bd;
+    --ink-3:#7c8a93; --rule:#333d44; --rule-2:#2a3238;
+    --accent:#cfc78a; --accent-soft:#6b6742; --focus:#6aa6dd;
+    --keep:#7cbf95; --change:#d3a656; --cut:#dd8b84;
+  }
+}
+:root[data-theme="dark"]{
+  --bench:#15191c; --bench-2:#1c2226; --panel:#21282d; --ink:#e8edf0; --ink-2:#a8b5bd;
+  --ink-3:#7c8a93; --rule:#333d44; --rule-2:#2a3238;
+  --accent:#cfc78a; --accent-soft:#6b6742; --focus:#6aa6dd;
+  --keep:#7cbf95; --change:#d3a656; --cut:#dd8b84;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bench);color:var(--ink);font-family:var(--sans);
+  font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.top{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:baseline;
+  padding:18px 24px;border-bottom:1px solid var(--rule);background:var(--bench-2)}
+.top h1{margin:0;font-size:17px;font-weight:600;letter-spacing:-.01em}
+.top .sub{color:var(--ink-2);font-size:13px}
+.tally{margin-left:auto;display:flex;gap:18px;font-family:var(--mono);font-size:12px;
+  font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.tally b{color:var(--ink);font-weight:500}
+.savewrap{width:100%;display:flex;align-items:center;gap:14px}
+.saveline{flex:1;min-width:0;font-size:12px;color:var(--ink-3);font-family:var(--mono)}
+.savebtn{font-family:var(--mono);font-size:12px;padding:6px 14px;border-radius:3px;cursor:pointer;
+  border:1px solid var(--rule);background:var(--panel);color:var(--ink-2);white-space:nowrap;
+  transition:border-color .12s,color .12s}
+.savebtn:hover{border-color:var(--ink-3);color:var(--ink)}
+.savebtn[data-state="dirty"]{border-color:#b4532a;color:#b4532a;font-weight:600;
+  box-shadow:0 0 0 3px rgba(180,83,42,.10)}
+.savebtn[data-state="saving"]{opacity:.55;cursor:default}
+.savebtn[data-state="clean"]{color:var(--ink-3)}
+.savekey{font-size:11px;color:var(--ink-3);opacity:.75}
+#stalebar{display:none}
+#stalebar.on{display:flex;gap:12px;align-items:center;position:fixed;left:0;right:0;bottom:0;z-index:50;
+  padding:11px 18px;background:#7a3417;color:#fdf1e7;font-size:13px;
+  box-shadow:0 -2px 14px rgba(0,0,0,.25)}
+#stalebar button{font:inherit;font-size:12px;padding:5px 12px;border-radius:3px;cursor:pointer;
+  border:1px solid #fdf1e7a0;background:transparent;color:#fdf1e7}
+#stalebar button:hover{background:#fdf1e7;color:#7a3417}
+
+.wrap{display:grid;grid-template-columns:minmax(190px,225px) minmax(0,1fr) minmax(380px,460px);
+  gap:0;height:calc(100vh - 74px);min-height:520px}
+@media (max-width:1240px){.wrap{grid-template-columns:minmax(190px,215px) minmax(0,1fr)}
+  .side{grid-column:1/-1;border-left:0;border-top:1px solid var(--rule);position:static;height:auto}}
+@media (max-width:820px){.wrap{grid-template-columns:1fr;height:auto}
+  .rail{max-height:240px}}
+
+.rail{overflow-y:auto;border-right:1px solid var(--rule);background:var(--bench-2);position:relative}
+.railhead{position:sticky;top:0;background:var(--bench-2);border-bottom:1px solid var(--rule-2);
+  padding:10px 16px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.beat{display:grid;grid-template-columns:30px 1fr 10px;gap:9px;align-items:start;
+  width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--rule-2);
+  padding:10px 56px 10px 12px;cursor:pointer;color:inherit;font:inherit}
+.beat:hover{background:var(--bench)}
+.beat[aria-current="true"]{background:var(--panel);box-shadow:inset 3px 0 0 var(--accent)}
+.beat .n{font-family:var(--mono);font-size:12px;color:var(--ink-3);font-variant-numeric:tabular-nums;padding-top:1px}
+.beat .t{font-size:13px;line-height:1.35}
+.beat .a{font-size:11px;color:var(--ink-3);margin-top:2px}
+.beat .dot{width:8px;height:8px;border-radius:50%;margin-top:5px;background:var(--rule)}
+.beat .dot[data-s="keep"]{background:var(--keep)}
+.beat .dot[data-s="change"]{background:var(--change)}
+.beat .dot[data-s="cut"]{background:var(--cut)}
+.beat .flag{color:var(--accent);font-family:var(--mono);font-size:11px}
+.beat.isnew .t{font-style:italic;color:var(--ink-2)}
+.beat{position:relative}
+.beat[draggable="true"]{cursor:grab}
+.beat.dragging{opacity:.45;cursor:grabbing}
+.beat.over-top{box-shadow:inset 0 2px 0 var(--accent)}
+.beat.over-bot{box-shadow:inset 0 -2px 0 var(--accent)}
+.beat[aria-current="true"].over-top{box-shadow:inset 3px 0 0 var(--accent),inset 0 2px 0 var(--accent)}
+.beat[aria-current="true"].over-bot{box-shadow:inset 3px 0 0 var(--accent),inset 0 -2px 0 var(--accent)}
+.mv{position:absolute;right:24px;top:50%;transform:translateY(-50%);display:flex;
+  flex-direction:column;gap:2px;opacity:.5;transition:opacity .12s}
+.beat:hover .mv,.beat:focus-within .mv{opacity:1}
+.mvbtn{width:19px;height:15px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--rule);background:var(--panel);color:var(--ink-2);
+  border-radius:2px;cursor:pointer;font:inherit;font-size:8px;line-height:1;padding:0}
+.mvbtn:hover:not(:disabled){color:var(--ink);border-color:var(--accent)}
+.mvbtn:disabled{opacity:.25;cursor:default}
+.grab{color:var(--ink-3);font-size:14px;font-family:var(--mono);line-height:1;
+  position:absolute;right:5px;top:50%;transform:translateY(-50%);opacity:.4;
+  cursor:grab;padding:6px 2px;touch-action:none;transition:opacity .12s}
+.beat:hover .grab{opacity:.9}
+.grab:active{cursor:grabbing}
+.beat.lifted{opacity:.5}
+.dropline{position:absolute;left:0;right:0;height:2px;background:var(--accent);z-index:6;
+  pointer-events:none}
+.slot{position:relative;height:20px;z-index:4}
+.ins{position:absolute;left:0;right:0;top:-3px;bottom:-3px;width:100%;display:flex;align-items:center;
+  justify-content:center;opacity:.32;transition:opacity .12s,background .12s;z-index:3;border:0;
+  background:none;cursor:pointer;padding:0;font:inherit}
+.ins:hover,.ins:focus-visible{opacity:1;background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.ins::before{content:"";position:absolute;left:14px;right:14px;height:1px;background:var(--accent)}
+.ins span{position:relative;width:17px;height:17px;border-radius:50%;background:var(--accent);
+  color:var(--bench-2);font-size:13px;line-height:17px;text-align:center;font-family:var(--mono)}
+@media (hover:none){.ins{opacity:.55}}
+
+.edit{border-top:1px solid var(--rule);margin-top:18px;padding-top:16px}
+.edit .hint{font-size:12px;color:var(--ink-3);margin:-4px 0 14px;line-height:1.5}
+.ef{margin-bottom:14px}
+.ef label{display:block;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:4px}
+.ef textarea{min-height:0;height:auto;padding:8px 10px;font-size:13.5px}
+.ef textarea.one{min-height:38px}
+.ef textarea.mono{font-family:var(--mono);font-size:12.5px}
+.efrow{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+@media (max-width:640px){.efrow{grid-template-columns:1fr}}
+.livetag{font-family:var(--mono);font-size:10.5px;color:var(--ink-3);
+  border:1px solid var(--rule);border-radius:2px;padding:1px 6px;margin-left:8px}
+.livetag.on{color:var(--accent);border-color:var(--accent-soft)}
+.figbox{border:1px solid var(--rule);border-radius:3px;background:var(--panel);
+  padding:13px 14px;margin-top:14px}
+.figbox h3{margin:0 0 9px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ef select{width:100%;font:inherit;font-size:13px;padding:7px 9px;
+  border:1px solid var(--rule);border-radius:2px;background:var(--panel);color:var(--ink)}
+.figbox select{width:100%;font:inherit;font-size:13px;padding:7px 9px;border:1px solid var(--rule);
+  border-radius:2px;background:var(--bench-2);color:var(--ink)}
+.figcap{font-size:12.5px;line-height:1.5;color:var(--ink-2);margin:9px 0 0;
+  padding-left:10px;border-left:2px solid var(--accent-soft)}
+.fignone{font-size:12.5px;color:var(--ink-3);margin:9px 0 0}
+.figtreat{margin-top:10px}
+.figtreat label{display:block;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--ink-3);margin-bottom:4px}
+.figtreat textarea{min-height:36px}
+.tfact{margin:8px 0 0;font-size:11.5px;line-height:1.5;color:var(--ink-3)}
+.figmark{position:absolute;left:0;right:0;top:0;bottom:0;display:flex;align-items:center;
+  justify-content:center;flex-direction:column;gap:1.4cqw;
+  background:repeating-linear-gradient(135deg,#e7e0d6 0 12px,#ded7cc 12px 24px)}
+.figmark b{font-size:2.2cqw;font-weight:600;font-family:var(--slidefont);color:#0a3235}
+.figtag{position:absolute;right:2cqw;top:2cqw;background:rgba(10,50,53,.86);color:#faf2e9;
+  padding:.8cqw 1.4cqw;font-size:1.35cqw;font-family:var(--slidefont);max-width:46cqw;
+  display:flex;flex-direction:column;gap:.3cqw;text-align:right}
+.figtag i{font-style:normal;opacity:.78;font-size:1.15cqw}
+.figwords{position:absolute;left:0;right:0;bottom:0;padding:5cqw 6cqw 6cqw;
+  background:linear-gradient(to top,rgba(250,242,233,.97) 62%,rgba(250,242,233,0));
+  font-family:var(--slidefont);color:#0a3235}
+.figmark i{font-size:1.6cqw;font-style:normal;color:#4d6f6f}
+.danger{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule-2)}
+.del{font:inherit;font-size:12.5px;padding:7px 12px;width:100%;border:1px solid var(--rule);
+  background:none;color:var(--ink-3);border-radius:2px;cursor:pointer;text-align:left}
+.del:hover{color:var(--cut);border-color:var(--cut)}
+.del[data-armed="1"]{color:var(--cut);border-color:var(--cut);
+  background:color-mix(in srgb,var(--cut) 9%,transparent)}
+.delnote{font-size:11.5px;line-height:1.5;color:var(--ink-3);margin-top:7px}
+
+.main{overflow-y:auto;padding:22px 26px 56px}
+.side{overflow-y:auto;border-left:1px solid var(--rule);background:var(--bench-2);
+  padding:22px 20px 56px}
+.side h3{margin:0 0 10px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.side .who{font-family:var(--mono);font-size:12px;color:var(--ink-3);margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid var(--rule-2)}
+.mainhead{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap;margin-bottom:4px}
+.mainhead .n{font-family:var(--mono);font-size:13px;color:var(--ink-3)}
+.mainhead h2{margin:0;font-size:21px;font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.arch{font-family:var(--mono);font-size:11px;color:var(--accent);
+  border:1px solid var(--accent-soft);border-radius:2px;padding:2px 7px}
+
+/* ---- the mock slide: his measured language, proportional to a 1920pt page ---- */
+.stage{margin:16px 0 6px;max-width:100%;position:relative}
+.arrowbtn{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:38px;height:52px;display:flex;align-items:center;justify-content:center;
+  border:1px solid var(--rule);background:color-mix(in srgb,var(--panel) 86%,transparent);
+  color:var(--ink-2);cursor:pointer;font:inherit;font-size:17px;border-radius:2px;
+  backdrop-filter:blur(3px)}
+.arrowbtn:hover:not(:disabled){color:var(--ink);border-color:var(--ink-3)}
+.arrowbtn:disabled{opacity:.28;cursor:default}
+.arrowbtn.prev{left:-19px}
+.arrowbtn.next{right:-19px}
+@media (max-width:900px){.arrowbtn.prev{left:6px}.arrowbtn.next{right:6px}}
+.stagefoot{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-top:8px}
+.kbd{font-family:var(--mono);font-size:11px;color:var(--ink-3)}
+.kbd b{font-weight:400;border:1px solid var(--rule);border-radius:2px;padding:1px 5px;color:var(--ink-2)}
+.slide{--w:720px;width:100%;aspect-ratio:16/9;background:var(--slide-ground);
+  border:1px solid var(--rule);position:relative;overflow:hidden;
+  font-family:var(--slidefont);color:var(--slide-ink);
+  container-type:inline-size}
+.slide.dark{background:#000;border-color:#000}
+.pad{position:absolute;inset:0;padding:6cqw;display:flex;flex-direction:column;justify-content:center}
+.pad.top{justify-content:flex-start}
+/* type scale, proportional: 1920pt page width == 100cqw */
+.t-display{font-size:5.83cqw;line-height:1.12;font-weight:700;letter-spacing:-.02em}
+.t-title{font-size:4.38cqw;line-height:1.18;font-weight:700;letter-spacing:-.015em}
+.t-support{font-size:2.60cqw;line-height:1.35;font-weight:400}
+.t-label{font-size:1.88cqw;line-height:1.4;font-weight:600}
+.t-caption{font-size:1.25cqw;line-height:1.4;color:#6e9291}
+.ctr{text-align:center;align-items:center}
+.grey{color:var(--slide-grey)}
+.em{font-style:italic}
+.stack{display:flex;flex-direction:column;gap:1.6cqw}
+.pipe{display:flex;align-items:center;gap:1.4cqw;flex-wrap:wrap}
+.box{border:.18cqw solid var(--slide-ink);padding:1.2cqw 1.6cqw;font-size:1.88cqw;line-height:1.25}
+.box.g{border-color:var(--slide-grey);color:var(--slide-grey)}
+.arrow{font-size:2.2cqw;color:var(--slide-grey)}
+.band{position:absolute;left:0;bottom:7cqw;background:var(--slide-ink);color:#faf2e9;
+  padding:1cqw 2cqw;font-size:2.2cqw;font-weight:600}
+.shot{position:absolute;inset:0;background:
+  repeating-linear-gradient(135deg,#e7e0d6 0 12px,#ded7cc 12px 24px)}
+.overlay{position:absolute;inset:0;background:rgba(250,242,233,.74);display:flex;
+  align-items:center;justify-content:center;padding:6cqw}
+.qbox{background:#faf2e9;border:.28cqw solid var(--slide-ink);padding:3cqw 3.6cqw;text-align:center}
+.slidenum{position:absolute;right:2.6cqw;bottom:2cqw;font-size:1.25cqw;color:#9cb2af}
+.slide.g-rev{background:#032629;color:#faf2e9;border-color:#032629}
+.slide.g-rev .grey,.slide.g-rev .t-caption{color:#6e9291}
+.slide.g-rev .box{border-color:#faf2e9}
+.slide.g-rev .band{background:#faf2e9;color:#032629}
+.slide.g-black{background:#000;color:#faf2e9;border-color:#000}
+.slide.g-black .grey,.slide.g-black .t-caption{color:#6e9291}
+.slide.g-rev .sechdr,.slide.g-black .sechdr{border-color:#faf2e9;color:#faf2e9;background:transparent}
+.ptab{width:100%;border-collapse:collapse;font-family:var(--slidefont);margin-top:1.6cqw}
+.ptab th,.ptab td{text-align:left;padding:.75cqw 1.4cqw .75cqw 0;font-size:2.08cqw;line-height:1.25}
+.ptab thead th{font-weight:600;border-bottom:.16cqw solid currentColor;padding-bottom:1cqw}
+.ptab tbody tr+tr td{border-top:.06cqw solid var(--slide-grey)}
+.ptab td.num,.ptab th:not(:first-child){text-align:right;font-variant-numeric:tabular-nums}
+.ptab td:first-child,.ptab th:first-child{text-align:left}
+.tcap{margin-bottom:.4cqw;font-weight:600}
+.ladder{display:flex;flex-direction:column;gap:2.2cqw;padding-left:3cqw;position:relative}
+.ladder::before{content:"";position:absolute;left:.8cqw;top:0;bottom:0;width:.22cqw;background:#105257}
+.rung{display:flex;align-items:center;gap:1.6cqw}
+.rung.g{color:var(--slide-grey)}
+.rdot{width:1.2cqw;height:1.2cqw;border-radius:50%;background:#105257;flex:none;margin-left:-2.8cqw}
+.plane{position:relative;height:56cqh;min-height:26cqw}
+.ax-y{position:absolute;left:6cqw;top:0;bottom:0;width:.2cqw;background:#105257}
+.ax-x{position:absolute;left:6cqw;right:0;bottom:0;height:.2cqw;background:#105257}
+.region{position:absolute;font-size:1.9cqw;font-family:var(--slidefont);
+  border:.14cqw dashed #9cb2af;border-radius:40%;padding:1.4cqw 2cqw}
+.region.r0{left:14cqw;top:6cqw}.region.r1{left:44cqw;top:14cqw}
+.region.r2{left:22cqw;top:30cqw}.region.r3{left:56cqw;top:34cqw}
+.montage{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}
+.thumb{aspect-ratio:4/3;border:.16cqw solid #9cb2af;display:flex;align-items:center;
+  justify-content:center;font-size:1.5cqw;color:#6e9291;
+  background:repeating-linear-gradient(135deg,#efe8dd 0 8px,#e7e0d6 8px 16px)}
+.chapbox{border:.22cqw solid var(--slide-ink);padding:2.4cqw 3.4cqw}
+.sechdr{position:absolute;left:6cqw;top:5cqw;z-index:3;
+  border:.16cqw solid var(--slide-ink);padding:.6cqw 1.3cqw;
+  font-family:var(--slidefont);font-weight:600;font-size:3.85cqw;line-height:1.1;
+  color:var(--slide-ink);background:var(--slide-ground);max-width:72cqw}
+.slide.dark .sechdr{border-color:#faf2e9;color:#faf2e9;background:#000}
+.mockcap{font-family:var(--mono);font-size:11px;color:var(--ink-3);margin-top:8px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(228px,1fr));gap:0 26px;
+  margin:22px 0 6px;border-top:1px solid var(--rule);padding-top:16px}
+.f{margin-bottom:14px}
+.f dt{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:3px}
+.f dd{margin:0;font-size:13.5px;line-height:1.5}
+.f dd.mono{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums}
+
+.guess{border-left:3px solid var(--accent);background:var(--panel);
+  padding:12px 14px;margin:16px 0;border-radius:0 3px 3px 0}
+.guess h3{margin:0 0 6px;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.guess p{margin:0 0 10px;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opt{font:inherit;font-size:12.5px;padding:6px 11px;border:1px solid var(--rule);
+  background:var(--panel);color:var(--ink-2);border-radius:2px;cursor:pointer}
+.opt:hover{border-color:var(--ink-3)}
+.opt[aria-pressed="true"]{border-color:var(--accent);color:var(--ink);
+  box-shadow:inset 0 0 0 1px var(--accent)}
+
+.states{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.st{font:inherit;font-size:13px;padding:8px 12px;width:100%;border:1px solid var(--rule);background:var(--panel);
+  color:var(--ink-2);border-radius:2px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.st::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--rule)}
+.st[data-s="keep"]::before{background:var(--keep)}
+.st[data-s="change"]::before{background:var(--change)}
+.st[data-s="cut"]::before{background:var(--cut)}
+.st[aria-pressed="true"]{color:var(--ink);border-color:var(--ink-3);background:var(--bench-2)}
+textarea{width:100%;min-height:96px;resize:vertical;font:inherit;font-size:13.5px;
+  padding:11px 12px;border:1px solid var(--rule);border-radius:2px;
+  background:var(--panel);color:var(--ink);line-height:1.5}
+textarea::placeholder{color:var(--ink-3)}
+.donehint{margin-top:16px;padding-top:14px;border-top:1px solid var(--rule-2);
+  font-size:12px;line-height:1.5;color:var(--ink-3)}
+</style>
+
+<div class="top">
+  <div>
+    <h1 id="decktitle">Untitled talk</h1>
+    <div class="sub" id="decksub"></div>
+  </div>
+  <div class="tally">
+    <span>keep <b id="tk">0</b></span>
+    <span>change <b id="tc">0</b></span>
+    <span>cut <b id="tx">0</b></span>
+    <span>untouched <b id="tu">30</b></span>
+  </div>
+  <div class="savewrap">
+    <div class="saveline" id="saveline">Loading your notes…</div>
+    <span class="savekey">⌘S</span>
+    <button type="button" class="savebtn" id="savebtn" data-state="clean"
+            title="Write every pending change to storage now">Saved</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <nav class="rail" id="rail" aria-label="Slides"><div class="railhead">The arc</div></nav>
+  <main class="main" id="main"></main>
+  <aside class="side" id="side" aria-label="Your call on this slide"></aside>
+</div>
+
+<script id="deck-payload" type="application/json">
+{"title":"Untitled talk","subtitle":"","beats":[],"figures":[],"tables":[]}
+</script>
+<script>
+const PAYLOAD=(()=>{try{return JSON.parse(document.getElementById("deck-payload").textContent);}catch(e){console.error("[storyboard] bad payload",e);return{title:"Untitled talk",subtitle:"",beats:[],figures:[],tables:[]};}})();
+const ORIGINALS=PAYLOAD.beats||[];
+
+
+const FIGS=PAYLOAD.figures||[];
+const esc=s=>String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const rich=s=>esc(s).replace(/&lt;i&gt;/g,"<i>").replace(/&lt;\/i&gt;/g,"</i>");
+// archetypes whose mock draws its words straight from the Visual field
+const TYPES=[{"g": "Say something", "l": "Statement card", "k": "statement", "n": 16}, {"g": "Say something", "l": "Naming slide", "k": "naming", "n": 7}, {"g": "Say something", "l": "Full-stop question", "k": "question", "n": 13}, {"g": "Quote someone", "l": "Participant quote", "k": "quote", "n": 17}, {"g": "Quote someone", "l": "Borrowed-authority quote", "k": "quote", "n": 10}, {"g": "Show a picture", "l": "Interface capture", "k": "capture", "n": 54}, {"g": "Show a picture", "l": "Photo + band label", "k": "capture", "n": 10}, {"g": "Show a picture", "l": "Annotated paper figure", "k": "capture", "n": 4}, {"g": "Show a picture", "l": "Prior-work montage", "k": "montage", "n": 12}, {"g": "Build a diagram", "l": "Abstraction ladder", "k": "ladder", "n": 64}, {"g": "Build a diagram", "l": "Metaphor space", "k": "space", "n": 50}, {"g": "Build a diagram", "l": "Pipeline / procedure", "k": "pipeline", "n": 10}, {"g": "Build a diagram", "l": "Conceptual build step", "k": "build", "n": 13}, {"g": "Stack some lines", "l": "Study-setup card", "k": "takeaway", "n": 9}, {"g": "Stack some lines", "l": "Takeaway card", "k": "takeaway", "n": 7}, {"g": "Stack some lines", "l": "Open-question card", "k": "open", "n": 4}, {"g": "Turn the argument", "l": "Dimmed-stage question", "k": "dimmed", "n": 15}, {"g": "Turn the argument", "l": "Question roadmap", "k": "open", "n": 4}, {"g": "Structure the talk", "l": "Chapter card", "k": "chapter", "n": 10}, {"g": "Structure the talk", "l": "Section divider", "k": "naming", "n": 3}, {"g": "Structure the talk", "l": "Paper title card", "k": "titlecard", "n": 9}, {"g": "Structure the talk", "l": "Closing contact card", "k": "statement", "n": 4}, {"g": "Structure the talk", "l": "Blackout", "k": "blackout", "n": 7}];
+const TABLES=PAYLOAD.tables||[];
+const GROUNDS=[["","Cream (Strata default)"],["g-rev","Reversed — dark teal"],["g-black","Black"]];
+const LIVE=new Set(["statement","question","titlecard","naming","quote","dimmed"]);
+
+let edits={};                                  // id -> {status,pick,feedback, message,visual,sub,type,build,note,archetype}
+let order=ORIGINALS.map(b=>b.id);              // display sequence
+let extras={};                                 // id -> minted beat skeleton
+let cur=0, db=null, dirty=null, loaded=false;
+
+function baseOf(id){return extras[id]||ORIGINALS.find(b=>b.id===id);}
+function beat(id){
+  const b=baseOf(id)||{},e=edits[id]||{};
+  const o=Object.assign({},b,{
+    m:e.message!==undefined?e.message:b.m,
+    v:e.visual!==undefined?e.visual:b.v,
+    words:e.words!==undefined?e.words:(b.words||(b.lines||[]).join("\n")),
+    header:e.header!==undefined?e.header:(b.header||""),
+    k:e.slideType?(TYPES.find(t=>t.l===e.slideType)||{}).k||b.k:b.k,
+    typeLabel:e.slideType||"",
+    ground:e.ground!==undefined?e.ground:"",
+    table:e.table||"",
+    tableTreat:e.tableTreat||"recreate",
+        sub:e.sub!==undefined?e.sub:b.sub,
+    ty:e.type!==undefined?e.type:b.ty,
+    b:e.build!==undefined?e.build:b.b,
+    note:e.note!==undefined?e.note:b.note,
+    a:e.archetype!==undefined?e.archetype:b.a,
+    _e:e});
+  o.t=slideTitle(o);
+  return o;
+}
+const list=()=>order.map(beat);
+const curId=()=>order[cur];
+
+// Visual is sometimes a description with the slide's actual words quoted inside
+// ("Cream. Title set large and left. \u201cThe title...\u201d"). Render the quoted words when
+// they're there, the whole field when they're not.
+function slideWords(b){
+  const w=(b.words||"").trim();
+  return w?w:stageText(b.v);
+}
+function stageText(v){
+  if(!v)return "";
+  const m=String(v).match(/[\u201c\u201d"\u2018\u2019']([^\u201c\u201d"\u2018\u2019']{6,})[\u201c\u201d"\u2018\u2019']/);
+  return m?m[1].trim():String(v).trim();
+}
+function tableFacts(b){
+  const t=tableOf(b.table); if(!t)return "";
+  const fit=t.units>=34?"reads as one of your label lines (36)":
+            t.units>=22?"lands at caption size (24) \u2014 legible on paper, not from the back of a room":
+            "lands below anything you set anywhere in four decks";
+  if(b.tableTreat==="crop")
+    return '<p class="tfact"><b>'+esc(t.crop)+'</b> \u00b7 '+t.px+' px \u00b7 already generated from page '+t.page+
+           '.<br>Scaled to fill a 1920\u00d71080 slide its body type is <b>\u2248'+t.units+' units</b> \u2014 '+fit+'.</p>';
+  if(!t.rows)
+    return '<p class="tfact">Not recreated yet \u2014 only the crop exists. Ask and I\u2019ll set its rows.</p>';
+  return '<p class="tfact">Recreated at 40 units, between your support (50) and label (36) sizes. '+
+         'Paper has '+esc(t.full)+'; '+esc(t.trim)+'.</p>';
+}
+function figcap(f){
+  if(!f)return '<p class="fignone">No figure. The slide renders from its own words.</p>';
+  const m=FIGS.find(x=>x.f===f);
+  if(m&&m.c)return '<p class="figcap">'+esc(m.c)+'</p>';
+  return '<p class="fignone">'+esc(f)+' \u2014 not used in the paper, so no caption to quote.</p>';
+}
+function sectionHdr(b){
+  const h=(b.header||"").trim();
+  return h?`<div class="sechdr">${esc(h)}</div>`:"";
+}
+function mock(b,pos){
+  return withHeader(tableSlide(b,pos)||mockInner(b,pos),b);
+}
+function tableOf(id){ return TABLES.find(t=>t.id===id)||null; }
+function tableSlide(b,pos){
+  if(!b.table||b.tableTreat!=="recreate")return null;
+  const t=tableOf(b.table); if(!t||!t.rows)return null;
+  const num='<span class="num">'+pos+'</span>';
+  const head=t.cols.map(c=>"<th>"+esc(c)+"</th>").join("");
+  const body=t.rows.map(r=>"<tr>"+r.map((c,i)=>
+      "<td"+(i&&/^[-+\u2212]?[\d.]/.test(c)?' class="num"':"")+">"+esc(c)+"</td>").join("")+"</tr>").join("");
+  const cap=slideWords(b)||t.label;
+  return '<div class="slide"><div class="pad">'
+       + '<div class="t-label tcap">'+esc(cap)+"</div>"
+       + '<table class="ptab"><thead><tr>'+head+"</tr></thead><tbody>"+body+"</tbody></table>"
+       + "</div>"+num+"</div>";
+}
+function withHeader(html,b){
+  if(b.ground)html=html.replace(/class="slide/,'class="slide '+b.ground);
+  const hdr=sectionHdr(b);
+  if(!hdr)return html;
+  return html.replace(/^(\s*<div class="slide[^"]*">)/,"$1"+hdr);
+}
+function mockInner(b,pos){
+  if(b._e&&b._e.figure){
+    const w=slideWords(b);
+    return `<div class="slide"><div class="figmark"></div>
+      <div class="figtag"><b>${esc(b._e.figure)}</b>${b._e.figureNote?`<i>${esc(b._e.figureNote)}</i>`:""}</div>
+      ${w?`<div class="figwords"><div class="${w.length>64?"t-support":"t-title"}">${esc(w)}</div>${b.sub?`<div class="t-caption" style="margin-top:1.2cqw">${esc(b.sub)}</div>`:""}</div>`:""}
+      ${b.band?`<div class="band">${esc(b.band)}</div>`:""}<span class="slidenum">${pos}</span></div>`;
+  }
+  return mockBase(b,pos);
+}
+function mockBase(b,pos){
+  const num=`<span class="slidenum">${pos}</span>`;
+  switch(b.k){
+    case "blackout": return `<div class="slide dark"></div>`;
+    case "titlecard": return `<div class="slide"><div class="pad"><div class="t-title">${esc(slideWords(b))}</div>${b.sub?`<div class="t-support" style="margin-top:3.4cqw;font-size:1.9cqw;line-height:1.45;color:#4d6f6f">${esc(b.sub)}</div>`:""}</div>${num}</div>`;
+    case "question": return `<div class="slide"><div class="pad ctr"><div class="t-display" style="text-align:center">${rich(slideWords(b))}</div></div>${num}</div>`;
+    case "capture": return `<div class="slide"><div class="shot"></div><div class="band">${esc(b.band||"label")}</div>${num}</div>`;
+    case "naming":
+    case "statement": return `<div class="slide"><div class="pad ctr"><div class="${slideWords(b).length>64?"t-title":"t-display"}" style="text-align:center">${esc(slideWords(b))}</div>${b.sub?`<div class="t-support grey" style="margin-top:2.4cqw;text-align:center;${b.mono?"font-family:var(--mono)":""}">${esc(b.sub)}</div>`:""}${b.foot?`<div class="t-caption" style="margin-top:3.4cqw;text-align:center">${esc(b.foot)}</div>`:""}</div>${num}</div>`;
+    case "build": return `<div class="slide"><div class="pad top" style="padding-top:9cqw"><div class="stack">${(b.lines||[]).map((l,i,a)=>`<div class="t-support ${i===a.length-1?"":"grey"}">${esc(l)}</div>`).join("")}</div></div>${num}</div>`;
+    case "pipeline": return `<div class="slide"><div class="pad"><div class="pipe">${(b.boxes||[]).map((x,i,a)=>`${i?'<span class="arrow">&#8594;</span>':""}<span class="box ${i===a.length-1?"":"g"}">${esc(x)}</span>`).join("")}</div></div>${num}</div>`;
+    case "dimmed": return `<div class="slide"><div class="pad top" style="padding-top:9cqw"><div class="stack">${(b.under||b.lines||[]).map(l=>`<div class="t-support grey">${esc(l)}</div>`).join("")}</div></div><div class="overlay"><div class="qbox t-title">${esc(slideWords(b)|| (b.lines||[]).join(" "))}</div></div>${num}</div>`;
+    case "quote": return `<div class="slide"><div class="pad"><div class="t-title">${esc(slideWords(b))}</div>${b.sub?`<div class="t-support grey" style="margin-top:2.4cqw">${esc(b.sub)}</div>`:""}</div>${num}</div>`;
+    case "ladder": return `<div class="slide"><div class="pad"><div class="ladder">${(b.lines||[slideWords(b)]).filter(Boolean).map((l,i,a)=>`<div class="rung ${i===a.length-1?"":"g"}"><span class="rdot"></span><span class="t-support">${esc(l)}</span></div>`).join("")}</div></div>${num}</div>`;
+    case "space": return `<div class="slide"><div class="pad"><div class="plane"><span class="ax-y"></span><span class="ax-x"></span>${(b.lines||[slideWords(b)]).filter(Boolean).slice(0,4).map((l,i)=>`<span class="region r${i}">${esc(l)}</span>`).join("")}</div></div>${num}</div>`;
+    case "montage": return `<div class="slide"><div class="pad"><div class="montage">${(b.lines||["","","",""]).slice(0,6).map(l=>`<span class="thumb">${esc(l||"")}</span>`).join("")}</div></div>${num}</div>`;
+    case "chapter": return `<div class="slide"><div class="pad ctr"><div class="chapbox t-title">${esc(slideWords(b)||b.header||"Chapter")}</div></div>${num}</div>`;
+    case "takeaway": return `<div class="slide"><div class="pad"><div class="stack">${(b.lines||[]).map(l=>`<div class="t-support">${esc(l)}</div>`).join("")}</div></div>${num}</div>`;
+    case "open": return `<div class="slide"><div class="pad top" style="padding-top:8cqw"><div class="t-support" style="margin-bottom:2.4cqw">Still open</div><div class="stack">${(b.lines||[]).map(l=>`<div class="t-label grey">${esc(l)}</div>`).join("")}</div></div>${num}</div>`;
+    default: return `<div class="slide"><div class="pad ctr"><div class="t-display" style="text-align:center">${esc(slideWords(b))}</div>${b.sub?`<div class="t-support grey" style="margin-top:2.4cqw;text-align:center">${esc(b.sub)}</div>`:""}</div>${num}</div>`;
+  }
+}
+
+function railHTML(){
+  const bs=list();
+  let h=`<div class="railhead">The arc &middot; ${bs.length} slides &middot; drag or \u25b2\u25bc to reorder</div>`;
+  bs.forEach((b,i)=>{
+    h+=`<div class="slot"><button class="ins" data-at="${i}" aria-label="Insert a slide before ${i+1}"><span>+</span></button></div>`;
+    h+=`<div class="beat ${b.isNew?"isnew":""}" data-i="${i}" role="button" tabindex="0"
+        aria-current="${i===cur}" aria-label="Slide ${i+1}: ${esc(b.t)}">
+      <span class="n">${String(i+1).padStart(2,"0")}</span>
+      <span><span class="t">${esc(b.t)}</span><span class="a">${esc(b.a||"you fill this in")}${b.g?' <span class="flag">?</span>':""}</span></span>
+      <span class="dot" data-s="${(b._e.status)||""}"></span>
+      <span class="mv">
+        <button class="mvbtn up" data-mv="-1" data-i="${i}" ${i===0?"disabled":""} title="Move up" aria-label="Move slide ${i+1} up">&#9650;</button>
+        <button class="mvbtn dn" data-mv="1" data-i="${i}" ${i===bs.length-1?"disabled":""} title="Move down" aria-label="Move slide ${i+1} down">&#9660;</button>
+      </span>
+      <span class="grab" aria-hidden="true">&#8942;&#8942;</span>
+    </div>`;
+  });
+  h+=`<div class="slot"><button class="ins" data-at="${bs.length}" aria-label="Insert a slide at the end"><span>+</span></button></div>`;
+  return h;
+}
+
+const ta=(k,label,val,cls,ph)=>`<div class="ef"><label for="e-${k}">${label}</label>
+    <textarea id="e-${k}" data-k="${k}" class="${cls||""}"${ph?` placeholder="${esc(ph)}"`:""}>${esc(val)}</textarea></div>`;
+
+// A slide's rail label. An explicit title always wins; otherwise an AUTHORED title
+// stands, and a slide you added takes its label from whatever you have written on it
+// — so a new slide stops reading "New slide" the moment it has words.
+function derivedTitle(b){
+  const src=[b.words,b.header,b.m].map(x=>(x||"").trim()).filter(Boolean)[0];
+  if(src){
+    const one=src.split("\n")[0].replace(/\s+/g," ").trim();
+    return one.length>46?one.slice(0,45).replace(/\s+\S*$/,"")+"\u2026":one;
+  }
+  return b.typeLabel||(b.isNew?"":b.t)||"New slide";
+}
+function slideTitle(b){
+  const x=((b._e||{}).title||"").trim();
+  if(x)return x;
+  if(b.t&&!b.isNew)return b.t;
+  return derivedTitle(b);
+}
+
+function mainHTML(){
+  const b=beat(curId()),live=LIVE.has(b.k)||!b.k;
+  return `<div class="mainhead"><span class="n">SLIDE ${String(cur+1).padStart(2,"0")}</span>
+      <h2>${esc(b.t)}</h2><span class="arch">${esc(b.a||"archetype tbd")}</span></div>
+    <div class="stage">
+      <button class="arrowbtn prev" id="prev" ${cur===0?"disabled":""} aria-label="Previous slide">&#8592;</button>
+      <div id="mockhost">${mock(b,cur+1)}</div>
+      <button class="arrowbtn next" id="next" ${cur===order.length-1?"disabled":""} aria-label="Next slide">&#8594;</button>
+    </div>
+    <div class="stagefoot">
+      <span class="mockcap">16:9, type proportional to the derived scale
+        <span class="livetag ${live?"on":""}">${live?"follows your edits":"structure rebuilds later"}</span></span>
+      <span class="kbd"><b>&#8592;</b> <b>&#8594;</b> to move</span>
+    </div>
+    <div class="figbox">
+      <h3>Figure from the paper</h3>
+      <select id="figsel" aria-label="Figure for this slide">
+        <option value="">&mdash; none &mdash;</option>
+        <optgroup label="In the paper">${FIGS.filter(f=>f.u).map(f=>`<option value="${esc(f.f)}" ${b._e.figure===f.f?"selected":""}>${esc(f.f)}</option>`).join("")}</optgroup>
+        <optgroup label="Also on disk">${FIGS.filter(f=>!f.u).map(f=>`<option value="${esc(f.f)}" ${b._e.figure===f.f?"selected":""}>${esc(f.f)}</option>`).join("")}</optgroup>
+      </select>
+      <div id="figcap">${figcap(b._e.figure)}</div>
+      <div class="figtreat"><label for="tabsel">Table from the paper</label>
+        <select id="tabsel" data-k="table">
+          <option value="">&mdash; no table &mdash;</option>
+          ${TABLES.map(t=>`<option value="${t.id}" ${b.table===t.id?"selected":""}>${esc(t.n)} \u00b7 ${esc(t.label)}${t.rows?"":" (crop only)"}</option>`).join("")}
+        </select></div>
+      ${b.table?`<div class="figtreat"><label for="tabtreat">How to bring it in</label>
+        <select id="tabtreat" data-k="tableTreat">
+          <option value="recreate" ${b.tableTreat==="recreate"?"selected":""}>Recreate in your type &mdash; renders in the slide above</option>
+          <option value="crop" ${b.tableTreat==="crop"?"selected":""}>Crop from the compiled paper &mdash; faithful screenshot</option>
+        </select>${tableFacts(b)}</div>`:""}
+      <div class="figtreat"><label for="figtreat">Treatment &mdash; crop, placement, what to point at</label>
+        <textarea id="figtreat" class="one" placeholder="e.g. full-bleed, crop to the ruled-out branch, left third">${esc(b._e.figureNote||"")}</textarea></div>
+    </div>`;
+}
+
+function sideHTML(){
+  const b=beat(curId()),e=b._e,live=LIVE.has(b.k)||!b.k;
+  return `<div class="who">Slide ${String(cur+1).padStart(2,"0")} of ${order.length}${b.isNew?" &middot; new":""}${b.k==="capture"?" &middot; live demo handoff":""}</div>
+    ${b.g?`<div class="guess" style="margin-top:0"><h3>I guessed here</h3><p>${esc(b.g)}</p>
+      <div class="opts">${b.o.map(o=>`<button class="opt" data-opt="${esc(o)}" aria-pressed="${e.pick===o}">${esc(o)}</button>`).join("")}</div></div>`:""}
+    <h3>Your call</h3>
+    <div class="states">
+      ${["keep","change","cut"].map(x=>`<button class="st" data-s="${x}" data-set="${x}" aria-pressed="${e.status===x}">${x==="keep"?"Keep as is":x==="change"?"Change this":"Cut it"}</button>`).join("")}
+    </div>
+    <textarea id="fb" placeholder="Anything that isn't a field edit — pacing, where it sits in the arc, what it should do instead.">${esc(e.feedback||"")}</textarea>
+    <div class="danger">
+      <button class="del" id="del" data-armed="0">Delete this slide</button>
+      <p class="delnote" id="delnote">Removes it from the deck. <b>Cut it</b> above keeps the slide and your notes on it, and tells Claude to drop it &mdash; use that unless you want it gone.</p>
+    </div>
+    <div class="edit">
+      <p class="hint">${live?"The mock follows <b>Slide words</b> as you type.":"This slide's figure is built from structure, so the mock keeps its shape until Claude rebuilds it."} <b>Direction</b> is for you and Claude — it never appears on the slide.</p>
+      ${ta("title","Slide title — the rail label (blank follows the slide words)",e.title||"","one",derivedTitle(b))}
+      ${ta("message","Message — what this slide is for",b.m,"one")}
+      ${ta("header","Section header — the boxed label on the slide (blank for none)",b.header,"one")}
+      ${ta("words","Slide words — the literal text that appears, verbatim",b.words)}
+      ${ta("visual","Direction — how it looks, what to point at (not printed on the slide)",b.v)}
+      ${ta("sub","Secondary line (optional)",b.sub||"","one")}
+      <div class="efrow">
+        ${ta("type","Type roles",b.ty,"one mono")}
+        ${ta("build","Build",b.b,"one mono")}
+      </div>
+      ${ta("note","Speaker note",b.note)}
+      <div class="ef"><label for="e-slideType">Slide type — what this slide is for</label>
+        <select id="e-slideType" data-k="slideType">
+          <option value="">— keep as authored —</option>
+          ${[...new Set(TYPES.map(t=>t.g))].map(g=>`<optgroup label="${esc(g)}">${TYPES.filter(t=>t.g===g).map(t=>`<option value="${esc(t.l)}" ${b.typeLabel===t.l?"selected":""}>${esc(t.l)} · ${t.n} in your decks</option>`).join("")}</optgroup>`).join("")}
+        </select></div>
+      <div class="ef"><label for="e-ground">Background</label>
+        <select id="e-ground" data-k="ground">
+          ${GROUNDS.map(([v,l])=>`<option value="${v}" ${b.ground===v?"selected":""}>${esc(l)}</option>`).join("")}
+        </select></div>
+      ${ta("archetype","Archetype note — free text, describes but doesn't change the layout",b.a,"one mono")}
+    </div>
+    <div class="donehint">Everything saves as you type. When you're done, tell Claude &mdash; it reads your edits, your calls and any slides you added, then rebuilds.</div>`;
+}
+
+function tally(){
+  const v=order.map(id=>edits[id]||{});
+  const c=x=>v.filter(s=>s.status===x).length;
+  tk.textContent=c("keep");tc.textContent=c("change");tx.textContent=c("cut");
+  tu.textContent=order.length-v.filter(s=>s.status).length;
+}
+function render(){rail.innerHTML=railHTML();main.innerHTML=mainHTML();side.innerHTML=sideHTML();tally();}
+function go(i){if(i<0||i>=order.length||i===cur)return;cur=i;render();main.scrollTop=0;side.scrollTop=0;
+  const el=rail.querySelector('.beat[aria-current="true"]');if(el&&el.scrollIntoView)el.scrollIntoView({block:"nearest"});}
+function touch(){
+  const e=edits[curId()]||{};
+  side.querySelectorAll(".st").forEach(x=>x.setAttribute("aria-pressed",String(e.status===x.dataset.set)));
+  side.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed",String(e.pick===x.dataset.opt)));
+  const dot=rail.querySelector(`.beat[data-i="${cur}"] .dot`);if(dot)dot.dataset.s=e.status||"";
+  tally();
+}
+function ed(id){return edits[id]||(edits[id]={});}
+
+function insertAt(i){
+  const id="n"+Date.now().toString(36);
+  extras[id]={id,t:"",a:"you fill this in",k:"statement",m:"",v:"",ty:"",b:"1 step.",note:"",isNew:true};
+  order.splice(i,0,id);cur=i;render();saveOrder();
+  const f=side.querySelector("#e-words")||side.querySelector("#e-message");if(f)f.focus();
+  main.scrollTop=0;
+}
+
+function moveBeat(from,to){
+  if(to<0||to>=order.length||from===to)return;
+  const id=order[from];
+  order.splice(from,1);
+  order.splice(to,0,id);
+  cur=order.indexOf(id);            // selection follows the beat, not the slot
+  render();saveOrder();
+  note("Moved \u201c"+(beat(id).t||"slide")+"\u201d to position "+(to+1));
+}
+
+function removeAt(i){
+  if(order.length<=1)return;                       // never empty the deck
+  const id=order[i];
+  order.splice(i,1);
+  delete extras[id];
+  const wasEdited=edits[id];delete edits[id];
+  if(cur>=order.length)cur=order.length-1;
+  render();saveOrder();
+  if(db&&wasEdited)db.doc("beats/"+id).delete().catch(()=>{});
+  note("Deleted slide "+(i+1)+" \u00b7 "+order.length+" left");
+}
+
+rail.addEventListener("click",e=>{
+  const mv=e.target.closest(".mvbtn");
+  if(mv){const i=+mv.dataset.i;moveBeat(i,i+(+mv.dataset.mv));return;}
+  const ins=e.target.closest(".ins");
+  if(ins){insertAt(+ins.dataset.at);return;}
+  const t=e.target.closest(".beat");if(t)go(+t.dataset.i);
+});
+rail.addEventListener("keydown",e=>{
+  const t=e.target.closest(".beat");if(!t)return;
+  const i=+t.dataset.i;
+  if(e.key==="Enter"||e.key===" "){e.preventDefault();go(i);}
+  else if(e.altKey&&e.key==="ArrowUp"){e.preventDefault();moveBeat(i,i-1);
+    const el=rail.querySelector(`.beat[data-i="${i-1}"]`);if(el)el.focus();}
+  else if(e.altKey&&e.key==="ArrowDown"){e.preventDefault();moveBeat(i,i+1);
+    const el=rail.querySelector(`.beat[data-i="${i+1}"]`);if(el)el.focus();}
+});
+// drag to reorder — pointer events, not HTML5 DnD (which is unreliable inside a scroller)
+let drag=null;
+rail.addEventListener("pointerdown",e=>{
+  const h=e.target.closest(".grab");if(!h)return;
+  const row=h.closest(".beat");if(!row)return;
+  e.preventDefault();
+  drag={from:+row.dataset.i,to:+row.dataset.i,row};
+  row.classList.add("lifted");
+  h.setPointerCapture&&h.setPointerCapture(e.pointerId);
+  drag.line=document.createElement("div");drag.line.className="dropline";
+  rail.appendChild(drag.line);
+  placeLine(e.clientY);
+});
+function placeLine(y){
+  if(!drag)return;
+  const rows=[...rail.querySelectorAll(".beat")];
+  let to=rows.length-1;
+  for(let i=0;i<rows.length;i++){
+    const r=rows[i].getBoundingClientRect();
+    if(y<r.top+r.height/2){to=i;break;}
+    if(i===rows.length-1)to=rows.length;
+  }
+  drag.to=to;
+  const railRect=rail.getBoundingClientRect();
+  const ref=rows[Math.min(to,rows.length-1)];
+  const rr=ref.getBoundingClientRect();
+  const top=(to>=rows.length?rr.bottom:rr.top)-railRect.top+rail.scrollTop;
+  drag.line.style.top=top+"px";
+}
+rail.addEventListener("pointermove",e=>{if(drag)placeLine(e.clientY);});
+function endDrag(){
+  if(!drag)return;
+  const {from,to,row,line}=drag;
+  row.classList.remove("lifted");line.remove();
+  drag=null;
+  let dest=to>from?to-1:to;
+  if(dest!==from)moveBeat(from,dest);
+}
+rail.addEventListener("pointerup",endDrag);
+rail.addEventListener("pointercancel",endDrag);
+
+main.addEventListener("click",e=>{
+  if(e.target.closest("#prev"))go(cur-1);
+  else if(e.target.closest("#next"))go(cur+1);
+});
+side.addEventListener("click",e=>{
+  const id=curId(),st=ed(id);
+  const sb=e.target.closest(".st");
+  if(sb){st.status=st.status===sb.dataset.set?null:sb.dataset.set;touch();save(id);return;}
+  const op=e.target.closest(".opt");
+  if(op){st.pick=st.pick===op.dataset.opt?null:op.dataset.opt;touch();save(id);return;}
+  const d=e.target.closest("#del");
+  if(d){
+    if(d.dataset.armed!=="1"){
+      d.dataset.armed="1";d.textContent="Delete slide "+(cur+1)+" \u2014 click again";
+      const dn=document.getElementById("delnote");
+      if(dn)dn.innerHTML="This cannot be undone from here. Claude still has the original slide and can put it back if you ask.";
+      clearTimeout(darm);darm=setTimeout(()=>{d.dataset.armed="0";
+        d.textContent="Delete this slide";side.innerHTML=sideHTML();},4000);
+      return;
+    }
+    removeAt(cur);
+  }
+});
+let darm;
+side.addEventListener("input",e=>{
+  if(e.target.id!=="fb")return;
+  ed(curId()).feedback=e.target.value;queue(curId());
+});
+function onSelectChange(e){
+  if(e.target.id==="e-slideType"||e.target.id==="e-ground"||
+     e.target.id==="tabsel"||e.target.id==="tabtreat"){
+    const id=curId();ed(id)[e.target.dataset.k]=e.target.value||"";
+    render();pending.add(id);paintSave();save(id);return;
+  }
+  if(e.target.id!=="figsel")return;
+  const id=curId();ed(id).figure=e.target.value||null;
+  const c=document.getElementById("figcap");if(c)c.innerHTML=figcap(e.target.value);
+  const h=document.getElementById("mockhost");if(h)h.innerHTML=mock(beat(id),cur+1);
+  save(id);
+}
+main.addEventListener("change",onSelectChange);
+side.addEventListener("change",onSelectChange);
+function onFieldInput(e){
+  if(e.target.id==="figtreat"){
+    const id=curId();ed(id).figureNote=e.target.value;
+    const h=document.getElementById("mockhost");if(h)h.innerHTML=mock(beat(id),cur+1);
+    queue(id);return;
+  }
+  const k=e.target.dataset&&e.target.dataset.k;if(!k)return;
+  const id=curId();ed(id)[k]=e.target.value;
+  const b=beat(id);
+  if(k==="visual"||k==="sub"||k==="words"||k==="header"){
+    if(LIVE.has(b.k)||!b.k){const h=document.getElementById("mockhost");if(h)h.innerHTML=mock(b,cur+1);}
+  }
+  if(k==="archetype"){const el=main.querySelector(".arch");if(el)el.textContent=e.target.value||"archetype tbd";
+    const r=rail.querySelector(`.beat[data-i="${cur}"] .a`);if(r)r.textContent=e.target.value||"you fill this in";}
+  queue(id);
+}
+main.addEventListener("input",onFieldInput);
+side.addEventListener("input",onFieldInput);
+const typing=el=>!!el&&(el.tagName==="TEXTAREA"||el.tagName==="INPUT"||el.isContentEditable);
+document.addEventListener("keydown",e=>{
+  if(e.metaKey||e.ctrlKey||e.altKey||e.defaultPrevented)return;
+  if(typing(e.target)||typing(document.activeElement))return;
+  if(e.key==="ArrowLeft"){e.preventDefault();go(cur-1);}
+  else if(e.key==="ArrowRight"){e.preventDefault();go(cur+1);}
+  else if(e.key==="Home"){e.preventDefault();go(0);}
+  else if(e.key==="End"){e.preventDefault();go(order.length-1);}
+});
+
+let tmr,saving=false,orderDirty=false,orderStamp=null,stale=false;
+const pending=new Set();
+function queue(id){clearTimeout(tmr);dirty=id;pending.add(id);paintSave();tmr=setTimeout(()=>save(id),700);}
+function note(t){saveline.textContent=t;}
+function showStale(n){
+  var bar=document.getElementById("stalebar");
+  if(!bar){bar=document.createElement("div");bar.id="stalebar";document.body.appendChild(bar);}
+  bar.innerHTML='This storyboard changed elsewhere \u2014 it now has <b>'+n+'</b> slides. '+
+    'Your edits to individual slides are safe; only the running order is held back. '+
+    '<button id="stalereload">Reload</button>';
+  bar.className="on";
+  var b=document.getElementById("stalereload");
+  if(b)b.onclick=function(){location.reload();};
+}
+function paintSave(){
+  const btn=document.getElementById("savebtn");if(!btn)return;
+  const n=pending.size+(orderDirty?1:0);
+  btn.dataset.state=saving?"saving":(n?"dirty":"clean");
+  btn.textContent=saving?"Saving\u2026":(n?"Save now \u00b7 "+n+" pending":"Saved");
+}
+function save(id){
+  if(!db){note("Working locally — notes stay in this tab, not saved back.");paintSave();return Promise.resolve(false);}
+  const e=edits[id]||{},b=baseOf(id)||{},rt=beat(id).t;
+  return db.doc("beats/"+id).set({id,pos:order.indexOf(id),isNew:!!b.isNew,
+      title:rt||"",name:e.title||null,status:e.status||null,pick:e.pick||null,feedback:e.feedback||"",
+      message:e.message!==undefined?e.message:null,visual:e.visual!==undefined?e.visual:null,
+      sub:e.sub!==undefined?e.sub:null,type:e.type!==undefined?e.type:null,
+      build:e.build!==undefined?e.build:null,note:e.note!==undefined?e.note:null,
+      archetype:e.archetype!==undefined?e.archetype:null,
+      figure:e.figure||null,figureNote:e.figureNote||null,
+      words:e.words!==undefined?e.words:null,
+      header:e.header!==undefined?e.header:null,
+      slideType:e.slideType||null,ground:e.ground||null,
+      table:e.table||null,tableTreat:e.tableTreat||null,
+      updatedAt:new Date().toISOString()})
+    .then(()=>{pending.delete(id);paintSave();
+      if(!saving)note("Saved · slide "+(order.indexOf(id)+1)+" · "+new Date().toLocaleTimeString());
+      return true;})
+    .catch(err=>{paintSave();
+      note("Couldn't save slide "+(order.indexOf(id)+1)+" ("+(err&&err.code)+"). Your text is still in this tab \u2014 press Save to retry.");
+      return false;});
+}
+function saveOrder(){
+  if(!db||!loaded)return Promise.resolve(true);   // never overwrite a stored sequence we haven't read yet
+  if(stale){                                      // the stored sequence moved on under us
+    note("This storyboard changed somewhere else. Reload before reordering \u2014 otherwise this tab would write its old running order back over it.");
+    return Promise.resolve(false);
+  }
+  orderDirty=true;paintSave();
+  return db.doc("meta/order").set({order,extras,updatedAt:new Date().toISOString()})
+    .then(()=>{orderDirty=false;orderStamp=new Date().toISOString();paintSave();return true;})
+    .catch(()=>{paintSave();return false;});
+}
+
+// Manual flush. Always does real work, even when nothing is pending, so the
+// button is a way to ASK rather than a state readout you have to interpret.
+function saveAll(){
+  if(saving)return;
+  clearTimeout(tmr);
+  if(!db){note("Working locally \u2014 there is nowhere to save back to. Copy your notes out before closing this tab.");return;}
+  const ids=pending.size?Array.from(pending):[curId()];
+  saving=true;paintSave();note("Saving \u2026");
+  Promise.all(ids.map(id=>save(id)).concat([saveOrder()])).then(res=>{
+    saving=false;
+    const bad=res.filter(r=>r===false).length;
+    paintSave();
+    note(bad?bad+" item"+(bad===1?"":"s")+" didn't save. Your text is still in this tab \u2014 press Save to retry."
+            :"All changes saved \u00b7 "+ids.length+" slide"+(ids.length===1?"":"s")+" + running order \u00b7 "+new Date().toLocaleTimeString());
+  });
+}
+document.addEventListener("click",e=>{if(e.target&&e.target.id==="savebtn")saveAll();});
+document.addEventListener("keydown",e=>{
+  if((e.metaKey||e.ctrlKey)&&(e.key==="s"||e.key==="S")){e.preventDefault();saveAll();}
+},true);
+if(typeof window!=="undefined"&&window.addEventListener){
+  window.addEventListener("beforeunload",e=>{
+    if(pending.size||orderDirty){e.preventDefault();e.returnValue="";}
+  });
+}
+
+document.getElementById("decktitle").textContent=PAYLOAD.title||"Untitled talk";
+document.getElementById("decksub").textContent=PAYLOAD.subtitle||"";
+document.title=PAYLOAD.title||"Storyboard";
+render();
+claude.use("db").then(d=>{
+  if(!d){loaded=true;note("Working locally — notes stay in this tab, not saved back.");return;}
+  db=d;
+  Promise.all([db.doc("meta/order").get().catch(()=>null),db.collection("beats").get().catch(()=>null)])
+   .then(([o,q])=>{
+      const od=(o&&o.exists&&typeof o.data==="function")?o.data():null;
+      if(od&&od.updatedAt)orderStamp=od.updatedAt;
+      if(od&&Array.isArray(od.order)&&od.order.length){
+        order=od.order.slice();                                  // frozen snapshot → mutable copy
+        extras=Object.assign({},od.extras||{});                  // same for the skeleton map
+        Object.keys(extras).forEach(k=>{extras[k]=Object.assign({},extras[k]);});
+      }
+      if(q&&q.docs)q.docs.forEach(doc=>{try{
+        const v=(doc&&doc.exists&&typeof doc.data==="function")?doc.data():null;if(!v||!v.id)return;
+        const e={};["status","pick","feedback"].forEach(k=>{if(v[k]!=null)e[k]=v[k];});
+        if(v.name!=null)e.title=v.name;   // stored under `name`: `title` is the resolved label
+        ["message","words","header","visual","sub","type","build","note","archetype","figure","figureNote","slideType","ground","table","tableTreat","name"].forEach(k=>{if(v[k]!=null)e[k]=v[k];});
+        edits[v.id]=e;
+      }catch(e){console.error("[storyboard] skipped a document",e);}});
+      const seen=new Set(order),healed=[];
+      if(q&&q.docs)q.docs.forEach(doc=>{
+        const v=(doc&&doc.exists&&typeof doc.data==="function")?doc.data():null;if(!v||!v.id||seen.has(v.id))return;
+        const isOriginal=ORIGINALS.some(o=>o.id===v.id);
+        if(!isOriginal&&!extras[v.id]){          // rebuild the skeleton from what the doc kept
+          extras[v.id]={id:v.id,t:v.title||"",a:"you fill this in",k:"statement",
+                        m:"",v:"",ty:"",b:"1 step.",note:"",isNew:true};
+        }
+        const at=Math.max(0,Math.min(order.length,typeof v.pos==="number"?v.pos:order.length));
+        order.splice(at,0,v.id);seen.add(v.id);healed.push(v.id);
+      });
+      // A second tab, or Claude acting on a request, can move the stored order. This
+      // tab must never write its in-memory copy back over a newer one: that silently
+      // undoes the change (it ate a nine-slide cut once).
+      try{
+        db.doc("meta/order").onSnapshot(function(doc){
+          var v=(doc&&doc.exists&&typeof doc.data==="function")?doc.data():null;
+          if(!v||!v.updatedAt||!orderStamp)return;
+          if(v.updatedAt>orderStamp&&JSON.stringify(v.order||[])!==JSON.stringify(order)){
+            stale=true;showStale(v.order?v.order.length:0);
+          }
+        });
+      }catch(err){/* no live updates here; the stamp guard above still applies */}
+      loaded=true;
+      if(cur>=order.length)cur=0;
+      render();
+      if(healed.length){saveOrder();
+        note("Restored "+healed.length+" slide"+(healed.length>1?"s":"")+" that had dropped out of the order.");}
+      else note("Saves as you type. Tell Claude when you're done and it reads it all back.");
+   }).catch(err=>{loaded=true;
+     console.error("[storyboard] load failed",err);
+     note("Load error: "+((err&&(err.code||err.message))||err)+" — tell Claude this line.");
+     try{render();}catch(e2){note("Render error: "+e2.message+" — tell Claude this line.");}
+   });
+}).catch(()=>{loaded=true;note("Working locally — notes stay in this tab.");});
+</script>
