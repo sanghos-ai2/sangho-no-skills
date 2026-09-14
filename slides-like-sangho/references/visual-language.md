@@ -100,7 +100,10 @@ listed value" is dead and should not be carried forward.
 
 **There is still no type scale**, and this now holds over four decks, not one. Sensecape is the
 tightest at 19 sizes over 32 slides and is the closest thing to a ramp; the two long decks are
-ad hoc. A template that imposes a 4- or 5-step scale imposes something no deck in this corpus has.
+ad hoc. A 4- or 5-step scale is therefore an **imposition** — but it is one Sangho asked for
+(*"yes, please derive a scale"*, 2026-09-13, in answer to whether a skill should derive one or
+match sizes case by case from the nearest archetype). The derived scale is below, under
+"A derived type scale"; read it as a working default, not as a description of these four decks.
 
 **Two of the audit's biggest word buckets are not slide type at all** (**computed here**, by
 grouping every span by size and counting the slides each size lands on):
@@ -167,6 +170,137 @@ Abstraction for Learning` (job talk 103–109), `How Do We Make Connections Clea
 line, and inside body copy the same ramp marks the two or three terms being defined
 (job talk 112, 130, 131). The job talk uses orange/teal in the frame sections and the
 blue→magenta ramp inside the CodeToon segment. **(observed)**
+
+---
+
+## A derived type scale
+
+The section above says these decks contain no scale. This section imposes one anyway, because a
+skill has to put a number on a hero question and cannot ask. **Sangho chose this**
+(*"yes, please derive a scale"*) over the alternative of matching sizes case by case from the
+nearest archetype. What follows is therefore a derived default with its own error bars, not a
+finding about how he sets type.
+
+### Method, and what was excluded (computed here)
+
+Every one of the **1,147 spans** in the corpus was given a **role** — by reading the slide it sits
+on, not by its size — from: hero, section, deck title, slide title, quote, body, band label,
+figure label, caption/credit, slide number. Sizes were then measured per role. All 365 slides were
+read for this (31 contact sheets at 620 px per cell, plus individual slides at full resolution
+where a call was close).
+
+**147 spans (13%) were excluded before any of it**, on 55 slides and 18 distinct designs:
+
+- **Text inside a pasted screenshot — 104 spans.** 21.0 pt (58 spans: the ChatGPT response bodies
+  and prompt fields), 24.0 pt UI chrome (45 spans: the `SA` avatar chip, `Regenerate`, `Explore`,
+  `1. 2. 3.`, `> <`), and 25.0 pt (1 span, the story text inside a drawn page on Luminate 51).
+- **Code specimens set inside his own figures — 43 spans**, at 15.0, 19.0, 27.0, 29.0, 33.0, 41.0,
+  53.0 and 73.0 pt (the `while (dormammu_refuses)` listings on KAIST 88–95 / job talk 106–113, and
+  the `x = 10 / if x == 10:` listing on KAIST 100–110 / job talk 118–128). These are his, but they
+  are code specimens, not slide type, and their size tracks how much code had to fit.
+
+Both exclusions were already flagged as traps in earlier rounds: the 21.0 pt band is a screenshot,
+and the 24.0 pt band is 55 slide numbers plus 1,204 words of figure text. **The 24.0 pt band is
+not excluded wholesale** — 22 of its spans are his own greyed-back ladder column labels (KAIST
+88–95, job talk 106–113) and the `… … … …` ellipsis row on Sensecape 16/17 and its twins, and
+those are kept as figure labels.
+
+That leaves **1,000 authored spans on 345 of the 365 slides**, and **475 distinct
+(design, size) pairs** once the 170-design deduplication from the top of this document is applied.
+
+### Role → size, measured
+
+Design counts use the same MAE < 3 grouping as everywhere else in this document, which merges
+**build steps of one figure** as well as cross-deck twins — so "designs" here means distinct
+pictures, not distinct slides.
+
+| Role | Spans | Slides | Designs | Distinct sizes | Median pt | Where it actually sits |
+|---|---:|---:|---:|---:|---:|---|
+| Slide number | 173 | 173 | 97 | **2** | 22 | 22 pt everywhere except Luminate, which uses 24 |
+| Slide title | 74 | 74 | 39 | 14 | 84 | **84 pt** — 52 of 74 spans, 20 designs |
+| Section / chapter name | 35 | 35 | 20 | 6 | 100 | **bimodal**: 112 pt (Luminate) vs 74 pt (KAIST + job talk) |
+| Hero (the slide's one line) | 53 | 52 | 25 | 15 | 84 | 66 – 137, clustered 78 – 112 |
+| Band label on an image | 43 | 29 | 23 | 12 | 75 | 45 – 128, plus a 244 pt drop cap |
+| Quote | 39 | 35 | 22 | **20** | 79 | 38 – 119 — very nearly one size per quote |
+| Body line | 39 | 26 | 21 | 16 | 53 | 30 – 78 |
+| Figure label | 440 | 197 | 84 | **35** | 45 | 24 – 159, modes at 30 / 36 / 45 / 50 / 51 / 80 |
+| Caption / credit | 93 | 33 | 25 | 15 | 47.5 | 31.7 and 47.5 are the title-card apparatus (31 spans each) |
+| Deck / paper title | 11 | 11 | 9 | 6 | 79 | 59.8 – 98, one per title card |
+
+**Two roles have a real size and the rest do not.** The slide number is 22 pt (or 24 in Luminate)
+and nothing else. The slide title is **84 pt** in three decks of four — Sensecape 2/2, KAIST 23/28,
+job talk 27/35 — and **0 of Luminate's 9 title spans are at 84**; Luminate titles are 59, 60, 72.8,
+75, 86 and 103 pt, one size each. That is the sharpest caveat on the scale below.
+
+### The scale
+
+Five steps. The point values are the observed modes, not a ratio series — the ratios between them
+are 1.50, 1.39, 1.68, 1.33, and the two geometric ladders I tested fitted the corpus no better
+(a ×4/3 ladder from 84 pt scored 47.9% at ±8% against this one's 50.6%; a ×1.5 ladder, 39.6%).
+
+| Step | pt | What it sets | Two real examples |
+|---|---:|---|---|
+| **Display** | **112** | a section's name; the contribution's name; a question that is the whole slide | `Evaluation` (Luminate 33, 34, 35, 40, 41); `Luminate` (Luminate 22, KAIST 40, job talk 53) |
+| **Title** | **84** | the slide's title; a claim card's single line | `Changing Levels of Abstraction for Learning` (KAIST 85–91, job talk 103–109); `How Do We Make Connections Clear?` (KAIST 106–110, job talk 124–128) |
+| **Support** | **50** | a body line; the larger labels in a diagram; a study fact | `Design Space` + the six `idea` dots (Luminate 6, KAIST 23, job talk 36); `Single-Output` / `Multi-Output` (Luminate 16, 17, 19; KAIST 34, 35, 37) |
+| **Label** | **36** | labels inside a dense diagram; affiliations on a title card | `Thinkable Territory` (KAIST 11, 12, 13, 14, 15); `Knowledge Territory / Problem Territory / Solution Territory` (KAIST 120–124, job talk 146–150) |
+| **Caption** | **24** | the slide number; a venue tag; a source URL | the slide number on 173 slides; `https://huntington.org/verso/…` at 23 pt (KAIST 6, job talk 14) |
+
+**How much of the corpus this actually covers** (computed here):
+
+| | ±8% of a step | ±15% of a step |
+|---|---:|---:|
+| Authored spans (n = 1,000) | **51%** | **87%** |
+| Distinct (design, size) pairs (n = 475) | **52%** | **85%** |
+
+Per step, at ±15%, and what lands there:
+
+| Step | Spans | Designs | Exactly on the step | Observed sizes it absorbs | Roles |
+|---|---:|---:|---|---|---|
+| 24 | 200 | 99 | 77 spans / 58 designs | 22, 23, 24, 27 | slide number 173, figure 22, caption 5 |
+| 36 | 158 | 42 | 54 / 17 | 31.7 – 41 | figure 118, caption 34, body 3, title 2, quote 1 |
+| 50 | 253 | 85 | 58 / 22 | 43 – 57 | figure 168, caption 46, body 22, band 13, quote 4 |
+| 84 | 202 | 79 | 64 / 23 | 72.8 – 96 | title 59, figure 45, hero 35, band 20, quote 16, section 14, deck-title 7 |
+| 112 | 54 | 34 | 17 / 13 | 98 – 128 | section 21, hero 12, title 7, quote 7, figure 4, band 2 |
+
+Per deck, at ±15%: **Luminate 77%** (137/178 authored spans), Sensecape 97% (60/62), KAIST 87%
+(283/326), job talk 89% (387/434). Luminate is the worst fit and the reason is the one named
+above — it has no 84 pt title.
+
+### What the scale cannot cover
+
+**13% of authored spans (133 spans, 56 designs) sit more than ±15% from every step**, and the
+misses are not noise:
+
+- **The 30 pt figure-label band — 37 spans on 19 designs**, the largest off-scale cluster. Counting
+  every role at 30 pt it is 22 designs, which makes it the joint-fourth most-used authored size in
+  the corpus, level with 50 pt and behind only the two slide-number sizes (24 pt, 58 designs;
+  22 pt, 49) and the title size (84 pt, 23). It is the small annotation inside
+  a drawn figure: `prompt` (Luminate 14, 15, 19; KAIST 32, 33, 37; job talk 45, 46, 50),
+  `prompt #1 prompt #2 …` (Luminate 16; KAIST 34; job talk 47), `. . .` (Luminate 10; KAIST 28;
+  job talk 41). A sixth step at 30 pt would take ±15% coverage from 87% to 91% (and ±8% from 51%
+  to 60%); it is left
+  out because four steps plus a caption size is already the most a skill should be handed, and
+  because this band is exactly where sizing is driven by fit rather than by role.
+- **One-off display sizes**: the 244.1 pt drop-cap `M` of `Most-visited public observatory`
+  (KAIST 4, 8; job talk 12, 16) and the 159 pt drawn `?` glyphs (KAIST 101, 102, 108; job talk 119,
+  120, 126, 138). These are drawn elements, not type set to a step.
+- **The 60 pt band** (18 spans, 14 designs), which serves four different roles at once — figure
+  label, body line, a quote, and the `Try Luminate luminate-research.github.io` contact line
+  (Luminate 53, 54).
+
+**Two roles are genuinely sizeless and a skill should not pretend otherwise.**
+
+- **Quotes.** 39 quote spans carry **20 distinct sizes** over 22 designs — very nearly one size per
+  quote, from 38 pt (KAIST 45) to 119 pt (KAIST 113, job talk 131). The size is set by how long the
+  quote is. Set a quote to fill its slide and let the size fall where it falls; the *emphasis*
+  pattern (context set back, phrase pushed forward) is the portable part, not the size.
+- **Figure labels.** 440 spans across **35 distinct sizes**, with real modes at 30, 36, 45, 50/51
+  and 80 pt, and hardly a gap anywhere between 30 and 51. A figure's labels are sized to the figure.
+
+**So the rule a skill should carry is: use the scale for the roles that have one — the slide
+number, the title, the section name — and size quotes and figure labels to fit.** Deviating is not
+a defect; on this corpus it is what he does 13% of the time by span and, in Luminate, 23%.
 
 ---
 
