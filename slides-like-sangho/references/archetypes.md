@@ -182,25 +182,37 @@ about membership the lists do not record, and one is a call I changed that moves
 | Slide | Implied by the table | My call | Bucket |
 |---|---|---|---:|
 | KAIST 115 | Statement card (listed there) | labelled icon set — `Opportunities` over four line icons, no claim sentence | **+1** |
-| KAIST 118 | inside the 53 — **inferred**, see below | Chapter card | **−1** |
+| KAIST 118 | named in no list; **inferred** to be inside the 53 | Chapter card — **verified**, see below | **−1** |
 | job talk 134 | Statement card (listed there) | labelled icon set, as KAIST 115 | **+1** |
 | job talk 135 | Statement card (listed there) | abstraction ladder — it carries the `Abstract`/`Concrete` axis | **+1** |
-| job talk 142 | inside the 63 — **inferred**, see below | Chapter card | **−1** |
+| job talk 142 | listed under Chapter card, but that row counts 5 and lists 6; **inferred** to be inside the 63 | Chapter card — listed as one | **−1** |
 | job talk 143 | Open-question card (listed there) | Prior-work montage — it is a tweet, like job talk 6, 33, 49, 90, 99 | **0** |
 | job talk 144 | Open-question card (listed there) | metaphor space — it carries the Thinkable-Territory sphere | **+1** |
 
 KAIST nets to 0 and the job talk to +2: **135 → 137.** Note that job talk 143 changes the bucket
 by nothing — it is listed because it is a call I changed, not because it explains the difference.
 
-**The two rows marked "inferred" are an inference about this document's own membership and I
-cannot verify them.** They come from an inconsistency in the Chapter card row: it counts 5 per long
-deck but lists **six** job-talk slides (30, 61, 62, 94, 95, 142), and it lists five KAIST slides
-(17, 46, 47, 76, 77) while KAIST 118 is plainly a chapter card and appears in no list at all. Since
-the table has no residual bucket, one chapter card per long deck must have been counted somewhere
-else, and Conceptual diagram is much the largest row and the natural place for it. If that
-inference is wrong,
-the difference is 4 slides rather than 2 and my KAIST bucket is 54 rather than 53 — **nothing below
-turns on it**, and the frequency table at the top of this document is left at 135 either way.
+**Those two rows bundle two different claims, and only the second is still an inference.**
+
+*That both slides are chapter cards is verified* (**computed here**). KAIST 118's text spans are
+byte-identical to KAIST 77's — `Design Information Representation Space` at 48.0 pt and
+`Design Concept` at 74.0 pt — and the 64 × 36 deduplication used throughout this document puts
+KAIST 77, KAIST 118, job talk 95 and job talk 142 in **one group at MAE < 3**, i.e. they are one
+design seen four times. Independently, a section label at 74.0 pt occurs on exactly **twelve**
+slides in the corpus — KAIST 17, 46, 47, 76, 77, 118 and job talk 30, 61, 62, 94, 95, 142 — which
+is the chapter-card set and nothing besides. Job talk 142 is listed under Chapter card in this
+document already; KAIST 118 is named in no example list anywhere in it, which is how it came to be
+treated as uncertain.
+
+*That the frequency table counted them inside Conceptual diagram is still an inference*, and it is
+the only one left in the table. It rests on the Chapter card row's own inconsistency: that row
+counts 5 per long deck but lists **six** job-talk slides, and lists five KAIST slides while a
+sixth, verifiably a chapter card, appears nowhere. With no residual bucket, one chapter card per
+long deck has to have been counted somewhere else, and Conceptual diagram is much the largest row
+and the natural place for it. **If that is wrong**, the named deltas predict 54 for KAIST and 66
+for the job talk against my actual 53 and 65 — meaning one further slide per long deck left the
+bucket that I have not identified. **Nothing below turns on it**, and the frequency table at the
+top of this document is left at 135 either way.
 
 ### The three-way split
 

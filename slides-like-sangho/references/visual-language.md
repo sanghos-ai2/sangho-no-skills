@@ -336,7 +336,10 @@ are 49% corpus-wide and 46% in Luminate, which is the more honest way to read th
 is per deck, not per role. Luminate sets a bare section word at **112 pt** (`Evaluation`,
 `Implications & Future Work` — 9 of its 11 section spans); KAIST and the job talk set a **boxed**
 chapter label at **74 pt** (`Interaction`, `Interface & Interaction`, `Interface Design`,
-`Design Concept` — KAIST 17, 46, 47, 76, 77, 118 and job talk 30, 61, 62, 94, 95, 142, six each).
+`Design Concept` — KAIST 17, 46, 47, 76, 77, 118 and job talk 30, 61, 62, 94, 95, 142, six each;
+those twelve are **every** slide in the corpus carrying a section label at 74.0 pt, and KAIST 118
+— the one of them that `archetypes.md` had to reason about rather than read off a list — is
+byte-identical in text and size to KAIST 77 and groups with it at MAE < 3).
 **74 pt occurs zero times in Luminate and zero times in Sensecape** (computed here), and it falls
 inside the **Title** band, not Display — which is why the per-step table above shows 21 section
 spans landing on the 112 step and 14 on the 84 step. A skill that hard-codes 112 pt for every
