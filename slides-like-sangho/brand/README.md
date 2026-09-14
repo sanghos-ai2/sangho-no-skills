@@ -87,14 +87,26 @@ fit. Quotes and figure labels are genuinely sizeless — 20 distinct sizes acros
 
 ---
 
-## Finding 2 — branding can invert the ground, and archetypes do not survive it unchanged
+## Finding 2 — branding can invert the ground, and contrast-defined archetypes do not survive the flip
 
 His corpus is a near-white ground with black ink: 263 of 365 slides white, 61 cream, and colour on
 8.7% of pixels. **Asta is dark mode** — ground `extra-dark-teal #032629`, text `cream #faf2e9`.
 
 That is not a repaint. Several archetypes are *defined by* a contrast direction, and flipping the
-ground either reverses them or deletes them: the dark band label vanishes into a dark ground, the
-**blackout stops being a blackout**, and greying-back has to grey *up* instead of down.
+ground reverses them: the dark band label vanishes into a dark ground and has to become a light one,
+and greying-back has to grey *up* instead of down.
+
+**But the rule's reach is narrower than it looks, and assuming otherwise is how it breaks things.**
+Of the twenty-three archetypes, the inversion rule governs **six**. Sorting every re-specification
+in [`polarity.md`](polarity.md) by *why* it needs one: 6 turn on a contrast, 6 are an
+asset-provenance problem (light-ground artwork he did not draw — paper figures, other people's
+screenshots, cut-out portraits), and 1 is machine readability (the QR on the contact card). Only the
+first six are a polarity question at all.
+
+**And one archetype is defined by absence rather than contrast, so it does not invert: the
+blackout.** A blackout on a dark ground is still black — confirmed by Sangho, 2026-09-13. The
+general rule would have made it a bright slide, which is the opposite gesture. The reasoning and the
+rejected alternative are in [`polarity.md`](polarity.md) §3; do not re-derive them here.
 
 **The mapping is worked through once, per archetype, in [`polarity.md`](polarity.md).** Read it
 before rendering any branded deck on a dark ground. Do not re-derive it per deck.

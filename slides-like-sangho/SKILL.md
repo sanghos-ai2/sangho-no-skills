@@ -28,9 +28,27 @@ you decide.
 This skill imitates a real, named person. That is only acceptable in Sangho's own projects, so it
 is gated per repo: **before doing anything else, read `<repo-root>/.i-am-sangho`.** If the file does
 not exist, the repo has not opted in — do NOT design in Sangho's language, even if this skill was
-explicitly invoked. Say the skill is gated, give the command (`touch .i-am-sangho`), and help with
-the slide task in a normal, unimitated register until the file exists. An empty file counts as
-opted in; its content, if any, is irrelevant.
+explicitly invoked. Say the skill is gated, give the command, and help with the slide task in a
+normal, unimitated register until the file exists. An empty file counts as opted in; its content, if
+any, is irrelevant.
+
+**The marker is created and gitignored, in the same breath. Give both lines:**
+
+```bash
+touch .i-am-sangho
+printf '%s\n' '.i-am-sangho' >> .gitignore   # never commit the marker
+```
+
+**A committed `.i-am-sangho` opts in every clone of that repo**, and the gate then does exactly what
+it is built to do — finds the file, and waves everything through. It fails **open**, silently, on
+precisely the machines the gate exists to protect against, and nothing in the failure is visible to
+anyone: the marker is an empty dotfile nobody reviews. `sangho-no-skills` is a public repo, so this
+is not hypothetical. Per repo means per checkout, and the `.gitignore` line is what makes that true.
+
+If the marker is present but **tracked** (`git ls-files --error-unmatch .i-am-sangho` succeeds), say
+so before proceeding: it opts in everyone who clones, and it should be `git rm --cached`'d and
+gitignored. Do not treat a tracked marker as a reason to refuse — it is a real opt-in by whoever
+committed it — but do not let it pass unremarked either.
 
 **The gate is mechanical. The file is present or it is not, and nothing else is consulted.**
 
@@ -57,7 +75,7 @@ Two escapes worth naming because they look conscientious:
   permission to break it.
 - **Do not create the file yourself.** `touch .i-am-sangho` is the gesture that opts a repo in, and
   it is his to make, not yours. Creating it on his behalf — even after he asks for his own style —
-  is the same override with an extra step.
+  is the same override with an extra step. **Give** the two commands above; do not **run** them.
 
 **The gate is on the output, not on what you call it.** Building the deck from `references/` and
 then declining to describe it as his style is the same violation with the label filed off — the

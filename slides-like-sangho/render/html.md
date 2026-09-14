@@ -54,8 +54,13 @@ and **look at the images**. Check, by name:
 
 - **Type size.** Measure one Display and one Title against 112 pt / 84 pt. A brand pack's screen
   scale halving the deck is invisible in code and obvious in a screenshot (`brand/README.md`).
-- **Blank or near-blank slides.** Black ink on a dark ground, white on white, an inverted blackout,
-  a figure whose stroke colour did not get restroked (`brand/polarity.md`).
+- **Blank or near-blank slides — against the storyboard, not on sight.** Black ink on a dark
+  ground, white on white, a figure whose stroke colour did not get restroked
+  (`brand/polarity.md`). **An empty black slide at a blackout beat is correct**, at any polarity
+  (`brand/polarity.md` §3, confirmed by Sangho) — it is the single most plausible correct output to
+  mistake for a render failure, and the corpus puts one at both ends of most decks. What to flag is
+  **a blackout beat that rendered light**, and any *other* empty slide the storyboard did not ask
+  for.
 - **Text overflowing its slide.** Quotes have no fixed size in the corpus — 20 distinct sizes across
   39 quote spans — because each is set to fill its slide. A quote set at a step will overflow.
 - **Word count.** The corpus median is 9 words of real slide copy. A slide running to 40 is not
