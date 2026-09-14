@@ -1,6 +1,15 @@
 # Render path: Claude Design canvas
 
-**The default.** Produces a published artifact page carrying every slide as an artboard on one
+**Not the default, and not always available.** Sangho's stated default is HTML published as a
+Claude artifact (`html.md`), which is also the only path with a generator in this skill. Reach
+for the canvas when the bundled `design` skill IS offered in the session and he wants to edit
+slides directly rather than through the storyboard.
+
+**Check before promising it.** A session can carry the `design` directory's asset files with no
+manifest, in which case the skill is not invocable and the path is unreachable — confirm `design`
+appears in the available-skills listing, not merely on disk.
+
+Produces a published artifact page carrying every slide as an artboard on one
 pan/zoom canvas. Where saving is enabled on the account, Sangho can click any element, edit it
 visually, and Save republishes a new version; otherwise he gets a view-and-export preview with
 PNG/PDF.
