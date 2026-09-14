@@ -160,8 +160,6 @@ KAIST 3; job talk 11. **Two occurrences of what is plainly one design; not an ar
 
 ---
 
----
-
 ## Inside the Conceptual-diagram bucket
 
 The bucket is 135 of 365 — 37% of the corpus — and the previous pass could not find a split it
@@ -171,15 +169,38 @@ section tests that against the slides. **It half holds.**
 
 ### Re-deriving the bucket first
 
-`archetypes.md` gives examples per archetype, not full membership lists, so the 135 could not be
-looked up and had to be re-derived. Re-classifying all 365 slides gives a bucket of **137**:
-Luminate 13, Sensecape 6, KAIST 53, job talk 65 (against the table's 13 / 6 / 53 / 63). The
-difference is three boundary slides, named so it can be checked: I read job talk 143 as a
-Prior-work montage (it is a tweet, like job talk 6, 33, 49, 90, 99) rather than an Open-question
-card, and job talk 144 as a conceptual diagram (it carries the Thinkable-Territory sphere) rather
-than an Open-question card; and I keep KAIST 115 and job talk 134 — `Opportunities` over four
-line icons, with no claim sentence — as labelled icon sets rather than Statement cards. **Nothing
-below turns on ±2 slides**, and the frequency table at the top of this document is left at 135.
+The frequency table gives examples per archetype, not full membership lists, so the 135 could not
+be looked up and had to be re-derived. Re-classifying all 365 slides gives a bucket of **137**:
+Luminate 13, Sensecape 6, KAIST 53, job talk 65, against the table's 13 / 6 / 53 / **63**. The
+whole difference is in the job talk.
+
+Four of the differences are **checkable and exhaustive**: I compared my bucket membership against
+every slide named in the table's own example lists above — 188 slides — and these four are the only
+ones the table files under a different archetype (**computed here**). Two more are **inferences**
+about membership the lists do not record, and one is a call I changed that moves nothing:
+
+| Slide | Implied by the table | My call | Bucket |
+|---|---|---|---:|
+| KAIST 115 | Statement card (listed there) | labelled icon set — `Opportunities` over four line icons, no claim sentence | **+1** |
+| KAIST 118 | inside the 53 — **inferred**, see below | Chapter card | **−1** |
+| job talk 134 | Statement card (listed there) | labelled icon set, as KAIST 115 | **+1** |
+| job talk 135 | Statement card (listed there) | abstraction ladder — it carries the `Abstract`/`Concrete` axis | **+1** |
+| job talk 142 | inside the 63 — **inferred**, see below | Chapter card | **−1** |
+| job talk 143 | Open-question card (listed there) | Prior-work montage — it is a tweet, like job talk 6, 33, 49, 90, 99 | **0** |
+| job talk 144 | Open-question card (listed there) | metaphor space — it carries the Thinkable-Territory sphere | **+1** |
+
+KAIST nets to 0 and the job talk to +2: **135 → 137.** Note that job talk 143 changes the bucket
+by nothing — it is listed because it is a call I changed, not because it explains the difference.
+
+**The two rows marked "inferred" are an inference about this document's own membership and I
+cannot verify them.** They come from an inconsistency in the Chapter card row: it counts 5 per long
+deck but lists **six** job-talk slides (30, 61, 62, 94, 95, 142), and it lists five KAIST slides
+(17, 46, 47, 76, 77) while KAIST 118 is plainly a chapter card and appears in no list at all. Since
+the table has no residual bucket, one chapter card per long deck must have been counted somewhere
+else, and Conceptual diagram is much the largest row and the natural place for it. If that
+inference is wrong,
+the difference is 4 slides rather than 2 and my KAIST bucket is 54 rather than 53 — **nothing below
+turns on it**, and the frequency table at the top of this document is left at 135 either way.
 
 ### The three-way split
 
@@ -210,8 +231,10 @@ being wrong:
   55) — is classified as a **Study-setup card** in the table above, not as a Conceptual diagram.
   So is the CodeToon two-study strip (`① User Study ② Comic Evaluation`, KAIST 111, job talk 129).
 - **The Luminate method figure is filed as an Annotated paper figure** (Luminate 21, KAIST 39, job
-  talk 52) even though it is a numbered two-stage flow: `prompt #1` → a row of `Dimension #n`
-  boxes → response sets → the design-space plane.
+  talk 52) even though it is a numbered two-stage flow. KAIST 39 and job talk 52 read `prompt #1`
+  → a row of `Dimension #1` … `Dimension #n` boxes → three response sets → the design-space plane;
+  Luminate 21 is the same figure with different labels — its text spans read `dimensions`,
+  `values`, `prompt`.
 
 **Counted across the whole corpus rather than inside one bucket, pipeline-shaped slides come to
 17 of 365 (5%) on 9 distinct designs** — the 10 above plus those 7. Still the smallest of the
@@ -231,6 +254,15 @@ different grain.* Moving along it changes the level, not the topic. Identified b
 with two named poles that are degrees of one quality (`Abstract` ↔ `Concrete`, `Simple` ↔
 `Complex`, `Broader picture` ↔ `Detail`), and items placed at positions along it. Its job in a
 talk is to make "these are the same thing seen from different heights" visible.
+
+**The axis may be implicit, and the rule has to say so or it excludes its own third exemplar.**
+Once a run has established the poles on one slide, later slides in the same run often drop the
+labels and keep only the arrow — KAIST 99 / job talk 117 place `CODE` / `STORY` / `COMIC` on an
+explicit `Abstract`/`Concrete` diagonal, and KAIST 100–110 / job talk 118–128 then carry the same
+three along a bare left-to-right arrow. **So: a bare arrow carrying named items is a ladder when an
+earlier slide of the same run named the poles, and a pipeline otherwise.** The second
+disambiguator is what the arrow does: on a ladder nothing is transformed *by* it — the same content
+is shown at three grains — whereas on a pipeline each stage consumes the one before.
 
 - **KAIST 85–95 / job talk 103–113** — `Changing Levels of Abstraction for Learning`. A vertical
   `Abstract`/`Concrete` arrow; three rungs (`Programming Concept`, `Analogy & Metaphor`,
