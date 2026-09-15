@@ -11,6 +11,12 @@ usually the thing he actually cares about.
 | [Standalone HTML](html.md) **(the default)** | published as a Claude artifact — his stated preference, and the only path here with a generator | present from the browser, speaker notes on `N`, print to PDF, share a link; you can screenshot-verify it |
 | [Keynote via AppleScript](keynote.md) | he asks for Keynote — **and see the gate; it does not work on this machine** | finish by hand in Keynote |
 
+**Every path consumes `deck.json`.** `render/html/build_deck_json.py` merges his storyboard edits
+over the payload once and emits a renderer-neutral file — one entry per slide with `words`,
+`header`, `figure`, `table`, `tableTreat`, `ground`, `title`, `note`, plus the resolved `tables`
+registry. A new output path is a new consumer of that file. Never write a second merge: the
+precedence rule (a saved edit beats an authored default) would then exist in two places and drift.
+
 Everything renders at **1920 × 1080 (16:9)**, matching the corpus. Type sizes from
 `references/visual-language.md` are in points at that size, so at 1920 × 1080 a point is a pixel
 and the numbers transfer directly.

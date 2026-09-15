@@ -182,7 +182,26 @@ completeness I also"*, or catching yourself explaining the stop in the past tens
 
 ### 4. Render — only after approval
 
-`render/README.md` picks the path. **Sangho's stated default is HTML published as a Claude
+**Ask which output he wants. Do not pick silently.** The paths are not interchangeable — they
+differ in whether he can edit the result himself, which is the thing he notices. Offer only what
+is reachable *in this session*, checked at the moment you ask:
+
+| Offer | Only if | He gets |
+|---|---|---|
+| **HTML artifact** *(default)* | always — it needs nothing | a deck at its own URL, speaker notes, print-to-PDF, a share link. Edits go through the storyboard. |
+| **Design canvas** | the `design` skill is in this session's available-skills listing — **check, do not assume** | every slide as an artboard on one canvas; he clicks an element and edits it himself |
+| **PPTX** | `python-pptx` imports, or you may install it | a file that opens in Google Slides, PowerPoint and Keynote, with real text boxes |
+
+The bundled `design` directory can be present on disk with no manifest, in which case the skill is
+NOT invocable and the canvas is unreachable — this has been observed, and the assets vanished from
+the bundle between two turns of one session. Presence on disk is not availability.
+
+**`deck.json` is the seam.** Every path consumes the same renderer-neutral file that
+`render/html/build_deck_json.py` produces: one entry per slide carrying words, header, figure,
+table, ground and notes. Adding an output means writing a consumer of `deck.json`, never a second
+merge of his edits.
+
+`render/README.md` has the detail. **Sangho's stated default is HTML published as a Claude
 artifact** — it lives in his account, he can port to Google Slides from there, and it is the only
 path with a working generator: `render/html/` holds `build_deck_json.py` (merge his edits over the
 payload), `gen_deck.py` (render), and `crop_paper_tables.py` (faithful table crops from a compiled

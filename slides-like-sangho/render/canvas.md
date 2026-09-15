@@ -14,8 +14,41 @@ pan/zoom canvas. Where saving is enabled on the account, Sangho can click any el
 visually, and Save republishes a new version; otherwise he gets a view-and-export preview with
 PNG/PDF.
 
-Why it is the default: a deck is a set of slides seen *together*, and this is the only path where
-he can see the whole arc at once and fix one slide without leaving the view.
+Why it is worth offering when it IS available: a deck is a set of slides seen *together*, and this
+is the only path where he can see the whole arc at once and fix one slide himself without leaving
+the view. That is the one thing the HTML path cannot give him — there, edits go through the
+storyboard and through Claude.
+
+## Status: UNVERIFIED
+
+**This path has never been run end to end by this skill.** Every other claim in these references
+is marked `(observed)` or `(computed here)`; this one is neither. It is written from the design
+skill's own documented contract, not from a render anyone looked at. Treat it as a plan, and say
+so when you offer it — the first time it runs, verify it the way `html.md` says to verify HTML,
+and replace this block with what you actually saw.
+
+Two things are known rather than assumed:
+
+- The bundled `design` directory has been observed **present on disk with no manifest**, and its
+  files vanished from the bundle between two turns of a single session. Check the available-skills
+  listing at the moment you offer this, never the filesystem.
+- `python-pptx` installs cleanly here, so **PPTX is the alternative you can actually verify today**
+  if he wants something editable and the canvas is unreachable.
+
+## Handing off
+
+Build `deck.json` first (`render/html/build_deck_json.py`) — it is the renderer-neutral seam, and
+it is where his storyboard edits are merged. Then give the `design` skill:
+
+- **one artboard per `deck` entry, in order**, at 1920 x 1080;
+- the slide's resolved `words` as the body, `header` as the boxed chapter label, `title` as the
+  artboard name so the canvas is navigable;
+- the ground from `ground` (`""` cream / `g-rev` dark teal / `g-black` black);
+- figures and tables as placed images — upload them as artifact assets first and pass the
+  `/_blob/<id>` urls, exactly as `html.md` describes;
+- the type ladder from `references/visual-language.md`, and the sizing rules from `html.md`.
+  **The canvas does not fit text for you.** `gen_deck.py:fit()` is the only implementation of
+  that rule in this skill; a canvas path that skips it will set a 90-word slide at 84pt.
 
 ## How
 
